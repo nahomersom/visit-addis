@@ -1,4 +1,45 @@
+@config "../tailwind.config.js";
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Euclid Flex';
+  src: url('./assets/fonts/euclid-flex/EuclidFlexRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Flex';
+  src: url('./assets/fonts/euclid-flex/EuclidFlexMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Flex';
+  src: url('./assets/fonts/euclid-flex/EuclidFlexBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Flex';
+  src: url('./assets/fonts/euclid-flex/EuclidFlexLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Euclid Flex';
+  src: url('./assets/fonts/euclid-flex/EuclidFlexSemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 @layer base {
   :root {
@@ -33,10 +74,32 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Euclid Flex', sans-serif;
   }
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Remove focus styles from Radix UI Dropdown Menu */
+button[data-state="open"],
+button[data-state="closed"] {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button[data-state="open"]:focus,
+button[data-state="open"]:focus-visible,
+button[data-state="closed"]:focus,
+button[data-state="closed"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[role="menuitem"]:focus,
+[role="menuitem"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
