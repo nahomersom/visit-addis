@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         theme: {
-          primary: '#551818',
+          primary: '#DAA112',
           dark: '#1D2C33',
           white: '#FFFFFF',
         },
@@ -90,6 +90,10 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+      },
+      fontFamily: {
+        sans: ['"Euclid Flex"', 'sans-serif'],
+        Euclid: ['"Euclid Flex"', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
