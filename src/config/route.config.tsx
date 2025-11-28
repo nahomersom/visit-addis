@@ -5,7 +5,7 @@ import {
 } from "react-router-dom"
 import { MainLayout } from "@/layouts/MainLayout"
 import { Home } from "@/pages/Home"
-import { WhatToDo } from "@/pages/WhatToDo"
+import WhatToDo from "@/pages/WhatToDo"
 import { WhereToStay } from "@/pages/WhereToStay"
 import { Events } from "@/pages/Events"
 import { PlanYourTrip } from "@/pages/PlanYourTrip"
