@@ -103,3 +103,13 @@ button[data-state="closed"]:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

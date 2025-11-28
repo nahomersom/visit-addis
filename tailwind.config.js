@@ -6,11 +6,12 @@ export default {
       colors: {
         theme: {
           primary: '#DAA112',
+          secondary: '#1EAA9D',
           dark: '#1D2C33',
           white: '#FFFFFF',
         },
         accent: {
-          60: '#F3F2F1',
+          60: '#F5F5F5',
           100: '#C4BBB8',
           default: '#FF5B5B',
           DEFAULT: 'hsl(var(--accent))',
@@ -28,7 +29,8 @@ export default {
           light80: '#fbfbfb',
           dark: {
             60: '#646D85',
-            100: '#1D2C33',
+            80: '#758886',
+            100: '#10383A',
           },
         },
         icon: {
