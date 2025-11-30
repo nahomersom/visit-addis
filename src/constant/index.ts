@@ -2,6 +2,28 @@ import Museum from "../assets/images/science musiem.png"
 import Coffe from "../assets/images/coffee.png"
 import bg from "../assets/images/backgroundImage.png"
 
+interface EventCardProps {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  category: string;
+}
+
+interface EventCard {
+  id: number;
+  date: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+interface EventHighlights {
+  title: string;
+  description: string;
+  image: string;
+}
+
 export const cultureHeroSection = [
     {
         title:"Culture & Lifestyle",
@@ -59,3 +81,117 @@ export const Etiquette = [
     image: bg
   }
 ]
+
+  export const allEvents: EventCardProps[] = [
+    {
+      id: 1,
+      title: "Tech Innovations 2024",
+      description: "Dive into the future of technology at our annual conference! Explore groundbreaking advancements, attend expert panels, and network with industry leaders.",
+      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2073&auto=format&fit=crop",
+      category: "Business"
+    },
+    {
+      id: 2,
+      title: "Adventure Weekend Retreat",
+      description: "Escape the city and reconnect with nature! Join guided hikes, rock climbing, and campfire storytelling under the stars. Perfect for adventure seekers.",
+      image: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop",
+      category: "Sports"
+    },
+    {
+      id: 3,
+      title: "City Art Gallery Opening",
+      description: "Celebrate creativity at our gallery opening event! Featuring local artists, live art demonstrations, and a chance to purchase unique pieces.",
+      image: "https://images.unsplash.com/photo-1572965733194-784e4b4efa45?q=80&w=2070&auto=format&fit=crop",
+      category: "Cultural"
+    },
+    {
+      id: 4,
+      title: "Summer Music Fest",
+      description: "Join us for a day filled with rhythm and fun! Enjoy live performances from local bands, food trucks serving delicious eats, and activities for the whole family.",
+      image: "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?q=80&w=2070&auto=format&fit=crop",
+      category: "Music"
+    },
+    {
+      id: 5,
+      title: "Gourmet Food Fair",
+      description: "Experience a culinary journey with top chefs from around the world. Taste exquisite dishes and learn new cooking techniques.",
+      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2070&auto=format&fit=crop",
+      category: "Food"
+    },
+    {
+      id: 6,
+      title: "Mountain Biking Challenge",
+      description: "Test your limits on the rugged trails of the mountain biking challenge. Open to amateurs and professionals alike.",
+      image: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?q=80&w=2070&auto=format&fit=crop",
+      category: "Sports"
+    },
+    {
+      id: 7,
+      title: "Modern Art Showcase",
+      description: "An exclusive look at modern art pieces that challenge the status quo. Meet the artists and discuss their inspirations.",
+      image: "https://images.unsplash.com/photo-1533559662493-24208a8e3196?q=80&w=2070&auto=format&fit=crop",
+      category: "Cultural"
+    },
+    {
+      id: 8,
+      title: "Jazz in the Park",
+      description: "Relax efficiently with smooth jazz under the open sky. Bring a blanket and enjoy the evening with friends and family.",
+      image: "https://images.unsplash.com/photo-1514525253440-b393452e3383?q=80&w=2070&auto=format&fit=crop",
+      category: "Music"
+    }
+  ];
+
+
+  export const events: EventCard[] = [
+    {
+      id: 1,
+      date: "January 12, 2025",
+      title: "EXPLORE THE NATIONAL MUSEUM",
+      description: "Discover the rich history of Ethiopia. A journey through time blending the charm of ancient history with the pulse of modern life.",
+      image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=2942&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      date: "January 12, 2025",
+      title: "EXPERIENCE ADDIS ABABA FROM A WHOLE NEW PERSPECTIVE",
+      description: "A hot air balloon ride in Addis offers a breathtaking panoramic view of Ethiopia's capital, blending the charm of ancient history with the pulse of modern life below.",
+      image: "https://images.unsplash.com/photo-1568526381923-caf3fd520382?q=80&w=2940&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      date: "January 12, 2025",
+      title: "TASTE THE FLAVORS OF ETHIOPIA",
+      description: "Immerse yourself in a culinary journey. Experience the traditional injera and spicy wats that define the local delicious cuisine.",
+      image: "https://images.unsplash.com/photo-1606836566405-2425d1947a83?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      date: "January 12, 2025",
+      title: "TASTE THE FLAVORS OF ETHIOPIA",
+      description: "Immerse yourself in a culinary journey. Experience the traditional injera and spicy wats that define the local delicious cuisine.",
+      image: "https://images.unsplash.com/photo-1606836566405-2425d1947a83?q=80&w=2000&auto=format&fit=crop"
+    },
+  ];
+
+export const EventHighlights: EventHighlights[] = [
+    {
+      title: "Tech Innovations 2024",
+      description: "Dive into the future of technology at our annual conference! Explore groundbreaking advancements, attend expert panels, and network with industry leaders.",
+      image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      title: "Adventure Weekend Retreat",
+      description: "Escape the city and reconnect with nature! Join guided hikes, rock climbing, and campfire storytelling under the stars.",
+      image: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+      title: "City Art Gallery Opening",
+      description: "Celebrate creativity at our gallery opening event! Featuring local artists, live art demonstrations, and a chance to purchase unique pieces.",
+      image: "https://images.unsplash.com/photo-1577083288073-40892c0860a4?q=80&w=2073&auto=format&fit=crop"
+    },
+    {
+      title: "Summer Music Fest",
+      description: "Join us for a day filled with rhythm and fun! Enjoy live performances from local bands, food trucks serving delicious eats, and activities for the family.",
+      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2073&auto=format&fit=crop"
+    }
+  ];

@@ -1,13 +1,22 @@
-export function Events() {
+import ExploreEvents from "@/components/events/EventMarker"
+import EventsHero from "@/components/events/EventsHero"
+import PastEventsHighlight from "@/components/events/EventsHighlight"
+import FeaturedEvents from "@/components/events/FeaturedEvents"
+import NewsletterBanner from "@/components/events/NewsletterBanner"
+import UpComingEvents from "@/components/events/UpComingEvents"
+
+
+const Events = () => {
   return (
-    <main className="min-h-screen pt-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Events</h1>
-        <p className="text-lg text-gray-600">
-          Explore upcoming events and festivals in Addis Ababa.
-        </p>
-      </div>
+    <main>
+      <EventsHero />
+      <UpComingEvents />
+      <FeaturedEvents />
+      <ExploreEvents />
+      <NewsletterBanner />
+      <PastEventsHighlight />
     </main>
   )
 }
 
+export default Events
