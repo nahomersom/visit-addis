@@ -7,12 +7,13 @@ export default {
         theme: {
           primary: '#DAA112',
           secondary: '#1EAA9D',
-          dark: '#1D2C33',
+          dark: '#10383A',
           white: '#FFFFFF',
         },
         accent: {
           60: '#F5F5F5',
-          100: '#C4BBB8',
+          80: '#F7F8F7',
+          100: '#F0F0EE',
           default: '#FF5B5B',
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',

@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button"
 import { NAV_LINKS, SITE_CONFIG } from "@/config/constants"
 import { ROUTES } from "@/config/routes"
 import logo from "@/assets/icons/logo.svg"
+import leftActiveFlower from "@/assets/icons/leftActiveFlower.svg"
+import rightActiveFlower from "@/assets/icons/rightActiveFlower.svg"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { useModal } from "@/contexts/ModalContext"
+import { GET_APP_MODAL_ID } from "@/components/modals/GetAppModal"
 
 export function Navbar() {
   const location = useLocation()
+  const { openModal } = useModal()
 
   return (
     <nav className="fixed top-3 left-6 right-6 z-50 container mx-auto rounded-[120px] max-h-[88px] p-4 backdrop-blur-[34px] bg-[rgba(0,0,0,0.1)] max-w-[1152px] ">
@@ -24,19 +29,36 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`text-sm font-medium transition-colors px-2 ${
-                  location.pathname === link.href
-                    ? "text-gray-900 font-semibold"
-                    : "text-white text-sm hover:text-gray-900"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = location.pathname === link.href
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors px-2 flex items-center justify-center gap-2 ${
+                    isActive
+                      ? "text-theme-primary font-semibold"
+                      : "text-white text-sm hover:text-gray-900"
+                  }`}
+                >
+                  {isActive && (
+                    <img 
+                      src={leftActiveFlower} 
+                      alt="" 
+                      className="w-2 h-2"
+                    />
+                  )}
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <img 
+                      src={rightActiveFlower} 
+                      alt="" 
+                      className="w-2 h-2"
+                    />
+                  )}
+                </Link>
+              )
+            })}
           </div>
 
           {/* Right Side Actions */}
@@ -68,9 +90,12 @@ export function Navbar() {
             <button className="bg-[rgba(255,255,255,0.1)] backdrop-blur-[34px] h-14 w-14 rounded-full flex items-center justify-center text-white">
               <User className="w-5 h-5" />
             </button>
-            <Button className="bg-theme-primary  text-sm  px-4 lg:px-6 text-white rounded-[105px] h-14">
+            <Button 
+              className="cursor-pointer! bg-theme-primary   text-sm  px-4 lg:px-6 text-white rounded-[105px] h-14"
+              onClick={() => openModal(GET_APP_MODAL_ID)}
+            >
               <span>Get App</span>
-                  <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-4 h-4" />
             </Button>
           </div>
         </div>

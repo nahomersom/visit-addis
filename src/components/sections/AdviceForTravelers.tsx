@@ -1,96 +1,69 @@
-import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
+import visitBackground from "@/assets/images/visitBackground.png"
+import { ADVICE_ITEMS } from "@/config/constants"
+import locationTextOne from "@/assets/images/LocationTextOne.png"
+import locationTextTwo from "@/assets/images/LocationTextTwo.png"
+import locationTextThree from "@/assets/images/LocationTextThree.png"
+import locationTextFour from "@/assets/images/LocationTextFour.png"
 
-const adviceItems = [
-  {
-    id: "1",
-    number: "1",
-    title: "Best Time To Visit",
-    description:
-      "Plan your visit during the dry season for the best weather and experiences.",
-  },
-  {
-    id: "2",
-    number: "2",
-    title: "Transportation Options",
-    description:
-      "Explore various transportation methods available in the city for easy navigation.",
-  },
-  {
-    id: "3",
-    number: "3",
-    title: "Hotels, Resorts",
-    description:
-      "Find the perfect accommodation that suits your needs and budget.",
-  },
-  {
-    id: "4",
-    number: "4",
-    title: "Food & Drinks",
-    description:
-      "Discover the rich culinary culture and traditional Ethiopian cuisine.",
-  },
-]
+const locationTextMap: Record<string, string> = {
+  "1": locationTextOne,
+  "2": locationTextTwo,
+  "3": locationTextThree,
+  "4": locationTextFour,
+}
 
 export function AdviceForTravelers() {
   return (
-    <section className="py-16 lg:py-24 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Advice for Travelers
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-2"
-          >
-            <p className="text-lg text-gray-600">
-              Essential advice to help you make the most of your visit to Addis
-              Ababa.
-            </p>
-          </motion.div>
+    <section className="py-10 px-[120px] bg-white">
+            <div
+          className="flex justify-between mb-10 "
+        >
+          <h2 className="text-2xl font-semibold ">
+          Advice for Travelers
+          </h2>
+          <p className="text-sm text-[#758886] max-w-[400px] ">
+          Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {adviceItems.map((item, index) => (
-            <motion.div
+          {ADVICE_ITEMS.map((item) => (
+            <div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+      
             >
-              <Card className="h-full hover:shadow-lg transition-shadow">
-                <CardContent className="p-6 lg:p-8">
-                  <div className="flex items-start gap-6">
-                    <div className="flex-shrink-0 w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-teal-500 to-yellow-400 flex items-center justify-center">
-                      <span className="text-2xl lg:text-3xl font-bold text-white">
-                        {item.number}
-                      </span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl lg:text-2xl font-semibold text-gray-900 mb-3">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-600">{item.description}</p>
-                    </div>
+              <div 
+                className="h-full  relative rounded-2xl p-6"
+                style={{
+                  backgroundColor: '#f7f8f7',
+                }}
+              >
+                <div 
+                  className="absolute inset-0 rounded-2xl opacity-10"
+                  style={{
+                    backgroundImage: `url(${visitBackground})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+                <div className="relative z-10 flex  gap-6">
+                    <img 
+                      src={locationTextMap[item.number]} 
+                      alt={`Location ${item.number}`}
+                      className="w-[31.06px] h-[74.2px] "
+                    />
+                  <div className="space-y-2">
+                    <h3 className="text-theme-dark text-lg font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="text-text-dark-80 text-sm">{item.description}</p>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
     </section>
   )
 }

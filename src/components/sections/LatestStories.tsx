@@ -1,70 +1,63 @@
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { stories } from "@/data/stories"
+import { STORY_IMAGES } from "@/config/constants"
 
 export function LatestStories() {
   const mainStory = stories[0]
-  const sideStories = stories.slice(1)
+  const sideStories = stories.slice(1, 4) // Get 3 side stories
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+     <section className="py-[60px] px-[120px]">
+
+      
+          <h2 className="text-2xl font-semibold mb-10  ">
+        
             Latest Stories
           </h2>
-        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,630px)_1fr] gap-4">
           {/* Main Story */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
+          <div
+            className="w-full max-w-full lg:max-w-[740px] bg-accent-80 p-2 rounded-2xl "
           >
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
-              <div className="relative h-64 lg:h-80">
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-600 to-purple-800"></div>
+             
+              <div className="relative h-[458px]  rounded-2xl">
+                <img 
+                  src={STORY_IMAGES[0]} 
+                  alt={mainStory.title}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               </div>
-              <CardContent className="p-6 lg:p-8">
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+              <div className="mt-6 space-y-2">
+                <h3 className="text-lg font-semibold text-text-dark-100">
                   {mainStory.title}
                 </h3>
-                <p className="text-gray-600 mb-4">{mainStory.description}</p>
+                <p className="text-text-dark-80 text-sm">{mainStory.description}</p>
                 <div className="flex items-center justify-between">
-                  <Button variant="outline" className="border-gray-300">
-                    Read More
-                  </Button>
-                  <span className="text-sm text-gray-500">{mainStory.date}</span>
+                <Button
+                        size="sm"
+                        className="bg-[#7F92760F] py-4 px-6 rounded-[100px] min-h-[52px] text-[#758886] font-semibold "
+                      >
+                        Read More
+                      </Button>
+                  <span className="text-xs text-[#758886]">{mainStory.date}</span>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+          </div>
 
           {/* Side Stories */}
           <div className="space-y-6">
             {sideStories.map((story, index) => (
-              <motion.div
-                key={story.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                  <div className="relative h-32 lg:h-40">
-                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-yellow-300"></div>
+            
+                <div className="bg-accent-80 p-2 flex gap-4 rounded-2xl w-full">
+                  <div className="relative h-auto w-[200px] rounded-2xl overflow-hidden shrink-0">
+                    <img 
+                      src={STORY_IMAGES[index + 1]} 
+                      alt={story.title}
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
                   </div>
-                  <CardContent className="p-4 lg:p-6">
+                  <div>
                     <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2">
                       {story.title}
                     </h3>
@@ -73,21 +66,18 @@ export function LatestStories() {
                     </p>
                     <div className="flex items-center justify-between">
                       <Button
-                        variant="ghost"
                         size="sm"
-                        className="text-sm p-0 h-auto"
+                        className="bg-[#7F92760F] py-4 px-6 rounded-[100px] min-h-[52px] text-[#758886] font-semibold "
                       >
                         Read More
                       </Button>
-                      <span className="text-xs text-gray-500">{story.date}</span>
+                      <span className="text-xs text-[#758886]">{story.date}</span>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  </div>
+                </div>
             ))}
           </div>
         </div>
-      </div>
     </section>
   )
 }

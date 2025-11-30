@@ -1,13 +1,19 @@
+import { FindThingsToDo } from "@/components/sections/FindThingsToDo"
+import { MostLovedByTourists } from "@/components/sections/MostLovedByTourists"
+import { PlanYourDay } from "@/components/sections/PlanYourDay"
+import { IconicPlaces } from "@/components/sections/IconicPlaces"
+import { WhatsHotThisMonth } from "@/components/sections/WhatsHotThisMonth"
+import ThingToDoHero from "@/components/sections/ThingsToDoHero"
+
 export function WhereToStay() {
   return (
-    <main className="min-h-screen pt-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Where to Stay</h1>
-        <p className="text-lg text-gray-600">
-          Find the perfect accommodation for your stay in Addis Ababa.
-        </p>
-      </div>
+    <main className="min-h-screen">
+      <ThingToDoHero />
+      <FindThingsToDo />
+      <MostLovedByTourists />
+      <PlanYourDay />
+      <IconicPlaces />
+      <WhatsHotThisMonth />
     </main>
   )
 }
-
