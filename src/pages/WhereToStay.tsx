@@ -1,13 +1,25 @@
-export function WhereToStay() {
+import ActivityEvents from "@/components/activitydetail/ActivityEvents"
+import ActivityExploreLocations from "@/components/activitydetail/ActivityExplore"
+import ActivityHero from "@/components/activitydetail/ActivityHero"
+import ActivityNewLetter from "@/components/activitydetail/ActivityNewsLetter"
+import FaqSection from "@/components/activitydetail/FaqSection"
+import HikingPage from "@/components/activitydetail/HikingPage"
+import RelatedBlogs from "@/components/activitydetail/RelatedBlogs"
+
+
+
+const WhereToStay = () => {
   return (
-    <main className="min-h-screen pt-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Where to Stay</h1>
-        <p className="text-lg text-gray-600">
-          Find the perfect accommodation for your stay in Addis Ababa.
-        </p>
-      </div>
+    <main>
+      <ActivityHero />
+      <HikingPage />
+      <ActivityEvents />
+      <ActivityNewLetter />
+      <ActivityExploreLocations />
+      <RelatedBlogs />
+      <FaqSection />
     </main>
   )
 }
 
+export default WhereToStay

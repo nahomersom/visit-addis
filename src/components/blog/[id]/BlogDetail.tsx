@@ -6,6 +6,7 @@ import BlogNewsLetter from "../BlogNewsLetter";
 import VoiceOfAddis from "../VoiceOfAddis";
 
 const BlogDetail = () => {
+
   const { id } = useParams();
 
   const allBlogs = [featuredStory, ...sideStories];
