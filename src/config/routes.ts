@@ -5,5 +5,6 @@ export const ROUTES = {
   EVENTS: "/events",
   PLAN_YOUR_TRIP: "/plan-your-trip",
   ABOUT: "/about",
+  BLOGS: "/blogs",
+  BlogDetail: "/blogs/:id",
 } as const
-

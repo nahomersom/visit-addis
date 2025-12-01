@@ -1,4 +1,4 @@
-const NewsletterBanner: React.FC = () => {
+const BlogNewsLetter: React.FC = () => {
   return (
     // Main Container
     <div className="w-full max-w-[1512px] mx-auto flex flex-col items-center justify-center 
@@ -19,15 +19,16 @@ const NewsletterBanner: React.FC = () => {
         <div className="absolute inset-0 bg-linear-to-r from-[#EAF4FA] via-white/40 to-[#EAF4FA] opacity-80 z-0"></div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[660px]">
+        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[600px]">
           
           {/* Heading & Description */}
           <div className="flex flex-col items-center gap-1 mb-6">
             <h2 className="text-[24px] font-bold text-[#10383A] leading-tight">
-              Never Miss a Moment!
+              <span className="text-[#1EAA9D]">Subscribe</span> to our newsletter
             </h2>
             <p className="text-[14px] text-[#758886] font-normal">
-              Unlock Addis Ababa's best-kept secrets! Subscribe now for a monthly guide to exclusive cultural events, underground art scenes, and the most exciting happenings around the city.
+              Stay connected and don’t miss our exciting updates and exclusive deals! Sign up for our
+              newsletter to receive the latest news directly in your inbox.
             </p>
           </div>
 
@@ -56,4 +57,4 @@ const NewsletterBanner: React.FC = () => {
   );
 };
 
-export default NewsletterBanner;
+export default BlogNewsLetter;

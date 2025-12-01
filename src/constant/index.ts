@@ -24,6 +24,14 @@ interface EventHighlights {
   image: string;
 }
 
+export interface Story {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  timeAgo: string;
+}
+
 export const cultureHeroSection = [
     {
         title:"Culture & Lifestyle",
@@ -162,14 +170,14 @@ export const Etiquette = [
       date: "January 12, 2025",
       title: "TASTE THE FLAVORS OF ETHIOPIA",
       description: "Immerse yourself in a culinary journey. Experience the traditional injera and spicy wats that define the local delicious cuisine.",
-      image: "https://images.unsplash.com/photo-1606836566405-2425d1947a83?q=80&w=2000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1572888195250-3037a59d3578?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       id: 4,
       date: "January 12, 2025",
       title: "TASTE THE FLAVORS OF ETHIOPIA",
       description: "Immerse yourself in a culinary journey. Experience the traditional injera and spicy wats that define the local delicious cuisine.",
-      image: "https://images.unsplash.com/photo-1606836566405-2425d1947a83?q=80&w=2000&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1573404353091-bd68e3010d73?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
   ];
 
@@ -194,4 +202,82 @@ export const EventHighlights: EventHighlights[] = [
       description: "Join us for a day filled with rhythm and fun! Enjoy live performances from local bands, food trucks serving delicious eats, and activities for the family.",
       image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?q=80&w=2073&auto=format&fit=crop"
     }
-  ];
+];
+
+export const featuredStory: Story = {
+  id: 1,
+  title: "Climate Change: A Global Challenge",
+  description: "Discover the impacts of climate change and what actions are being taken globally.",
+  image: "https://images.unsplash.com/photo-1570095378004-ce65d6c2d5bb?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+  timeAgo: "15 Minutes Ago"
+};
+
+export const sideStories: Story[] = [
+  {
+    id: 2,
+    title: "Climate Change: A Global Challenge",
+    description: "Discover the impacts of climate change and what actions are being taken globally.",
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=1000&auto=format&fit=crop", 
+    timeAgo: "15 Minutes Ago"
+  },
+  {
+    id: 3,
+    title: "Climate Change: A Global Challenge",
+    description: "Discover the impacts of climate change and what actions are being taken globally.",
+    image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1000&auto=format&fit=crop", 
+    timeAgo: "15 Minutes Ago"
+  },
+  {
+    id: 4,
+    title: "Climate Change: A Global Challenge",
+    description: "Discover the impacts of climate change and what actions are being taken globally.",
+    image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+    timeAgo: "15 Minutes Ago"
+  }
+];
+
+
+export const articles = [
+  {
+    id: 1,
+    title: "Breaking: Major Earthquake Strikes City",
+    desc: "Residents are advised to stay indoors as emergency services respond to the situation.",
+    image: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&q=80&w=800",
+    time: "1 Hour Ago"
+  },
+  {
+    id: 2,
+    title: "Tech Innovations to Watch in 2024",
+    desc: "Explore the most exciting technological advancements expected to shape the future.",
+    image: "https://images.unsplash.com/photo-1542665952-14513db15293?auto=format&fit=crop&q=80&w=800",
+    time: "30 Minutes Ago"
+  },
+  {
+    id: 3,
+    title: "Tech Innovations to Watch in 2024",
+    desc: "Explore the most exciting technological advancements expected to shape the future.",
+    image: "https://plus.unsplash.com/premium_photo-1661421687248-7bb863c60723?q=80&w=1538&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    time: "30 Minutes Ago"
+  },
+  {
+    id: 4,
+    title: "Climate Change: A Global Challenge",
+    desc: "Discover the impacts of climate change and what actions are being taken globally.",
+    image: "https://images.unsplash.com/photo-1499678329028-101435549a4e?auto=format&fit=crop&q=80&w=800",
+    time: "15 Minutes Ago"
+  },
+  {
+    id: 5,
+    title: "Update: Local Team Claims Championship",
+    desc: "Celebrate the victory of our local team as they clinch the championship title!",
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=800",
+    time: "10 Minutes Ago"
+  },
+  {
+    id: 6,
+    title: "Update: Local Team Wins Title",
+    desc: "Celebrate the victory of our local team as they clinch the championship title!",
+    image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=800",
+    time: "10 Minutes Ago"
+  }
+];

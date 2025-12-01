@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { 
   Utensils, 
@@ -164,7 +164,7 @@ const UpcomingEvents = () => {
           <span className="text-sm text-gray-500 font-medium">1 / 4</span>
           
           <div className="hidden sm:block flex-1 mx-6 h-px bg-gray-200 relative">
-            <div className="absolute left-0 top-0 h-full w-[25%] bg-gray-900"></div>
+            <div className="absolute left-0 top-0 h-full w-[25%]"></div>
           </div>
 
           <div className="flex items-center gap-4">

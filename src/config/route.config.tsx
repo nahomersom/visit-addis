@@ -12,6 +12,8 @@ import { PlanYourTrip } from "@/pages/PlanYourTrip"
 import { About } from "@/pages/About"
 import { NotFound } from "@/pages/NotFound"
 import { ROUTES } from "./routes"
+import Blogs from "@/pages/Blogs"
+import BlogDetail from "@/components/blog/[id]/BlogDetail"
 
 export interface RouteConfig {
   path: string
@@ -58,6 +60,17 @@ export const routeConfig: RouteConfig[] = [
     title: "About Us",
     description: "Learn more about Visit Addis Ababa and our mission",
   },
+  {
+    path: ROUTES.BLOGS,
+    element: Blogs,
+    title: "Blogs",
+  },
+  {
+    path: ROUTES.BlogDetail,
+    element: BlogDetail,
+    title: "Blog Detail",
+    description: "Blog Detail"
+  }
 ]
 
 const ROUTER = createBrowserRouter(

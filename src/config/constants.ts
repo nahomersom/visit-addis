@@ -17,7 +17,7 @@ export const NAV_LINKS = [
   { label: "Plan Your Trip", href: ROUTES.EVENTS },
   { label: "Festivals And Events", href: ROUTES.PLAN_YOUR_TRIP },
   { label: "Guide", href: ROUTES.ABOUT },
-  { label: "Blogs", href: ROUTES.ABOUT },
+  { label: "Blogs", href: ROUTES.BLOGS },
 
 ] as const
 
