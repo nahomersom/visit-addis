@@ -53,24 +53,20 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 import { activities } from "@/data/activities"
 import exploreBackground from "@/assets/images/exploreBackground.png"
 import { CallToActionBanner } from "../common/CallToActionBanner"
+import { SectionHeader } from "../common/SectionHeader"
 
 export function ThingsToDo() {
   return (
-    <section className="py-[60px] px-[120px]">
+    <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px]">
       <div className="w-full">
         {/* Header Section */}
        
           
-          <div
-          className="flex justify-between mb-10 "
-        >
-          <h2 className="text-2xl font-semibold ">
-          Things To Do In Addis Ababa
-          </h2>
-          <p className="text-sm text-[#758886] max-w-[400px] ">
-            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
-          </p>
-        </div>
+    
+          <SectionHeader
+        title="  Things To Do In Addis Ababa"
+        description="Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs."
+      />
 
         <div className="flex flex-wrap gap-2 justify-center ">
           {activities.map((activity, index) => {

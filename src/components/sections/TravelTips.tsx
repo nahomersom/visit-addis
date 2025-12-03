@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
 import { travelTips } from "@/data/travelTips"
 import healthIcon from "@/assets/images/health.png"
 import safetyIcon from "@/assets/images/safety.png"
@@ -8,6 +8,8 @@ import travelDocumentsIcon from "@/assets/images/traveldocuments.png"
 import currencyIcon from "@/assets/images/currency.png"
 import weatherIcon from "@/assets/images/weather.png"
 import { Plus, X } from "lucide-react"
+import { ROUTES } from "@/config/routes"
+import { SectionHeader } from "@/components/common/SectionHeader"
 
 const iconMap: Record<string, string> = {
   "heart-pulse": healthIcon,
@@ -18,7 +20,12 @@ const iconMap: Record<string, string> = {
   "cloud-sun": weatherIcon,
 }
 
-export function TravelTips() {
+interface TravelTipsProps {
+  isColumn?: boolean
+}
+
+
+export function TravelTips({ isColumn = false }: TravelTipsProps) {
   const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set())
 
   const toggleFlip = (tipId: string) => {
@@ -34,30 +41,21 @@ export function TravelTips() {
   }
 
   return (
-    <section className="py-10 px-[120px] bg-white">
-          <div
-          className="flex justify-between mb-10 "
-        >
-          <h2 className="text-2xl font-semibold ">
-          Travel Tips
-          </h2>
-          <p className="text-sm text-[#758886] max-w-[400px] ">
-          Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget.
-          </p>
-        </div>
+    <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px]">
+      <SectionHeader
+        title="Travel Tips"
+        description="Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget."
+      />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {travelTips.map((tip, index) => {
+        {/* Tips list - horizontal scroll on mobile, grid on larger screens */}
+        <div className={`${isColumn ? 'flex flex-col gap-[16px]' : 'flex overflow-x-auto'} scrollbar-hide md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 ${isColumn ? 'mx-0 px-0' : '-mx-6 px-6'} md:mx-0 md:px-0`}>
+          {travelTips.map((tip) => {
             const iconSrc = iconMap[tip.icon] || travelDocumentsIcon
             const isFlipped = flippedCards.has(tip.id)
             return (
-              <motion.div
+              <div
                 key={tip.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flip-card-container"
+                className={`flip-card-container ${isColumn ? 'w-full md:w-auto' : 'shrink-0 w-[310px] md:w-auto'}`}
               >
                 <div className={`flip-card-inner ${isFlipped ? 'flipped' : ''}`}>
                   {/* Front of card */}
@@ -84,12 +82,13 @@ export function TravelTips() {
                         {tip.title}
                       </h3>
                       <p className="text-sm text-text-dark-80 text-center leading-relaxed">{tip.detailedDescription}</p>
-                      <a 
-                        href="#" 
+                      <Link 
+                        to={ROUTES.DETAIL}
+                        state={{ from: ROUTES.GUIDE }}
                         className="text-sm text-theme-primary underline font-medium"
                       >
                         Read more
-                      </a>
+                      </Link>
                     </div>
                     <div 
                       className="size-12 rounded-full bg-theme-dark flex items-center justify-center cursor-pointer hover:bg-accent-120 transition-colors"
@@ -99,7 +98,7 @@ export function TravelTips() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>

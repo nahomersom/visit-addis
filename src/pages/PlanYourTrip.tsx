@@ -16,7 +16,6 @@ export function PlanYourTrip() {
       <FlightsAndGettingHere />
       <FindThingsToDo 
         title="Activities To Inspire You"
-        description="Discover exciting activities and experiences that will make your trip to Addis Ababa unforgettable."
       />
       <CompareHotelPrices />
       <WeatherInAddisAbaba />

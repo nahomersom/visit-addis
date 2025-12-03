@@ -7,6 +7,7 @@ import oldHouseImage from "@/assets/images/oldHouse.jpg"
 import catholicChurchImage from "@/assets/images/catholicChurch.jpg"
 import buildingsImage from "@/assets/images/buildings.jpg"
 import instagramIcon from "@/assets/icons/instagram.png"
+import { SectionHeader } from "../common/SectionHeader"
 
 const backgroundImages = [
   stadiumImage,
@@ -22,25 +23,105 @@ const cardWidths = ["w-[60%]", "w-[40%]", "w-[40%]", "w-[60%]", "w-[60%]", "w-[4
 
 export function SocialHighlights() {
   return (
-     <section className="py-[60px] px-[120px] bg-accent-80">
+     <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px] bg-accent-80">
 
-        <div
-          className="flex justify-between mb-10 "
-        >
-          <h2 className="text-2xl font-semibold ">
-          Social Highlights
-          </h2>
-          <p className="text-sm text-[#758886] max-w-[400px] ">
-            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
-          </p>
+      
+
+                 <SectionHeader
+                title=" Social Highlights"
+                description="Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget."
+              />
+
+        {/* Mobile: Horizontal scroll with all cards */}
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-6 px-6 md:hidden">
+          {socialHighlights.map((highlight, index) => (
+            <div
+              key={highlight.id}
+              className="shrink-0 w-[342px] h-[345px]"
+            >
+              <div className="overflow-hidden cursor-pointer relative w-full h-full rounded-[40px]">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(${backgroundImages[index]})`,
+                  }}
+                />
+                {/* Progressive blur overlay */}
+                <div className="absolute inset-0 p-4 flex flex-col justify-end overflow-hidden">
+                  {/* Background darkening gradient */}
+                  <div 
+                    className="absolute inset-0"
+                    style={{
+                      background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.32) 100%)',
+                      clipPath: 'polygon(0 54.67%, 100% 54.67%, 100% 100%, 0 100%)',
+                    }}
+                  />
+                  {/* Progressive blur effect - extends beyond bottom for smooth fade */}
+                  <div 
+                    className="absolute"
+                    style={{
+                      top: '54.67%',
+                      left: 0,
+                      right: 0,
+                      bottom: '-20px',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      maskImage: 'linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0.3) 15%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 85%, white 95%, white 100%)',
+                      WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0.3) 15%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 85%, white 95%, white 100%)',
+                    }}
+                  />
+                  {/* Content */}
+                  <div className="relative z-10 flex justify-between">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="relative size-[49px]">
+                        <div className="size-[49px] rounded-[8px] border border-white/60 overflow-hidden bg-gray-200">
+                          <img 
+                            src={`https://i.pravatar.cc/150?img=${highlight.id}`}
+                            alt={highlight.user.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.user.name)}&background=random&size=49`
+                            }}
+                          />
+                        </div>
+                        {/* Instagram icon circle */}
+                        <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center z-20">
+                          <img 
+                            src={instagramIcon} 
+                            alt="Instagram"
+                            className=" object-contain"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-white text-lg">
+                          {highlight.user.name}
+                        </p>
+                        <p className="text-sm text-white/80">
+                          {highlight.location}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-[20.36px] h-[20.36px] fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-semibold text-white">
+                        {highlight.rating}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="flex flex-col gap-6">
+        {/* Desktop: Grid layout with rows */}
+        <div className="hidden md:flex md:flex-col md:gap-6">
           {/* Row 1: 75% + 25% */}
           <div className="flex gap-6">
             {socialHighlights.slice(0, 2).map((highlight, index) => (
               <div
-            
+                key={highlight.id}
                 className={cardWidths[index]}
               >
                 <div className="overflow-hidden  cursor-pointer relative min-h-[352px] rounded-[40px] ">

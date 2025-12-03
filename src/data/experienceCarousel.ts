@@ -1,3 +1,10 @@
+import stadiumImage from "@/assets/images/stadium.jpg"
+import womensquareImage from "@/assets/images/womensquare.jpg"
+import keberoImage from "@/assets/images/kebero.jpg"
+import buildingsImage from "@/assets/images/buildings.jpg"
+import catholicChurchImage from "@/assets/images/catholicChurch.jpg"
+import oldHouseImage from "@/assets/images/oldHouse.jpg"
+
 export interface ExperienceSlide {
   id: string
   title: string
@@ -12,24 +19,24 @@ export const experienceSlides: ExperienceSlide[] = [
     title: "EXPERIENCE ADDIS ABABA FROM A WHOLE NEW PERSPECTIVE",
     description:
       "Discover the best places to visit and things to do in Addis Ababa. We have a wide range of experiences to make your trip memorable.",
-    image: "/assets/images/experience-main.jpg",
-    thumbnail: "/assets/images/experience-thumb1.jpg",
+    image: stadiumImage,
+    thumbnail: stadiumImage,
   },
   {
     id: "2",
     title: "EXPERIENCE ADDIS ABABA FROM A WHOLE NEW PERSPECTIVE",
     description:
       "Discover the best places to visit and things to do in Addis Ababa. We have a wide range of experiences to make your trip memorable.",
-    image: "/assets/images/experience-main2.jpg",
-    thumbnail: "/assets/images/experience-thumb2.jpg",
+    image: womensquareImage,
+    thumbnail: womensquareImage,
   },
   {
     id: "3",
     title: "EXPERIENCE ADDIS ABABA FROM A WHOLE NEW PERSPECTIVE",
     description:
       "Discover the best places to visit and things to do in Addis Ababa. We have a wide range of experiences to make your trip memorable.",
-    image: "/assets/images/experience-main3.jpg",
-    thumbnail: "/assets/images/experience-thumb3.jpg",
+    image: keberoImage,
+    thumbnail: keberoImage,
   },
 ]
 

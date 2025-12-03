@@ -113,15 +113,25 @@ export function GetAppModal() {
               </div>
 
               {/* Checkbox */}
-              <div className="flex items-start gap-3 mt-2">
+              <div className="flex items-start gap-2 mt-2">
                 <input
                   type="checkbox"
                   id="agreeToUpdates"
                   name="agreeToUpdates"
                   checked={formData.agreeToUpdates}
                   onChange={handleInputChange}
-                  className="mt-1 size-5 text-theme-primary  rounded-md focus:ring-theme-primary bg-accent-80 border border-[#f0f0ee] "
-                />
+                 className="
+    size-5 
+    shrink-0
+    appearance-none
+    bg-accent-80 
+    border border-accent-100
+    rounded-sm
+    checked:bg-theme-primary 
+    checked:border-theme-primary
+    focus:ring-theme-primary
+  "
+               />
                 <label htmlFor="agreeToUpdates" className="text-xs text-text-dark-80">
                   I agree to receive updates, promotions, and relevant information tailored to my interests.
                 </label>

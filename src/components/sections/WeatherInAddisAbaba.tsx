@@ -1,25 +1,34 @@
-import { Sun, Cloud, Sunrise, Sunset, Thermometer, Droplet } from "lucide-react"
+import springImage from "../../assets/images/spring.png"
+import summerImage from "../../assets/images/summer.png"
+import fallImage from "../../assets/images/fall.png"
+import winterImage from "../../assets/images/winter.png"
+import sunnyImage from "../../assets/images/sunny.png"
+import thermometerIcon from "../../assets/icons/thermometer.svg"
+import humidityIcon from "../../assets/icons/humidity.svg"
+import sunriseIcon from "../../assets/icons/sunrise.svg"
+import sunsetIcon from "../../assets/icons/sunset.svg"
+import exploreBackground from "@/assets/images/exploreBackground.png"
 
 const seasons = [
   {
     name: "Tsedey (Spring)",
     months: "September to November",
-    icon: Sun,
+    image: springImage,
   },
   {
     name: "Bega (Summer)",
     months: "December to February",
-    icon: Sun,
+    image: summerImage,
   },
   {
     name: "Belg (Fall)",
     months: "March to May",
-    icon: Sun,
+    image: fallImage,
   },
   {
     name: "Kiremt (Winter)",
     months: "June to August",
-    icon: Cloud,
+    image: winterImage,
   },
 ]
 
@@ -35,36 +44,37 @@ const weatherData = {
 
 export function WeatherInAddisAbaba() {
   return (
-    <section className="py-[60px] px-4 sm:px-6 lg:px-[120px] bg-white">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col items-center text-center mb-10 gap-2">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-text-dark-100">
-            The Weather In Addis Ababa
+    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] bg-white">
+   
+        <div className="flex flex-col items-center text-center mb-6 gap-1">
+          <h2 className="text-2xl font-bold text-text-dark-100">
+            <span className="text-theme-secondary">The Weather </span>In Addis Ababa
           </h2>
-          <p className="text-sm sm:text-base text-text-dark-80 max-w-2xl">
-            Experience sunny days and cool breezes in the capital city, where the weather is pleasant year-round.
+          <p className="text-sm text-text-dark-80 max-w-2xl">
+          Discover the lively weather of Addis Ababa, where sunny days and cool breezes create ideal conditions for outdoor fun.
           </p>
         </div>
 
-        <div className="mb-10">
-          <h3 className="text-xl font-semibold text-text-dark-100 text-center mb-6">
+        <div className="space-y-4 mb-6">
+          <h3 className="text-sm font-medium text-text-dark-100 text-center">
             The Four Seasons Of Ethiopia
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 lg:gap-4">
             {seasons.map((season, index) => {
-              const IconComponent = season.icon
               return (
                 <div
                   key={index}
-                  className="bg-accent-80 rounded-2xl p-6 flex flex-col items-center text-center gap-3"
+                  className=" rounded-2xl p-4 flex flex-col items-center text-center gap-2 border border-accent-100 min-h-[129px]"
                 >
-                  <div className="size-12 rounded-full bg-theme-primary/10 flex items-center justify-center">
-                    <IconComponent className="size-6 text-theme-primary" />
-                  </div>
-                  <h4 className="text-base font-semibold text-text-dark-100">
+                    <img 
+                      src={season.image} 
+                      alt={season.name}
+                      className="size-10 object-contain"
+                    />
+                  <h4 className="text-sm md:text-base font-semibold text-text-dark-100">
                     {season.name}
                   </h4>
-                  <p className="text-sm text-text-dark-80">
+                  <p className="text-xs md:text-sm text-text-dark-80">
                     {season.months}
                   </p>
                 </div>
@@ -74,71 +84,181 @@ export function WeatherInAddisAbaba() {
         </div>
 
         {/* Current Weather Display */}
-        <div className="bg-accent-80 rounded-2xl p-6 sm:p-8 max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 sm:gap-6">
+        <div 
+          className="bg-accent-80 rounded-2xl p-4 w-full relative overflow-hidden sm:h-52 h-auto"
+          style={{
+            backgroundImage: `url(${exploreBackground})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div 
+            className="absolute inset-0 bg-accent-80"
+            style={{ opacity: 0.8 }}
+          />
+          <div className="relative z-10 flex flex-col sm:flex-row sm:flex-wrap items-center gap-2">
             {/* Condition */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2">
-                <Sun className="size-5 text-theme-primary" />
-                <Cloud className="size-5 text-text-dark-60" />
-              </div>
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
+            <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full md:min-w-[500px] md:w-auto p-6 md:h-full h-auto">
+                <div className="flex flex-col items-center justify-center gap-1 ">
+
+               <span className=" md:text-2xl font-bold text-text-dark-100">
                 {weatherData.condition}
               </span>
+              <span className="text-xs md:text-base text-text-dark-80">Now</span>
+                </div>
+              <img 
+                src={sunnyImage} 
+                alt="Sunny"
+                className="md:w-[131px] md:h-32 w-20 h-20 object-contain"
+              />
+             
+              {/* Temperature */}
+              <div className="flex flex-col items-center gap-1 w-fit">
+                <span className="text-2xl font-bold text-text-dark-100">
+                  {weatherData.temperature}
+                </span>
+                <span className="md:text-base text-xs text-text-dark-80">Celsius</span>
+              </div>
             </div>
 
-            {/* Temperature */}
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-2xl sm:text-3xl font-bold text-text-dark-100">
-                {weatherData.temperature}
-              </span>
-              <span className="text-xs sm:text-sm text-text-dark-80">Celsius</span>
+            {/* Sunrise and Sunset Row (Mobile) */}
+            <div className="flex sm:hidden gap-2 w-full">
+              {/* Sunrise */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={sunriseIcon} 
+                  alt="Sunrise"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+                  {weatherData.sunrise}
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Sunrise</span>
+              </div>
+
+              {/* Sunset */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={sunsetIcon} 
+                  alt="Sunset"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+                  {weatherData.sunset}
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Sunset</span>
+              </div>
             </div>
 
-            {/* Sunrise */}
-            <div className="flex flex-col items-center gap-2">
-              <Sunrise className="size-5 text-theme-primary" />
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
+            {/* Low, High, Humidity Row (Mobile) */}
+            <div className="flex sm:hidden gap-2 w-full">
+              {/* Low */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={thermometerIcon} 
+                  alt="Thermometer"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+                  {weatherData.low}
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Low</span>
+              </div>
+
+              {/* High */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={thermometerIcon} 
+                  alt="Thermometer"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+                  {weatherData.high}
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">High</span>
+              </div>
+
+              {/* Humidity */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={humidityIcon} 
+                  alt="Humidity"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+                  {weatherData.humidity}%
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Humidity</span>
+              </div>
+            </div>
+
+            {/* Desktop: Sunrise */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={sunriseIcon} 
+                alt="Sunrise"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                 {weatherData.sunrise}
               </span>
-              <span className="text-xs text-text-dark-80">Sunrise</span>
+              <span className="text-sm text-text-dark-80">Sunrise</span>
             </div>
 
-            {/* Sunset */}
-            <div className="flex flex-col items-center gap-2">
-              <Sunset className="size-5 text-theme-primary" />
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
+            {/* Desktop: Sunset */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={sunsetIcon} 
+                alt="Sunset"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                 {weatherData.sunset}
               </span>
-              <span className="text-xs text-text-dark-80">Sunset</span>
+              <span className="text-sm text-text-dark-80">Sunset</span>
             </div>
 
-            {/* Low */}
-            <div className="flex flex-col items-center gap-2">
-              <Thermometer className="size-5 text-theme-secondary" />
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
-                {weatherData.low} Low
+            {/* Desktop: Low */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={thermometerIcon} 
+                alt="Thermometer"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
+                {weatherData.low}
               </span>
+              <span className="text-sm text-text-dark-80">Low</span>
             </div>
 
-            {/* High */}
-            <div className="flex flex-col items-center gap-2">
-              <Thermometer className="size-5 text-theme-secondary" />
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
-                {weatherData.high} High
+            {/* Desktop: High */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={thermometerIcon} 
+                alt="Thermometer"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
+                {weatherData.high}
               </span>
+              <span className="text-sm text-text-dark-80">High</span>
             </div>
 
-            {/* Humidity */}
-            <div className="flex flex-col items-center gap-2 col-span-2 sm:col-span-3 lg:col-span-1">
-              <Droplet className="size-5 text-theme-secondary" />
-              <span className="text-sm sm:text-base font-semibold text-text-dark-100">
-                {weatherData.humidity}% Humidity
+            {/* Desktop: Humidity */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={humidityIcon} 
+                alt="Humidity"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
+                {weatherData.humidity}%
               </span>
+              <span className="text-sm text-text-dark-80">Humidity</span>
             </div>
           </div>
         </div>
-      </div>
     </section>
   )
 }

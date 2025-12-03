@@ -9,7 +9,7 @@ export function WhereToStay() {
   return (
     <main className="min-h-screen">
       <ThingToDoHero />
-      <FindThingsToDo />
+      <FindThingsToDo description="Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean." />
       <MostLovedByTourists />
       <PlanYourDay />
       <IconicPlaces />

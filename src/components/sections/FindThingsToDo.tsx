@@ -7,22 +7,25 @@ interface FindThingsToDoProps {
 
 export function FindThingsToDo({ 
   title = "Find Things To Do",
-  description = "Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean."
+  description
 }: FindThingsToDoProps = {}) {
   return (
-    <section className="py-[60px] px-[120px]">
+        <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] ">
+
       <div className="flex flex-col items-center justify-center mb-10 gap-2">
-        <h2 className="text-2xl font-semibold text-text-dark-100">{title}</h2>
-        <p className="text-sm text-[#758886] ">
-          {description}
-        </p>
+        <h2 className="md:text-2xl font-semibold text-text-dark-100">{title}</h2>
+        {description && (
+          <p className="text-xs md:text-sm text-[#758886] ">
+            {description}
+          </p>
+        )}
       </div>
 
-      <div className="flex gap-4  justify-center">
+      <div className="flex flex-wrap gap-4 justify-center">
         {activityCategories.map((category) => (
           <div
             key={category.id}
-            className="relative w-[198.67px] h-[180px] rounded-2xl overflow-hidden cursor-pointer group"
+            className="relative w-[calc(33.333%-0.67rem)] lg:w-[198.67px] h-[100px] md:h-[180px] rounded-2xl overflow-hidden cursor-pointer group"
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -57,7 +60,7 @@ export function FindThingsToDo({
               {/* Content */}
               <div className="relative z-10 flex  items-center gap-3">
               
-                <span className="text-white font-semibold text-lg">
+                <span className="text-white font-semibold text-xs md:text-lg">
                   {category.name}
                 </span>
               </div>

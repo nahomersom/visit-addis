@@ -4,6 +4,8 @@ export const ROUTES = {
   WHERE_TO_STAY: "/where-to-stay",
   EVENTS: "/events",
   PLAN_YOUR_TRIP: "/plan-your-trip",
+  GUIDE: "/guide/",
   ABOUT: "/about",
+  DETAIL: "/detail",
 } as const
 

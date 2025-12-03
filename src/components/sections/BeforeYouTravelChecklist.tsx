@@ -1,53 +1,47 @@
-import { Check, Lightbulb } from "lucide-react"
+import badgeCheckIcon from "../../assets/icons/badgeCheck.svg"
+import ideaIcon from "../../assets/icons/idea.svg"
 
 const checklistItems = [
-  "Valid passport (6+ months)",
-  "eVisa printout or confirmation email",
-  "Return ticket",
   "Hotel or host contact info",
+  "Return ticket",
+  "eVisa printout or confirmation email",
+  "Valid passport (6+ months)"
 ]
 
 export function BeforeYouTravelChecklist() {
   return (
-    <section className="py-[60px] px-4 sm:px-6 lg:px-[120px] bg-white">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col items-center text-center mb-10 gap-2">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-text-dark-100">
-            Before You Travel Checklist
+       <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] bg-accent-80">
+
+        <div className="flex flex-col items-center text-center mb-6 md:mb-10 gap-2">
+          <h2 className="text-2xl font-semibold text-text-dark-100">
+            Before <span className="text-theme-secondary">You Travel</span> Checklist
           </h2>
-          <p className="text-sm sm:text-base text-text-dark-80 max-w-2xl">
+          <p className="text-sm text-text-dark-80 max-w-2xl">
             Essential Tips to Consider Before You Embark on Your Journey.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           {checklistItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-center gap-3 bg-accent-80 rounded-xl p-4"
+              className="flex items-center gap-2 bg-theme-secondary rounded-4xl p-3 md:p-4 w-fit"
             >
-              <div className="flex-shrink-0 size-6 rounded-full bg-green flex items-center justify-center">
-                <Check className="size-4 text-white" />
-              </div>
-              <span className="text-sm sm:text-base text-text-dark-100 font-medium">
+                <img src={badgeCheckIcon} alt="check" className="size-5" />
+              <span className="text-[10px] md:text-sm text-white font-medium">
                 {item}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="flex items-start gap-3 bg-accent-80 rounded-xl p-4 max-w-2xl mx-auto">
-          <div className="flex-shrink-0 size-6 rounded-full bg-theme-primary flex items-center justify-center mt-0.5">
-            <Lightbulb className="size-4 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-text-dark-100 mb-1">Tip:</p>
-            <p className="text-sm text-text-dark-80">
-              Save a digital copy of your passport and visa before you travel.
+        <div className="flex flex-col md:flex-row justify-center items-center gap-2 bg-white rounded-3xl md:rounded-[72px] px-6 py-8 md:p-4 w-fit md:mx-auto min-h-auto">
+            <img src={ideaIcon} alt="idea" className="size-4" />
+            <p className="text-xs font-bold text-text-dark-100">Tip:</p>
+            <p className="text-xs text-text-dark-80 text-center">
+             Save a digital copy of your passport and visa before you travel.
             </p>
-          </div>
         </div>
-      </div>
     </section>
   )
 }

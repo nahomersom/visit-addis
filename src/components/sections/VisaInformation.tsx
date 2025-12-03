@@ -1,36 +1,14 @@
-import { Backpack, Briefcase, Plane } from "lucide-react"
-
-const visaTypes = [
-  {
-    id: "tourist",
-    name: "Tourist",
-    icon: Backpack,
-    description: "Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean et vitae et. Tristique urna leo nisl quisque.",
-  },
-  {
-    id: "business",
-    name: "Business",
-    icon: Briefcase,
-    description: "Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean et vitae et. Tristique urna leo nisl quisque.",
-  },
-  {
-    id: "transit",
-    name: "Transit",
-    icon: Plane,
-    description: "Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean et vitae et. Tristique urna leo nisl quisque.",
-  },
-]
+import { VISA_TYPES } from "@/config/constants"
 
 export function VisaInformation() {
   return (
-    <section className="py-[60px] px-4 sm:px-6 lg:px-[120px] bg-white">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col items-center text-center mb-10 gap-4">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-text-dark-100">
+    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] ">
+        <div className="flex flex-col items-center text-center mb-6 gap-4">
+          <h2 className="text-2xl font-semibold text-text-dark-100">
             Visa information
           </h2>
-          <p className="text-sm sm:text-base text-text-dark-80 max-w-3xl">
-            Securing your Ethiopian visa is straightforward and can be done online through the official government website{" "}
+          <p className="text-sm  text-text-dark-80 max-w-[1272px] font-medium font-sans">
+          If you're considering a trip to Addis Ababa, Ethiopia, whether for tourism or business, securing a visa is essential. The good news is that the process is quite simple! You can conveniently apply for your Ethiopian visa online via the official government website evisa.gov.et.{" "}
             <a
               href="https://www.evisa.gov.et"
               target="_blank"
@@ -39,29 +17,30 @@ export function VisaInformation() {
             >
               evisa.gov.et
             </a>
-            . The process involves completing an application form, uploading required documents, making a payment, and receiving your electronic visa via email.
+            .  Start by completing the application form, then upload the necessary documents, and pay the required fee. Once your application is approved, you'll receive your visa electronically, which streamlines your travel plans. As you prepare for your journey, be sure to explore the vibrant culture, delicious cuisine, and rich history that Addis Ababa has to offer. Enjoy every moment of your adventure in this beautiful city!
           </p>
         </div>
 
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-text-dark-100 text-center mb-6">
+        <div className="space-y-2">
+          <h3 className="text-sm md:text-xl font-semibold text-text-dark-100 text-center">
             Visa Types
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {visaTypes.map((visa) => {
-              const IconComponent = visa.icon
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {VISA_TYPES.map((visa) => {
               return (
                 <div
                   key={visa.id}
-                  className="bg-accent-80 rounded-2xl p-6 flex flex-col items-center text-center gap-4"
+                  className="bg-white rounded-2xl p-6 flex flex-col items-center text-center gap-2 border border-accent-80 shadow-[0px_4px_16px_0px_#0000000A,0px_0px_8px_0px_#00000005]"
                 >
-                  <div className="size-16 rounded-full bg-theme-secondary/10 flex items-center justify-center">
-                    <IconComponent className="size-8 text-theme-secondary" />
-                  </div>
+                    <img 
+                      src={visa.image} 
+                      alt={visa.name}
+                      className="size-[60px] md:size-[76px] object-contain"
+                    />
                   <h4 className="text-lg font-semibold text-text-dark-100">
                     {visa.name}
                   </h4>
-                  <p className="text-sm text-text-dark-80">
+                  <p className="text-xs md:text-sm text-text-dark-80">
                     {visa.description}
                   </p>
                 </div>
@@ -69,7 +48,6 @@ export function VisaInformation() {
             })}
           </div>
         </div>
-      </div>
     </section>
   )
 }

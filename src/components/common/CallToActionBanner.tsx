@@ -66,12 +66,12 @@ export function CallToActionBanner({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center p-10 gap-4 relative rounded-4xl overflow-hidden ${className}`}
+      className={`flex flex-col items-center justify-center p-6 md:p-10 min-h-[338px] md:min-h-[211px] gap-4 relative rounded-3xl md:rounded-4xl overflow-hidden ${className}`}
     >
       {/* Background image layer with opacity */}
       {backgroundImage && (
         <div
-          className="absolute inset-0 rounded-4xl bg-cover bg-center bg-no-repeat z-0"
+          className="absolute inset-0 rounded-3xl md:rounded-4xl bg-cover bg-center bg-no-repeat z-0"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             opacity: imageOpacity,
@@ -82,7 +82,7 @@ export function CallToActionBanner({
       {/* Overlay layer - show if overlayColor is provided or overlayOpacity is set and > 0 */}
       {backgroundImage && (overlayColor || (overlayOpacity !== undefined && overlayOpacity > 0)) && (
         <div
-          className="absolute inset-0 rounded-4xl z-10"
+          className="absolute inset-0 rounded-3xl md:rounded-4xl z-10"
           style={{
             backgroundColor: getOverlayColor(),
           }}
@@ -96,7 +96,7 @@ export function CallToActionBanner({
           </div>
         )}
         
-        <h1 className="text-2xl font-semibold">
+        <h1 className="text-2xl font-semibold text-center">
           <span className="text-theme-secondary">{title.coloredText} </span>
           <span className="text-text-dark-100">{title.regularText}</span>
         </h1>
@@ -104,7 +104,7 @@ export function CallToActionBanner({
         <p className="text-text-dark-80 text-sm max-w-[838px] text-center">{description}</p>
         
         <Button
-          className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[50px]"
+          className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[47px] md:min-h-[50px]"
           onClick={onButtonClick}
         >
           <span>{buttonText}</span>

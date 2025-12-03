@@ -6,9 +6,9 @@ import { ExperienceCarousel } from "@/components/sections/ExperienceCarousel"
 import { VisitBanner } from "@/components/sections/VisitBanner" 
 import { TravelTips } from "@/components/sections/TravelTips"
 import { AdviceForTravelers } from "@/components/sections/AdviceForTravelers"
-import { DownloadableGuides } from "@/components/sections/DownloadableGuides"
 import { SocialHighlights } from "@/components/sections/SocialHighlights"
 import { LatestStories } from "@/components/sections/LatestStories"
+import { DownloadableHomeGuides } from "@/components/sections/home-section/DownloadbaleHomeGuide"
 
 export function Home() {
   return (
@@ -21,7 +21,7 @@ export function Home() {
       <VisitBanner />
       <TravelTips />
       <AdviceForTravelers />
-      <DownloadableGuides />
+      <DownloadableHomeGuides />
       <SocialHighlights />
       <LatestStories />
     </main>

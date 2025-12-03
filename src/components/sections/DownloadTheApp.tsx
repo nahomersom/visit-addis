@@ -1,6 +1,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import phoneImage from "@/assets/images/phone.png"
+import leadingImage from "@/assets/images/Leading.svg"
+import trailingImage from "@/assets/images/Traling.svg"
+import leadingMobileImage from "@/assets/images/leadingMobileVersion.svg"
+import trailingMobileImage from "@/assets/images/trailingMobileVersion.svg"
 
 export function DownloadTheApp() {
   const [formData, setFormData] = useState({
@@ -25,23 +29,49 @@ export function DownloadTheApp() {
   }
 
   return (
-    <section className="py-[60px] px-4 sm:px-6 lg:px-[120px] bg-white">
-      <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] relative overflow-hidden">
+
+      {/* Desktop Leading image - left side */}
+      <img 
+        src={leadingImage} 
+        alt="Leading"
+        className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 h-full max-h-full object-contain object-left pointer-events-none z-0"
+        style={{ width: 'auto', maxWidth: '366px' }}
+      />
+      {/* Desktop Trailing image - right side */}
+      <img 
+        src={trailingImage} 
+        alt="Trailing"
+        className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-full max-h-full object-contain object-right pointer-events-none z-0"
+        style={{ width: 'auto', maxWidth: '366px' }}
+      />
+        <div className="flex flex-col  md:items-center gap-6 md:gap-0">
           {/* Left Side - Phone Mockups */}
-          <div className="flex-1 flex items-center justify-center relative">
-            <div className="relative w-full max-w-[400px]">
+          <div className="flex-1 flex items-center md:justify-center relative">
+            <div className="w-full md:block flex justify-between items-center">
+              {/* Mobile Leading image - left bottom */}
+              <img 
+                src={leadingMobileImage} 
+                alt="Leading Mobile"
+                className="md:hidden object-contain object-left pointer-events-none z-0 self-end -mt-6"
+              />
               <img
                 src={phoneImage}
                 alt="Visit Addis App Preview"
-                className="w-full h-auto object-contain"
+                className="h-auto object-contain max-w-[216px] md:max-w-[400px] md:w-full flex-1"
+              />
+              {/* Mobile Trailing image - right top */}
+              <img 
+                src={trailingMobileImage} 
+                alt="Trailing Mobile"
+                className="md:hidden object-contain object-right pointer-events-none z-0 self-start -mt-6"
               />
             </div>
           </div>
 
           {/* Right Side - Form */}
-          <div className="flex-1 w-full max-w-[500px]">
-            <div className="flex flex-col gap-6">
+          <div className="md:flex-1 ">
+            <div className="flex flex-col items-center gap-1">
               {/* Coming Soon Badge */}
               <div
                 className="inline-flex items-center justify-center w-fit px-3 py-2 rounded-[48px] border-[0.5px] border-theme-secondary"
@@ -51,19 +81,21 @@ export function DownloadTheApp() {
               </div>
 
               {/* Title */}
-              <h2 className="text-2xl sm:text-3xl font-semibold text-text-dark-100">
+              <h2 className="text-2xl  font-medium text-text-dark-100">
                 Download The App
               </h2>
 
               {/* Description */}
-              <p className="text-text-dark-60 text-sm sm:text-base">
-                Be the first to explore Addis Ababa! Get notified when the Visit Addis app launches.
+              <p className="text-text-dark-80 text-xs  text-center md:text-left">
+             Be the first to explore Addis Ababa! Get notified when the Visit Addis app launches.
               </p>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6 ">
+               <div className="flex gap-2 w-full">
+
                 {/* Full Name */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 w-full">
                   <label htmlFor="fullName" className="text-xs text-text-dark-100">
                     Full Name
                   </label>
@@ -79,7 +111,7 @@ export function DownloadTheApp() {
                 </div>
 
                 {/* Email */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 w-full">
                   <label htmlFor="email" className="text-xs text-text-dark-100">
                     Email
                   </label>
@@ -93,17 +125,29 @@ export function DownloadTheApp() {
                     className="w-full px-4 py-3 rounded-[8px] bg-accent-80 placeholder:text-text-dark-80 placeholder:text-xs border border-transparent focus:border-theme-primary focus:outline-none"
                   />
                 </div>
+               </div>
 
                 {/* Checkbox */}
-                <div className="flex items-start gap-3 mt-2">
-                  <input
-                    type="checkbox"
-                    id="agreeToUpdates"
-                    name="agreeToUpdates"
-                    checked={formData.agreeToUpdates}
-                    onChange={handleInputChange}
-                    className="mt-1 size-5 text-theme-primary rounded-md focus:ring-theme-primary bg-accent-80 border border-[#f0f0ee]"
-                  />
+                <div className="flex items-center gap-2 mt-2">
+               <input
+  type="checkbox"
+  id="agreeToUpdates"
+  name="agreeToUpdates"
+  checked={formData.agreeToUpdates}
+  onChange={handleInputChange}
+  className="
+    size-5 
+    shrink-0
+    appearance-none
+    bg-accent-80 
+    border border-accent-100
+    rounded-sm
+    checked:bg-theme-primary 
+    checked:border-theme-primary
+    focus:ring-theme-primary
+  "
+/>
+
                   <label htmlFor="agreeToUpdates" className="text-xs text-text-dark-80">
                     I agree to receive updates, promotions, and relevant information tailored to my interests.
                   </label>
@@ -112,7 +156,7 @@ export function DownloadTheApp() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[50px] max-w-[150px] mt-2"
+                  className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[50px] w-full md:max-w-[115px] mt-2 self-center"
                 >
                   <span>Notify Me!</span>
                 </Button>
@@ -120,7 +164,6 @@ export function DownloadTheApp() {
             </div>
           </div>
         </div>
-      </div>
     </section>
   )
 }
