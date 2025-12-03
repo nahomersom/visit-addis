@@ -42,7 +42,6 @@ const UpcomingEvents = () => {
     setTimeRange(value);
   };
 
-
   const filteredEvents = activeCategory === 'All' 
     ? allEvents 
     : allEvents.filter(event => event.category === activeCategory);
@@ -55,8 +54,12 @@ const UpcomingEvents = () => {
         w-full max-w-[1512px] 
         flex flex-col 
         border-t border-gray-200 
+        
         py-10
-        px-6 md:px-[120px]
+
+        px-6 
+        md:px-12 
+        xl:px-[120px]
         gap-6
       ">
         
@@ -142,8 +145,15 @@ const UpcomingEvents = () => {
           </div>
         </div>
 
-        {/* EVENTS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 min-h-[400px]">
+        {/* EVENTS GRID */}
+        <div className="
+          grid 
+          grid-cols-1 
+          md:grid-cols-2 
+          xl:grid-cols-4 
+          gap-4 
+          min-h-[400px]
+        ">
           {displayEvents.length > 0 ? (
             displayEvents.map((event) => (
               <EventCard key={event.id} {...event} />
@@ -286,7 +296,8 @@ const EventCard: React.FC<Omit<EventCardProps, 'id'>> = ({ image, title, descrip
       
       <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90" />
 
-      <div className="absolute inset-0 flex flex-col justify-end p-6 gap-3">
+      {/* Card Content: Updated gap to 16px (gap-4) */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6 gap-4">
         <h3 className="text-white text-[18px] font-bold leading-tight group-hover:text-[#DAA520] transition-colors">
           {title}
         </h3>

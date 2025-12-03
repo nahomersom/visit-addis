@@ -6,7 +6,7 @@ import {
 import { MainLayout } from "@/layouts/MainLayout"
 import { Home } from "@/pages/Home"
 import WhatToDo from "@/pages/WhatToDo"
-import WhereToStay from "@/pages/WhereToStay"
+// import WhereToStay from "@/pages/WhereToStay"
 import Events from "@/pages/Events"
 import { PlanYourTrip } from "@/pages/PlanYourTrip"
 import { About } from "@/pages/About"
@@ -36,12 +36,12 @@ export const routeConfig: RouteConfig[] = [
     title: "What to Do",
     description: "Discover amazing activities and experiences in Addis Ababa",
   },
-  {
-    path: ROUTES.WHERE_TO_STAY,
-    element: WhereToStay,
-    title: "Where to Stay",
-    description: "Find the perfect accommodation for your stay in Addis Ababa",
-  },
+  // {
+  //   path: ROUTES.WHERE_TO_STAY,
+  //   element: WhereToStay,
+  //   title: "Where to Stay",
+  //   description: "Find the perfect accommodation for your stay in Addis Ababa",
+  // },
   {
     path: ROUTES.EVENTS,
     element: Events,

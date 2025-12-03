@@ -9,14 +9,18 @@ interface BlogProps {
 
 const TechInnovationsPage: React.FC<BlogProps> = ({ blog }) =>  {
   return (
-    // Main Container 
+    // Page Wrapper
     <div className="w-full min-h-screen bg-white flex flex-col items-center">
       
       {/* 
         Main Layout Container 
       */}
-      <div className="w-full max-w-[590px] md:max-w-[1512px] px-6 md:px-[120px] py-10 flex flex-col gap-6">
+      <div className="w-full max-w-[1512px] flex flex-col
+                      py-10 px-6 gap-6
+                      md:py-10 md:px-12 md:gap-6
+                      xl:px-[120px]">
      
+        {/* Back Button */}
         <div className="flex items-start">
          <Link to={"/blogs"}>
           <button className="bg-[#F3F4F6] hover:bg-gray-200 transition-colors rounded-[105px] px-6 py-4 flex items-center gap-2 text-[#10383A] text-[14px] font-medium leading-none cursor-pointer">
@@ -33,11 +37,12 @@ const TechInnovationsPage: React.FC<BlogProps> = ({ blog }) =>  {
             {blog.title}
           </h1>
 
-          {/* Description: Size 14px, Color #758886, Gap between paragraphs 16px */}
+          {/* Description */}
           <div className="flex flex-col gap-4 text-[14px] text-[#758886] leading-relaxed">
             <p>
               {blog.description}
             </p>
+            {/* duplicating description to simulate long content as per design */}
             <p>
               {blog.description}
             </p>
@@ -52,30 +57,26 @@ const TechInnovationsPage: React.FC<BlogProps> = ({ blog }) =>  {
           </h2>
 
           <div className="flex flex-col gap-6 w-full">
-            {/* Two Small Cards */}
+            
+            {/* Two Small Cards Row */}
             <div className="grid grid-cols-2 gap-6 w-full">
               {/* Image 1 */}
               <div className="relative w-full h-[130px] md:h-[318px] rounded-2xl overflow-hidden">
                 <img 
                   src={blog.image}
-                  alt="Speaker" 
-                  className="w-full h-full object-cover"
+                  alt="Gallery Item 1" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
-                {/* Gradient overlay  */}
-                <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply pointer-events-none"></div>
               </div>
 
               {/* Image 2 */}
               <div className="relative w-full h-[130px] md:h-[318px] rounded-2xl overflow-hidden">
                 <img 
                   src={blog.image}
-                  alt="Conference" 
-                  className="w-full h-full object-cover"
+                  alt="Gallery Item 2" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
-                {/* Interface overlay */}
-                <div className="absolute top-4 left-4 bg-blue-500/80 text-white text-[10px] px-2 py-1 rounded">
-                   Live
-                </div>
               </div>
             </div>
 
@@ -83,19 +84,19 @@ const TechInnovationsPage: React.FC<BlogProps> = ({ blog }) =>  {
             <div className="relative w-full h-[200px] md:h-[500px] rounded-2xl overflow-hidden group">
               <img 
                 src={blog.image}
-                alt="Keynote Speaker" 
+                alt="Video Preview" 
                 className="w-full h-full object-cover"
               />
-              {/* Overlay effect */}
-              <div className="absolute inset-0 bg-indigo-900/40 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-indigo-900/40 mix-blend-multiply transition-opacity group-hover:bg-indigo-900/30"></div>
               
               {/* Play Button */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <button className="w-12 h-12 md:w-16 md:h-16 bg-[#EAB308] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                <button className="w-12 h-12 md:w-16 md:h-16 bg-[#EAB308] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <Play className="fill-white text-white ml-1" size={20} />
                 </button>
               </div>
             </div>
+
           </div>
         </div>
 

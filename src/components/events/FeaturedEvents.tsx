@@ -14,21 +14,25 @@ const FeaturedEvents: React.FC = () => {
   const DESKTOP_INACTIVE_W = 640;
   const DESKTOP_GAP = 60;
 
+  const TABLET_ACTIVE_W = 600;
+  const TABLET_INACTIVE_W = 450;
+  const TABLET_GAP = 24;
+
   const MOBILE_CARD_W = 300;
   const MOBILE_GAP = 16;
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize();
+    handleResize(); 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const isMobile = windowWidth < 768;
+  const isTablet = windowWidth >= 768 && windowWidth < 1280;
 
   useEffect(() => {
     const interval = setInterval(() => {
-
       setIsTransitioning(true);
       setCurrentIndex((prev) => prev + 1);
     }, 5000);
@@ -36,10 +40,9 @@ const FeaturedEvents: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  //Infinite Loop Reset
+  // Infinite Loop Reset
   useEffect(() => {
     if (currentIndex >= events.length * 2) {
-      // Wait for the slide animation to finish (700ms), then snap back silently
       timeoutRef.current = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex(currentIndex - events.length);
@@ -52,26 +55,51 @@ const FeaturedEvents: React.FC = () => {
   }, [currentIndex]);
 
   const getTranslateX = () => {
-    const activeWidth = isMobile ? MOBILE_CARD_W : DESKTOP_ACTIVE_W;
-    const inactiveWidth = isMobile ? MOBILE_CARD_W : DESKTOP_INACTIVE_W;
-    const gap = isMobile ? MOBILE_GAP : DESKTOP_GAP;
+    let activeWidth, inactiveWidth, gap;
+
+    if (isMobile) {
+      activeWidth = MOBILE_CARD_W;
+      inactiveWidth = MOBILE_CARD_W;
+      gap = MOBILE_GAP;
+    } else if (isTablet) {
+      activeWidth = TABLET_ACTIVE_W;
+      inactiveWidth = TABLET_INACTIVE_W;
+      gap = TABLET_GAP;
+    } else {
+      activeWidth = DESKTOP_ACTIVE_W;
+      inactiveWidth = DESKTOP_INACTIVE_W;
+      gap = DESKTOP_GAP;
+    }
     
     const screenCenter = windowWidth / 2;
-    
     const activeCardCenter = activeWidth / 2;
-    
     const targetLeftPos = screenCenter - activeCardCenter;
-
     const widthOfPreviousItems = currentIndex * (inactiveWidth + gap);
     
     return targetLeftPos - widthOfPreviousItems;
+  };
+
+  const getGapValue = () => {
+    if (isMobile) return MOBILE_GAP;
+    if (isTablet) return TABLET_GAP;
+    return DESKTOP_GAP;
   };
 
   return (
     <div className="w-full flex flex-col items-center bg-white overflow-x-hidden py-10">
       
       {/* HEADER SECTION */}
-      <div className="w-full max-w-[1512px] px-6 md:px-[120px] mb-8 md:mb-12">
+      <div className="
+        w-full max-w-[1512px] 
+        
+        px-6 
+        md:px-12 
+        xl:px-[120px] 
+        
+        mb-8 
+        md:mb-6 
+        xl:mb-12
+      ">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 w-full">
           <h2 className="text-[#1A3C34] text-center text-[24px] font-bold leading-tight shrink-0">
             Featured Events
@@ -84,22 +112,36 @@ const FeaturedEvents: React.FC = () => {
       </div>
 
       {/* CAROUSEL TRACK */}
-      <div className="w-full relative h-[334px] md:h-[600px] flex items-center">
+      <div className="
+        w-full relative flex items-center
+        h-[334px] 
+        md:h-[500px] 
+        xl:h-[600px] 
+      ">
         <div 
           className={`flex absolute left-0 items-center h-full ease-[cubic-bezier(0.25,1,0.5,1)] ${isTransitioning ? 'transition-transform duration-700' : ''}`}
           style={{ 
             transform: `translateX(${getTranslateX()}px)`,
-            gap: isMobile ? `${MOBILE_GAP}px` : `${DESKTOP_GAP}px`
+            gap: `${getGapValue()}px`
           }}
         >
           {extendedEvents.map((event, index) => {
             const isActive = index === currentIndex;
             
-            const sizeClasses = isMobile
-              ? 'w-[300px] h-[334px]'
-              : isActive 
+            let sizeClasses = '';
+            
+            if (isMobile) {
+              sizeClasses = 'w-[300px] h-[334px]';
+            } else if (isTablet) {
+              sizeClasses = isActive 
+                ? 'w-[600px] h-[500px]' 
+                : 'w-[450px] h-[380px]';
+            } else {
+              // Desktop
+              sizeClasses = isActive 
                 ? 'w-[800px] h-[600px]' 
                 : 'w-[640px] h-[480px]';
+            }
 
             return (
               <div

@@ -1,13 +1,48 @@
+import React from 'react';
+
 const NewsletterBanner: React.FC = () => {
   return (
     // Main Container
-    <div className="w-full max-w-[1512px] mx-auto flex flex-col items-center justify-center 
-                    py-10 px-6 md:px-[120px] gap-6 bg-white">
+    <div className="
+      w-full max-w-[1512px] mx-auto 
+      flex flex-col items-center justify-center 
+      bg-white
       
-      {/* Card */}
-      <div className="relative w-full md:max-w-[1272px] md:h-auto h-[400px] md:min-h-[231px]
-                      rounded-3xl p-10 flex flex-col items-center justify-center gap-4
-                      overflow-hidden bg-[#EAF4FA] shadow-sm isolation-auto">
+      py-10 
+      md:py-12 
+      xl:py-10
+
+      px-6 
+      md:px-12 
+      xl:px-[120px]
+
+      gap-6
+    ">
+      
+      {/* Card Container */}
+
+      <div className="
+        relative 
+        w-full 
+        md:max-w-[1272px] 
+        
+        h-[400px] 
+        md:h-auto 
+        md:min-h-[231px]
+        
+        rounded-3xl 
+        md:rounded-3xl
+
+        p-10 
+        md:p-10
+        
+        flex flex-col items-center justify-center 
+        
+        gap-4 
+        md:gap-4
+
+        overflow-hidden bg-[#EAF4FA] shadow-sm isolation-auto
+      ">
         
         {/* Background Image */}
         <div 
@@ -19,10 +54,10 @@ const NewsletterBanner: React.FC = () => {
         <div className="absolute inset-0 bg-linear-to-r from-[#EAF4FA] via-white/40 to-[#EAF4FA] opacity-80 z-0"></div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[660px]">
+        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[660px] gap-4 md:gap-4">
           
           {/* Heading & Description */}
-          <div className="flex flex-col items-center gap-1 mb-6">
+          <div className="flex flex-col items-center gap-1">
             <h2 className="text-[24px] font-bold text-[#10383A] leading-tight">
               Never Miss a Moment!
             </h2>
@@ -31,7 +66,7 @@ const NewsletterBanner: React.FC = () => {
             </p>
           </div>
 
-          <form className="flex flex-col md:flex-row items-center justify-center gap-2 w-full md:w-auto">
+          <form className="flex flex-col md:flex-row items-center justify-center gap-2 w-full md:w-auto mt-2 md:mt-0">
             
             <input 
               type="email" 
@@ -44,7 +79,7 @@ const NewsletterBanner: React.FC = () => {
             <button
               type="button"
               className="w-auto rounded-[105px] bg-[#DAA520] hover:bg-[#C59216] 
-                         text-white font-medium py-3 px-8 transition-colors whitespace-nowrap"
+                         text-white font-medium py-3 px-8 transition-colors whitespace-nowrap shadow-sm"
             >
               Subscribe
             </button>

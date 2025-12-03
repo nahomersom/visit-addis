@@ -21,8 +21,11 @@ const ActivityExploreLocations: React.FC = () => {
   const mapImageSrc = "https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80";
 
   return (
-    <div className="w-full max-w-[1512px] mx-auto flex flex-col 
-                    py-10 px-6 md:px-[120px] gap-6 bg-white">
+    <div className="
+      w-full max-w-[1512px] mx-auto flex flex-col bg-white
+      py-10 gap-6
+      px-6 md:px-12 xl:px-[120px] 
+    ">
         
       {/* Heading */}
       <h2 className="text-2xl md:text-3xl font-bold text-[#10383A] text-left">
@@ -31,12 +34,15 @@ const ActivityExploreLocations: React.FC = () => {
 
       <div className="w-full flex flex-col xl:flex-row xl:items-center xl:justify-between min-h-14 gap-6 xl:gap-0">
         
+        {/* Categories */}
         <div className="
           flex flex-row items-center
           overflow-x-auto xl:overflow-visible 
           gap-3 
           pb-4 xl:pb-0 
-          -mx-6 px-6 xl:mx-0 xl:px-0
+          -mx-6 px-6 
+          md:-mx-12 md:px-12
+          xl:mx-0 xl:px-0
           no-scrollbar snap-x
         ">
           {categories.map((cat) => {
@@ -84,7 +90,10 @@ const ActivityExploreLocations: React.FC = () => {
 
       {/* Map Container */}
       <div className="relative w-full mt-2 xl:mt-0">
-        <div className="w-full h-[250px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-sm border border-gray-100 relative group">
+        {/* 
+           Map Dimensions
+        */}
+        <div className="w-full h-[250px] md:h-[500px] rounded-2xl overflow-hidden shadow-sm border border-gray-100 relative group">
             <img 
               src={mapImageSrc} 
               alt="Map Location" 

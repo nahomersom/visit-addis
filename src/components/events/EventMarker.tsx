@@ -76,14 +76,26 @@ const PlaceLabel: React.FC<PlaceLabelProps> = ({ top, left, name, subText, iconT
   );
 };
 
-//Main Component 
+// Main Component 
 const ExploreEvents: React.FC = () => {
   return (
     <div className="w-full flex justify-center bg-white">
-      <div className="w-full max-w-[1512px] flex flex-col gap-6 
-                      py-10 px-6 
-                      md:px-[120px] md:py-10 
-                      mobile-border-container">
+      <div className="
+        w-full max-w-[1512px] 
+        flex flex-col 
+      
+        px-6 py-10
+        
+        md:px-12 
+        md:py-12
+      
+        xl:px-[120px] 
+        xl:py-10
+        
+        gap-6
+        
+        mobile-border-container
+      ">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-4 md:gap-0">
@@ -96,7 +108,17 @@ const ExploreEvents: React.FC = () => {
         </div>
 
         {/* Map Container */}
-        <div className="relative w-full h-[400px] md:h-[582px] rounded-2xl border border-gray-200 overflow-hidden bg-[#F3F4F6]">
+
+        <div className="
+          relative 
+          w-full 
+          h-[400px] 
+          md:h-[582px] 
+          rounded-2xl 
+          border border-gray-200 
+          overflow-hidden 
+          bg-[#F3F4F6]
+        ">
           
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3566.0301397406624!2d38.8018931744987!3d9.00967568929219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85f05cce0335%3A0x58b27f3747bc403f!2sAblaze%20Labs!5e1!3m2!1sen!2set!4v1764447684183!5m2!1sen!2set"

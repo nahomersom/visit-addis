@@ -1,8 +1,10 @@
+import React from 'react';
+
 const ActivityNewLetter: React.FC = () => {
   return (
     // Main Container
     <div className="w-full max-w-[1512px] mx-auto flex flex-col items-center justify-center 
-                    py-10 px-6 md:px-[120px] gap-6 bg-white">
+                    py-10 px-6 md:px-12 xl:px-[120px] gap-6 bg-white">
       
       {/* Card */}
       <div className="relative w-full md:max-w-[1272px] md:h-auto h-[400px] md:min-h-[231px]

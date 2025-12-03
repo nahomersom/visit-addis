@@ -3,19 +3,20 @@ import { Etiquette } from "@/constant"
 const CulturalEtiquette = () => {
   return (
     // MAIN CONTAINER
-    <section className="w-full max-w-[1512px] mx-auto flex flex-col gap-6 px-6 py-10 md:px-[120px] md:py-[60px]">
+    <section className="w-full max-w-[1512px] mx-auto flex flex-col gap-6 px-6 py-10 md:px-12 md:py-[60px] xl:px-[120px]">
       
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row justify-between text-center md:items-center w-full max-w-[1272px] mx-auto gap-4 md:gap-0">
-        <h1 className="text-[#10383A] text-[24px] font-semibold">
+      <div className="flex flex-col xl:flex-row justify-between items-center md:items-start xl:items-center w-full max-w-[1272px] mx-auto gap-4 xl:gap-0">
+        <h1 className="text-[#10383A] text-[24px] font-semibold text-center md:text-left">
           Cultural Etiquette
         </h1>
 
-        <p className="text-[#758886] text-[14px] max-w-[500px] mx-auto lg:mx-0 text-left md:text-left leading-[150%]">
+        <p className="text-[#758886] text-[14px] max-w-[500px] mx-auto md:mx-0 text-center md:text-left leading-[150%]">
           Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet.
         </p>
       </div>
 
+      {/* CARDS CONTAINER */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-[1272px] mx-auto">
         {Etiquette.map((items, index) => {
           const [firstWord, ...restWords] = items.title.split(" ")
@@ -52,7 +53,6 @@ const CulturalEtiquette = () => {
                 <div className="text-[#10383A] text-[12px] md:text-base text-center">
                   <span className="font-semibold">Tip:</span> {items.tip}
                 </div>
-
               </div>
             </div>
           )

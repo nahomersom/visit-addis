@@ -1,17 +1,28 @@
 import { EventHighlights } from '@/constant';
 
-
 const PastEventsHighlight: React.FC = () => {
   return (
-    <div className="w-full min-h-screen flex justify-center bg-white">
+    <div className="w-full flex justify-center bg-white">
 
       <div className="
         w-full max-w-[1512px]
-        px-6 py-10
-        md:px-[120px] 
-        flex flex-col gap-6
+        flex flex-col 
+        
+        /* Vertical Padding: Mobile 40px, Tablet 48px, Desktop 40px */
+        py-10 
+        md:py-12 
+        xl:py-10
+
+        /* Horizontal Padding: Mobile 24px, Tablet 48px, Desktop 120px */
+        px-6 
+        md:px-12 
+        xl:px-[120px]
+
+        /* Main Container Gap: 24px */
+        gap-6
       ">
 
+        {/* HEADER SECTION */}
         <div className="
           w-full 
           flex flex-col xl:flex-row 
@@ -30,9 +41,13 @@ const PastEventsHighlight: React.FC = () => {
         </div>
 
         {/* 
-          CARDS CONTAINER
+          CARDS CONTAINER 
+          Tablet Logic:
+          - Width available: ~738px (834px screen - 96px padding)
+          - Grid cols: 2
+          - Gap: 16px
+          - Result: Each card is (738 - 16) / 2 = 361px wide.
         */}
-
         <div className="
           grid 
           grid-cols-1 
@@ -46,8 +61,9 @@ const PastEventsHighlight: React.FC = () => {
               key={index}
               className="group relative w-full rounded-2xl overflow-hidden"
             >
-
-              <div className="h-[260px] xl:h-[400px] w-full relative">
+              
+              {/* Card Height: Mobile 260px, Tablet/Desktop Fixed 400px */}
+              <div className="h-[260px] md:h-[400px] w-full relative">
                 
                 {/* Image */}
                 <img 
@@ -59,9 +75,7 @@ const PastEventsHighlight: React.FC = () => {
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
 
-                {/* 
-                  Card Content 
-                */}
+                {/* Card Content */}
                 <div className="absolute inset-0 p-6 flex flex-col justify-end items-start">
                   
                   <div className="flex flex-col gap-1 mb-4 transform transition-transform duration-300 group-hover:-translate-y-1">

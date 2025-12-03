@@ -10,7 +10,7 @@ const Blogs = () => {
         <BlogHero />
         <LatestBlogStories />
         <BlogNewsLetter />
-        <VoiceOfAddis />
+        <VoiceOfAddis title="Voice of Addis"/>
     </main>
   )
 }

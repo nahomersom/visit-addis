@@ -13,7 +13,7 @@ export const SITE_CONFIG = {
 
 export const NAV_LINKS = [
   { label: "Culture And Lifestyle", href: ROUTES.WHAT_TO_DO },
-  { label: "Things To Do", href: ROUTES.WHERE_TO_STAY },
+  // { label: "Things To Do", href: ROUTES.WHERE_TO_STAY },
   { label: "Plan Your Trip", href: ROUTES.EVENTS },
   { label: "Festivals And Events", href: ROUTES.PLAN_YOUR_TRIP },
   { label: "Guide", href: ROUTES.ABOUT },

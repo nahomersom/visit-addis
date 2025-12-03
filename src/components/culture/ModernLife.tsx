@@ -2,29 +2,46 @@ import { ModernLifeData } from "@/constant"
 
 const ModernLife = () => {
   return (
-    // Updated Main Container:
-    <div className="w-full max-w-[1512px] mx-auto h-auto bg-[#F7F8F7] py-10 px-6 md:px-[120px] flex flex-col gap-10 lg:gap-[120px]">
+    <div className="w-full max-w-[1512px] mx-auto h-auto bg-[#F7F8F7] flex flex-col 
+      py-10 px-6 gap-10 
+      md:py-[60px] md:px-12 md:gap-[60px] 
+      lg:gap-[120px] lg:px-[120px] lg:py-10">
 
       {ModernLifeData.map((items, index) => (
         <div
           key={index}
-          className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:gap-[60px]"
+          className="flex justify-between items-center 
+            flex-col gap-6 
+            md:flex-row md:gap-[60px]"
         >
           {/* TEXT Section */}
-          <div className="w-full lg:flex-1 h-auto text-center lg:text-left">
+          <div className="w-full h-auto 
+            text-center 
+            md:w-1/2 md:text-left
+            lg:flex-1">
+            
             <h1 className="text-[24px] font-semibold leading-[150%] text-[#10383A]">
               {items.title}
             </h1>
 
-            <div className="bg-[#DAA112] w-[210px] h-0.5 mt-6 mx-auto lg:mx-0"></div>
+            <div className="bg-[#DAA112] w-[210px] h-0.5 
+              mx-auto mt-6 
+              md:mx-0 md:mt-4 
+              lg:mt-6"></div>
 
-            <p className="mt-6 text-[#758886]">
+            <p className="text-[#758886]
+              mt-6 
+              md:mt-4 
+              lg:mt-6">
               {items.description}
             </p>
           </div>
 
           {/* IMAGE Section */}
-          <div className="w-full lg:w-1/2 h-auto lg:h-[400px] shrink-0 flex justify-center lg:justify-end">
+          <div className="w-full shrink-0 flex 
+            justify-center h-auto
+            md:w-1/2 md:justify-end md:h-[262px]
+            lg:h-[400px]">
             <img
               src={items.image}
               className="w-full h-full object-cover rounded-xl rounded-tl-[150px]"
@@ -33,7 +50,6 @@ const ModernLife = () => {
           </div>
         </div>
       ))}
-
     </div>
   )
 }

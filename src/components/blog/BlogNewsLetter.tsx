@@ -1,12 +1,20 @@
+import React from 'react';
+
 const BlogNewsLetter: React.FC = () => {
   return (
     // Main Container
-    <div className="w-full max-w-[1512px] mx-auto flex flex-col items-center justify-center 
-                    py-10 px-6 md:px-[120px] gap-6 bg-white">
+    <div className="w-full max-w-[1512px] mx-auto flex flex-col items-center justify-center bg-white
+                    py-10 px-6 gap-6
+                    md:py-10 md:px-12 md:gap-6
+                    xl:px-[120px] xl:py-10">
       
       {/* Card */}
-      <div className="relative w-full md:max-w-[1272px] md:h-auto h-[400px] md:min-h-[231px]
-                      rounded-3xl p-10 flex flex-col items-center justify-center gap-4
+      <div className="relative w-full 
+                      h-[400px] 
+                      md:h-auto md:min-h-[231px] md:rounded-3xl md:p-10 md:gap-4
+                      xl:rounded-3xl xl:p-10
+                      
+                      rounded-3xl p-6 flex flex-col items-center justify-center gap-6
                       overflow-hidden bg-[#EAF4FA] shadow-sm isolation-auto">
         
         {/* Background Image */}
@@ -19,20 +27,20 @@ const BlogNewsLetter: React.FC = () => {
         <div className="absolute inset-0 bg-linear-to-r from-[#EAF4FA] via-white/40 to-[#EAF4FA] opacity-80 z-0"></div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[600px]">
+        <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[600px] 
+                        gap-4 md:gap-4">
           
           {/* Heading & Description */}
-          <div className="flex flex-col items-center gap-1 mb-6">
+          <div className="flex flex-col items-center gap-1">
             <h2 className="text-[24px] font-bold text-[#10383A] leading-tight">
               <span className="text-[#1EAA9D]">Subscribe</span> to our newsletter
             </h2>
             <p className="text-[14px] text-[#758886] font-normal">
-              Stay connected and don’t miss our exciting updates and exclusive deals! Sign up for our
-              newsletter to receive the latest news directly in your inbox.
+              Stay connected and don’t miss our exciting updates and exclusive deals!
             </p>
           </div>
 
-          <form className="flex flex-col md:flex-row items-center justify-center gap-2 w-full md:w-auto">
+          <form className="flex flex-col md:flex-row items-center justify-center gap-2 w-full md:w-auto mt-2 md:mt-0">
             
             <input 
               type="email" 

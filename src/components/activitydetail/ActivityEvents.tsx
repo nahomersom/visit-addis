@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface EventData {
   id: number;
   title: string;
@@ -41,8 +39,12 @@ const ActivityEvents: React.FC = () => {
       <div className="
         w-full max-w-[1512px] 
         flex flex-col 
+      
         px-6 py-10 gap-6 
-        md:px-[120px] md:py-10
+
+        md:px-12 md:py-10 md:gap-6
+        
+        xl:px-[120px]
       ">
         
         {/* 
@@ -72,14 +74,26 @@ const ActivityEvents: React.FC = () => {
         {/* 
           Cards Container 
         */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+        <div className="
+          grid 
+          w-full 
+          gap-4
+          
+          grid-cols-1 
+          
+          md:grid-cols-2 
+          
+          xl:grid-cols-3
+        ">
           {events.map((event) => (
             <div 
               key={event.id}
               className="
                 relative 
                 w-full 
+                
                 h-60 md:h-[400px] 
+                
                 rounded-2xl 
                 overflow-hidden 
                 group
@@ -95,7 +109,7 @@ const ActivityEvents: React.FC = () => {
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
-              {/* Content within Card */}
+              {/* Content */}
               <div className="
                 relative 
                 h-full 
