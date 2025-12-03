@@ -22,7 +22,7 @@ export function VisaInformation() {
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-sm md:text-xl font-semibold text-text-dark-100 text-center">
+          <h3 className="text-sm lg:text-xl font-semibold text-text-dark-100 text-center">
             Visa Types
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">

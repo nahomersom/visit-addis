@@ -1,5 +1,6 @@
 
 import { useState } from "react"
+import React from "react"
 import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -12,20 +13,23 @@ export function ExperienceCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [direction, setDirection] = useState(0) // 1 for next, -1 for prev
   const [isAnimating, setIsAnimating] = useState(false)
+  const [renderKey, setRenderKey] = useState(0)
 
   const nextSlide = () => {
     if (isAnimating) return
     setIsAnimating(true)
     setDirection(1)
     
-    // Wait for animation to complete, then update slide
+    // Wait for full animation to complete (800ms) before updating slide
+    // This keeps "a" as first during animation and allows "b", "c", "d" to slide smoothly
     setTimeout(() => {
       setCurrentSlide((prev) => (prev + 1) % experienceSlides.length)
+      setRenderKey(prev => prev + 1) // Force re-render
       setTimeout(() => {
         setIsAnimating(false)
         setDirection(0)
       }, 50)
-    }, 500)
+    }, 800) // Match the slide animation duration
   }
 
   const prevSlide = () => {
@@ -42,14 +46,14 @@ export function ExperienceCarousel() {
   }
 
   // Get visible slides (from currentSlide onwards)
-  const getVisibleSlides = () => {
+  const visibleSlides = React.useMemo(() => {
     const visible: Array<{ slide: typeof experienceSlides[0], index: number }> = []
     for (let i = 0; i < experienceSlides.length; i++) {
       const index = (currentSlide + i) % experienceSlides.length
       visible.push({ slide: experienceSlides[index], index })
     }
     return visible
-  }
+  }, [currentSlide])
 
   return (
     <section 
@@ -95,41 +99,124 @@ export function ExperienceCarousel() {
           <div className="flex-1 flex flex-col items-center justify-center gap-6 z-50">
             {/* Carousel Images */}
             <div className="relative flex gap-4 items-center justify-center ">
-              {getVisibleSlides().map(({ slide, index }, displayIndex) => {
+              {visibleSlides.map(({ slide, index }, displayIndex) => {
                 const isFirst = displayIndex === 0
+                const isLast = displayIndex === visibleSlides.length - 1
                 const shouldAnimateOut = isFirst && direction === 1 && isAnimating
                 const shouldAnimateIn = isFirst && direction === -1
+                // Images that slide left to make space (all except first and last)
+                const shouldSlideLeft =
+                direction === 1 &&
+                isAnimating &&
+                !isFirst // slide everything except the item being removed
+              
+                // The last image is the one that was first, entering from right
+                const shouldEnterFromRight = isLast && direction === 1 && isAnimating
                 
                 return (
-                  <motion.div
-                    key={`${slide.id}-${index}-${currentSlide}`}
-                    initial={shouldAnimateIn
-                      ? { opacity: 0, x: -600, height: '600px' }
-                      : { opacity: 1, x: 0 }
-                    }
-                    animate={shouldAnimateOut
-                      ? { scale: 1.5, opacity: 0, x: 0 }
-                      : shouldAnimateIn
-                      ? { opacity: 1, x: 0, height: '320px' }
-                      : { opacity: 1, x: 0 }
-                    }
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="relative rounded-2xl overflow-hidden"
-                    style={{
-                      width: '292px',
-                      height: '290px',
-                    }}
-                  >
-                    <img
-                      src={slide.thumbnail}
-                      alt={slide.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback if image doesn't exist
-                        e.currentTarget.src = slide.image
-                      }}
-                    />
-                  </motion.div>
+         <motion.div
+  key={`${slide.id}-${currentSlide}-${displayIndex}-${renderKey}`}
+  initial={
+    shouldAnimateIn
+      ? {
+          opacity: 0,
+          x: -500,
+          scale: 5,
+          transition:{
+            duration: 2
+          }
+        }
+      : shouldEnterFromRight
+      ? {
+          opacity: 0,
+          x: 316, // Start from right (292px width + 24px gap) - slides in from right
+          scale: 0.9,
+        }
+      : shouldSlideLeft
+      ? {
+          x: 316, // Start from one position to the right
+          opacity: 1,
+          scale: 1,
+        }
+      : {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+        }
+  }
+  animate={
+    shouldAnimateOut
+      ? {
+          // NEXT: first image zooms in slightly + moves left + fades
+          x: -500,
+          scale: 5,
+          opacity: 0,
+          transition:{
+            duration: 1
+          }
+        }
+      : shouldAnimateIn
+      ? {
+          // PREV: new first image matches NEXT but reversed
+          x: 0,
+          scale: 1,
+          opacity: 1,
+          transition: {
+            duration: 1,
+            ease: [0.25, 0.1, 0.25, 1],
+          }
+        }
+      : shouldSlideLeft
+      ? {
+          // NEXT: images slide left to make space (b, c, d all use this)
+          x: 0,
+          opacity: 1,
+          scale: 1,
+          transition: {
+            duration: 0.8,
+            ease: [0.4, 0, 0.2, 1], // Explicit transition to prevent bounce
+          }
+        }
+      : shouldEnterFromRight
+      ? {
+          // NEXT: last image (was first) slides in from right to last position
+          x: 0,
+          scale: 1,
+          opacity: 1,
+        }
+      : {
+          // Default state
+          x: 0,
+          opacity: 1,
+          scale: 1,
+        }
+  }
+  transition={
+    shouldAnimateOut
+      ? { duration: 1 }
+      : shouldAnimateIn
+      ? { duration: 1, ease: [0.25, 0.1, 0.25, 1] } // Reverse animation for previous button
+      : shouldSlideLeft || shouldEnterFromRight
+      ? { duration: 0.8, ease: [0.4, 0, 0.2, 1] } // Same smooth slide for b, c, d - no bounce (standard easing)
+      : { duration: 0 }
+  }
+  className="relative rounded-2xl overflow-hidden"
+  style={{
+    width: '292px',
+    height: '290px',
+  }}
+>
+  <img
+    src={slide.thumbnail}
+    alt={slide.title}
+    className="w-full h-full object-cover"
+    onError={(e) => {
+      e.currentTarget.src = slide.image
+    }}
+  />
+</motion.div>
+
+
                 )
               })}
             </div>

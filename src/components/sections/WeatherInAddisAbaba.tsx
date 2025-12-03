@@ -59,7 +59,7 @@ export function WeatherInAddisAbaba() {
           <h3 className="text-sm font-medium text-text-dark-100 text-center">
             The Four Seasons Of Ethiopia
           </h3>
-          <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 lg:gap-4">
+          <div className="grid grid-cols-2  md:grid-cols-4 gap-2 lg:gap-4">
             {seasons.map((season, index) => {
               return (
                 <div
@@ -85,7 +85,7 @@ export function WeatherInAddisAbaba() {
 
         {/* Current Weather Display */}
         <div 
-          className="bg-accent-80 rounded-2xl p-4 w-full relative overflow-hidden sm:h-52 h-auto"
+          className="bg-accent-80 rounded-2xl p-4 w-full relative overflow-hidden lg:h-52 h-auto"
           style={{
             backgroundImage: `url(${exploreBackground})`,
             backgroundSize: 'cover',
@@ -97,9 +97,9 @@ export function WeatherInAddisAbaba() {
             className="absolute inset-0 bg-accent-80"
             style={{ opacity: 0.8 }}
           />
-          <div className="relative z-10 flex flex-col sm:flex-row sm:flex-wrap items-center gap-2">
+          <div className="relative z-10 flex flex-col md:flex-row md:flex-wrap items-center gap-2">
             {/* Condition */}
-            <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full md:min-w-[500px] md:w-auto p-6 md:h-full h-auto">
+            <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full lg:min-w-[500px] lg:w-auto  p-6 md:h-full h-auto">
                 <div className="flex flex-col items-center justify-center gap-1 ">
 
                <span className=" md:text-2xl font-bold text-text-dark-100">

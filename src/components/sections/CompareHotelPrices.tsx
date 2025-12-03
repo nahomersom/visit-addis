@@ -110,7 +110,7 @@ export function CompareHotelPrices() {
           </p>
         </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col  lg:flex-row gap-4">
             {/* Destination */}
             <div className="flex-1 relative">
               <div className="relative">
