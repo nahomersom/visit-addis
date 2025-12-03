@@ -10,7 +10,7 @@ export function FindThingsToDo({
   description
 }: FindThingsToDoProps = {}) {
   return (
-        <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] ">
+        <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px] ">
 
       <div className="flex flex-col items-center justify-center mb-10 gap-2">
         <h2 className="md:text-2xl font-semibold text-text-dark-100">{title}</h2>

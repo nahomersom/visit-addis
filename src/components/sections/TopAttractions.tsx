@@ -74,7 +74,7 @@ const handleScroll = () => {
 
 
         <div
-          className="flex flex-col lg:flex-row lg:justify-between px-6 md:px-[48px] lg:px-[120px] gap-2 "
+          className="flex flex-col lg:flex-row lg:justify-between px-6 md:px-12 lg:px-[120px] gap-2 "
         >
           <h2 className="text-2xl font-semibold ">
             Top Attractions in Addis Ababa

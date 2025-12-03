@@ -1,6 +1,9 @@
 import { useState } from "react"
 import { mostLovedItems } from "@/data/whereToStay"
-
+import { SectionHeader } from "../common/SectionHeader"
+import { CallToActionBanner } from "../common/CallToActionBanner"
+import visitBackground from "@/assets/images/visitBackground.png"
+import planImage from "@/assets/images/plan.png"
 interface TagProps {
   label: string
 }
@@ -19,13 +22,12 @@ export function MostLovedByTourists() {
   const [hoveredMostLoved, setHoveredMostLoved] = useState<string | null>("1") // First card active by default
 
   return (
-    <section className="py-[60px] px-4 sm:px-8 md:px-16 lg:px-[120px]">
-      <div className="flex flex-col sm:flex-row justify-between mb-10 gap-4">
-        <h2 className="text-2xl font-semibold text-text-dark-100">Most Loved By Tourists</h2>
-        <p className="text-sm text-[#758886] max-w-[400px]">
-          Discover the city's favorite activities, showcasing a mix of historic treasures and lively cultural hubs.
-        </p>
-      </div>
+    <section className="py-10 md:py-[60px]  px-6 md:px-12 lg:px-[120px]">
+      
+      <SectionHeader
+      title="Most Loved By Tourists"
+      description=" Discover the city's favorite activities, showcasing a mix of historic treasures and lively cultural hubs."
+      />
 
       <div className="overflow-x-auto lg:overflow-x-visible pb-4 scrollbar-hide">
         <div className="flex gap-6 lg:justify-start">
@@ -36,14 +38,14 @@ export function MostLovedByTourists() {
                 key={item.id}
                 className={`flex flex-col shrink-0 rounded-3xl overflow-hidden transition-all duration-300 ${
                   isActive 
-                    ? 'w-[600px] sm:w-[400px] md:w-[500px] lg:w-[600px]' 
-                    : 'w-[208px] sm:w-[150px] md:w-[180px] lg:w-[208px]'
+                    ? 'md:w-[450px] lg:w-[600px]' 
+                    : 'w-52 sm:w-[150px] md:w-[180px] lg:w-52'
                 }`}
                 onMouseEnter={() => setHoveredMostLoved(item.id)}
                 onMouseLeave={() => setHoveredMostLoved("1")} // Return to first card being active on leave
               >
                 {/* Image Container */}
-                <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[669px] rounded-3xl overflow-hidden">
+                <div className="relative w-full h-[400px]  md:h-[600px] rounded-3xl overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
@@ -135,7 +137,23 @@ export function MostLovedByTourists() {
           {/* Spacer for right padding */}
           <div className="shrink-0 w-20"></div>
         </div>
+
       </div>
+              <div className="mt-10 lg:mt-8">
+
+        <CallToActionBanner
+            title={{
+              coloredText: "Plan",
+              regularText: "Your Day",
+            }}
+            description="Explore the vibrant city of Addis Ababa! Discover its rich culture, delicious cuisine, and stunning landscapes. Don't miss out on the chance to immerse yourself in this unique experience plan your visit today!"
+            buttonText="Plan Your Trip"
+            backgroundImage={visitBackground}
+            overlayColor="#F7F8F7"
+            showLogo
+            logoImage={planImage}
+          />
+        </div>
     </section>
   )
 }

@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button"
 import { whatsHotItems } from "@/data/whereToStay"
+import { SectionHeader } from "../common/SectionHeader"
 
 export function WhatsHotThisMonth() {
   return (
-    <section className="py-[60px] px-[120px]">
-      <div className="flex justify-between mb-10">
-        <h2 className="text-2xl text-text-dark-100 font-semibold">What's hot this month</h2>
-        <p className="text-sm text-[#758886] max-w-[400px]">
-          Visiting Ethiopia is easier than you think! From knowing the best time to visit and visa requirements to discovering must-see attractions and cultural experiences, we've made planning simple.
-        </p>
-      </div>
+    <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
+    
 
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,700px)_1fr] gap-4">
+        <SectionHeader
+            title="What's hot this month"
+            description="  Visiting Ethiopia is easier than you think! From knowing the best time to visit and visa requirements to discovering must-see attractions and cultural experiences, we've made planning simple."
+            />
+
+      <div className="grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] gap-4">
         {/* Main Story */}
-        <div className="w-full max-w-full lg:max-w-[826px]">
+        <div className="w-full overflow-hidden">
           <div className="relative h-[600px] rounded-2xl overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -65,7 +66,7 @@ export function WhatsHotThisMonth() {
           {whatsHotItems.slice(1).map((item) => (
             <div key={item.id} className="bg-accent-80 p-2 flex flex-col rounded-2xl w-full">
               {/* Image - no blur */}
-              <div className="relative w-full h-[190px] rounded-2xl overflow-hidden">
+              <div className="relative w-full h-40 lg:h-[190px] rounded-2xl overflow-hidden">
                 <img
                   src={item.image}
                   alt={item.title}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { iconicPlaces } from "@/data/whereToStay"
 import exploreBackground from "@/assets/images/exploreBackground.png"
+import { SectionHeader } from "../common/SectionHeader"
 
 export function IconicPlaces() {
   const [hoveredIconic, setHoveredIconic] = useState<string | null>(null)
@@ -33,48 +34,57 @@ export function IconicPlaces() {
   }
 
   return (
-    <section className="py-[60px] px-[120px]">
-      <div className="flex justify-between mb-10">
-        <h2 className="text-2xl font-semibold text-black/80">Iconic Places You Need To See</h2>
-        <p className="text-sm text-[#758886] max-w-[400px]">
-          Visiting Addis Ababa is easier than you think! From knowing the best time to visit and visa requirements to discovering must-see attractions and cultural experiences, we've made planning simple.
-        </p>
-      </div>
+    <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
+     
+      <SectionHeader
+      title="Iconic Places You Need To See"
+      description="Visiting Addis Ababa is easier than you think! From knowing the best time to visit and visa requirements to discovering must-see attractions and cultural experiences, we've made planning simple."
+      />
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {iconicPlaces.map((place) => {
           const isHovered = hoveredIconic === place.id
           return (
             <div
               key={place.id}
               className="flex flex-col cursor-pointer group"
-              onMouseEnter={() => setHoveredIconic(place.id)}
-              onMouseLeave={() => setHoveredIconic(null)}
+              onMouseEnter={() => {
+                if (window.innerWidth >= 1024) {
+                  setHoveredIconic(place.id)
+                }
+              }}
+              onMouseLeave={() => {
+                if (window.innerWidth >= 1024) {
+                  setHoveredIconic(null)
+                }
+              }}
             >
               {/* Image Container - shrinks when hovered */}
               <div
-                className="relative rounded-2xl overflow-hidden transition-all duration-300"
-                style={{ aspectRatio: isHovered ? '4/3' : '1/1' }}
+                className="relative rounded-2xl overflow-hidden transition-all duration-300 h-[146px] md:h-[146px] lg:h-auto"
+                style={window.innerWidth >= 1024 ? (isHovered ? { aspectRatio: '4/3' } : { aspectRatio: '1/1' }) : {}}
               >
                 <img
                   src={place.image}
                   alt={place.title}
-                  className="w-full h-full object-cover transition-all duration-300"
+                  className="w-full h-full md:min-h-[146px] lg:min-h-[350px] object-cover transition-all duration-300"
                 />
               </div>
               
               {/* Hover content - appears below image */}
               <div
-                className={`relative rounded-2xl mt-4 transition-all duration-300 overflow-hidden ${
+                className={`relative rounded-2xl mt-2 md:mt-2 lg:mt-4 transition-all duration-300 overflow-hidden min-h-[96px] max-h-[105px] opacity-100 p-4 lg:max-h-0 lg:opacity-0 lg:p-0 lg:min-h-0 ${
                   isHovered 
-                    ? 'max-h-[105px] opacity-100 p-4' 
-                    : 'max-h-0 opacity-0 p-0'
+                    ? 'lg:max-h-[105px] lg:opacity-100 lg:p-4 lg:min-h-[96px]' 
+                    : ''
                 }`}
               >
                 {/* Background image layer with opacity - same as CallToActionBanner */}
-                {isHovered && exploreBackground && (
+                {exploreBackground && (
                   <div
-                    className="absolute inset-0 rounded-2xl bg-cover bg-center bg-no-repeat z-0"
+                    className={`absolute inset-0 rounded-2xl bg-cover bg-center bg-no-repeat z-0 ${
+                      isHovered ? '' : 'lg:hidden'
+                    }`}
                     style={{
                       backgroundImage: `url(${exploreBackground})`,
                       opacity: 1,
@@ -83,9 +93,11 @@ export function IconicPlaces() {
                 )}
                 
                 {/* Overlay layer - same logic as CallToActionBanner */}
-                {isHovered && exploreBackground && (
+                {exploreBackground && (
                   <div
-                    className="absolute inset-0 rounded-2xl z-10"
+                    className={`absolute inset-0 rounded-2xl z-10 ${
+                      isHovered ? '' : 'lg:hidden'
+                    }`}
                     style={{
                       backgroundColor: getOverlayColor('#F9F9F9', 0.8),
                     }}
@@ -94,10 +106,10 @@ export function IconicPlaces() {
                 
                 {/* Content */}
                 <div className="relative z-20">
-                  <h3 className="text-lg font-semibold text-text-dark-100">
+                  <h3 className="text-base lg:text-lg font-semibold text-text-dark-100">
                     {place.title}
                   </h3>
-                  <p className="text-sm text-text-dark-80">
+                  <p className="text-xs lg:text-sm text-text-dark-80">
                     {place.description}
                   </p>
                 </div>

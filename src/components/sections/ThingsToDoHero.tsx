@@ -14,9 +14,11 @@ const ThingToDoHero = () => {
   
           {/* content */}
           <div className="relative flex flex-col items-center text-center w-full gap-3 px-4">
-              <h1 className="font-bold text-white text-[28px] md:text-[64px] ">
-                Explore a World of <span className="text-theme-primary">Activities</span> in Addis Ababa
-              </h1>
+             
+              <h1 className="text-2xl md:text-[64px] font-bold mb-2">
+            <span className="text-white"> Explore a World of  <span className="text-theme-primary">Activities</span> </span>
+            <div className="text-white"> in Addis Ababa</div>
+          </h1>
               <p className="text-white/80 text-[12px] md:text-[16px] w-full  md:max-w-[738px] lg:max-w-[840px] mx-auto">
               Addis Ababa blends rich traditions with a lively nightlife. Whether you want to explore history, enjoy local cuisine, dance, or meet friendly locals, this city has something for everyone.
               </p>
