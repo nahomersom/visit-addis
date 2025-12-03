@@ -10,6 +10,9 @@ import WhatToDo from "@/pages/WhatToDo"
 import Events from "@/pages/Events"
 import { PlanYourTrip } from "@/pages/PlanYourTrip"
 import { About } from "@/pages/About"
+import { Guide } from "@/pages/Guide"
+import { Detail } from "@/pages/Detail"
+
 import { NotFound } from "@/pages/NotFound"
 import { ROUTES } from "./routes"
 import Blogs from "@/pages/Blogs"
@@ -55,11 +58,18 @@ export const routeConfig: RouteConfig[] = [
     description: "Get all the information you need to plan your perfect trip to Addis Ababa",
   },
   {
+    path: ROUTES.GUIDE,
+    element: Guide,
+    title: "Guide",
+    description: "Learn more Guide Visit Addis Ababa and our mission",
+  },
+  {
     path: ROUTES.ABOUT,
     element: About,
     title: "About Us",
     description: "Learn more about Visit Addis Ababa and our mission",
   },
+
   {
     path: ROUTES.BLOGS,
     element: Blogs,
@@ -69,8 +79,15 @@ export const routeConfig: RouteConfig[] = [
     path: ROUTES.BlogDetail,
     element: BlogDetail,
     title: "Blog Detail",
-    description: "Blog Detail"
-  }
+    description: "Blog Detail",
+  },
+
+  {
+    path: ROUTES.DETAIL,
+    element: Detail,
+    title: "Detail",
+    description: "Travel Tips Detail",
+  },
 ]
 
 const ROUTER = createBrowserRouter(
@@ -89,4 +106,3 @@ const ROUTER = createBrowserRouter(
 )
 
 export default ROUTER
-

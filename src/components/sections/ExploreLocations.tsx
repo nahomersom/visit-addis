@@ -1,68 +1,202 @@
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { UtensilsCrossed, Bed } from "lucide-react"
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
+import L from "leaflet"
+import "leaflet/dist/leaflet.css"
+import { ADDIS_ABABA_CENTER, LOCATIONS } from "@/config/constants"
+import type { Location, LocationType } from "@/config/constants"
+import { LOCATION_FILTERS } from "./ExploreLocationsIcons"
 
-const filters = ["All", "Hotels", "Restaurants", "Shopping", "Attractions", "Events"]
+// Fix for default marker icons in react-leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+})
 
-export function ExploreLocations() {
-  const [activeFilter, setActiveFilter] = useState("All")
+// Custom marker icons with SVG icons
+const createCustomIcon = (color: string, type: LocationType) => {
+  const iconSvg = type === "eatery" 
+    ? `<svg width="16" height="16" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.206 0H1.1904C1.11797 0.00153125 1.04641 0.0161674 0.9792 0.0432C0.882008 0.0816787 0.796555 0.144882 0.731306 0.226548C0.666056 0.308215 0.623275 0.405512 0.6072 0.5088C0.588 0.6216 0 4.314 0 6C0 7.14 0.5304 8.1564 1.356 8.814C1.656 9.0552 1.8 9.3168 1.8 9.5352V10.1352C1.8 10.1568 1.7988 10.1784 1.7964 10.2C1.764 10.512 1.6152 11.9148 1.4748 13.3572C1.3368 14.7792 1.2 16.2972 1.2 16.8C1.2 17.4365 1.45286 18.047 1.90294 18.4971C2.35303 18.9471 2.96348 19.2 3.6 19.2C4.23652 19.2 4.84697 18.9471 5.29706 18.4971C5.74714 18.047 6 17.4365 6 16.8C6 16.296 5.8632 14.7792 5.7252 13.3572C5.62261 12.3047 5.5154 11.2527 5.4036 10.2012L5.4 10.1352V9.5352C5.4 9.3156 5.544 9.0552 5.844 8.814C6.26686 8.47692 6.60835 8.0489 6.84311 7.56173C7.07786 7.07457 7.19984 6.54078 7.2 6C7.2 4.3104 6.6084 0.6012 6.5928 0.5076C6.57515 0.394817 6.5257 0.289409 6.45024 0.203749C6.37478 0.118089 6.27646 0.0557327 6.1668 0.024C6.11647 0.00926948 6.06443 0.00120076 6.012 0H5.988H5.9892C5.82931 0.00126648 5.6764 0.0656715 5.56379 0.179182C5.45118 0.292692 5.38799 0.446107 5.388 0.606V5.406C5.38965 5.48401 5.37593 5.56157 5.34761 5.63427C5.31928 5.70697 5.27692 5.77338 5.22293 5.82971C5.16894 5.88604 5.10439 5.93118 5.03296 5.96256C4.96152 5.99394 4.88461 6.01095 4.8066 6.0126C4.72859 6.01426 4.65103 6.00053 4.57833 5.97221C4.50563 5.94388 4.43922 5.90152 4.38289 5.84753C4.32656 5.79354 4.28142 5.72899 4.25004 5.65756C4.21866 5.58612 4.20165 5.50921 4.2 5.4312V0.6C4.2 0.44087 4.13679 0.288258 4.02426 0.175736C3.91174 0.0632142 3.75913 0 3.6 0C3.44087 0 3.28826 0.0632142 3.17574 0.175736C3.06321 0.288258 3 0.44087 3 0.6V5.4L3.0012 5.4384C2.9969 5.59594 2.9302 5.74532 2.81577 5.85368C2.70133 5.96204 2.54854 6.0205 2.391 6.0162C2.23346 6.0119 2.08408 5.9452 1.97572 5.83077C1.86737 5.71633 1.8089 5.56354 1.8132 5.406V0.6072C1.8132 0.446368 1.74939 0.292106 1.63578 0.178268C1.52217 0.0644307 1.36683 0.000317849 1.206 0ZM9 5.4C9 3.96783 9.56893 2.59432 10.5816 1.58162C11.5943 0.568927 12.9678 0 14.4 0C14.5591 0 14.7117 0.0632142 14.8243 0.175736C14.9368 0.288258 15 0.44087 15 0.6V8.9736L15.024 9.2424C15.1175 10.3206 15.2087 11.399 15.2976 12.4776C15.4464 14.286 15.6 16.2708 15.6 16.8C15.6 17.4365 15.3471 18.047 14.8971 18.4971C14.447 18.9471 13.8365 19.2 13.2 19.2C12.5635 19.2 11.953 18.9471 11.5029 18.4971C11.0529 18.047 10.8 17.4365 10.8 16.8C10.8 16.272 10.9536 14.286 11.1024 12.4776C11.1768 11.5644 11.2524 10.6812 11.3088 10.0272L11.3448 9.6H10.8C10.3226 9.6 9.86477 9.41036 9.52721 9.07279C9.18964 8.73523 9 8.27739 9 7.8V5.4Z" fill="white"/></svg>`
+    : type === "hotel"
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm12-7h-8v7h8V7zm0-2c1.1 0 2 .9 2 2v11H3V7c0-1.1.9-2 2-2h14z" fill="white"/></svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="white"/></svg>`
+  
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="background-color: ${color}; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">${iconSvg}</div>`,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  })
+}
+
+
+interface ExploreLocationsProps {
+  fullWidth?: boolean
+  isForPlanyourTrp?: boolean
+}
+
+// Component to update map bounds when locations change
+function MapBoundsUpdater({ locations }: { locations: Location[] }) {
+  const map = useMap()
+  
+  useEffect(() => {
+    if (locations.length > 0) {
+      const bounds = L.latLngBounds(
+        locations.map(loc => [loc.lat, loc.lng] as [number, number])
+      )
+      map.fitBounds(bounds, { padding: [50, 50] })
+    }
+  }, [locations, map])
+  
+  return null
+}
+
+export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }: ExploreLocationsProps) {
+  const [activeFilter, setActiveFilter] = useState("Eatery")
+
+  const filteredLocations: Location[] = activeFilter === "Eatery" 
+    ? LOCATIONS.filter((loc: Location) => loc.type === "eatery")
+    : LOCATIONS
+
+  const gradientStyle = fullWidth ? {
+    background: `radial-gradient(75.26% 109.29% at 50% 50%, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.2) 16%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 84%, #FFFFFF 100%)`
+  } : {}
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-[60px]">
+      {/* Title and Description - Always with padding */}
+      <div className="max-w-full px-6 md:px-[48px] lg:px-[120px]">
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Explore Locations
+          
+          <div
+          className="flex flex-col lg:flex-row lg:justify-between gap-2  "
+        >
+          <div className="flex flex-col gap-2">
+          <h2 className={`text-2xl font-semibold ${isForPlanyourTrp ? 'self-start' : 'self-center'} md:self-start `}>
+          Explore Locations
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Find the best places to visit and things to do in Addis Ababa.
-          </p>
-        </motion.div>
-
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 rounded-full font-medium transition-colors ${
-                activeFilter === filter
-                  ? "bg-teal-500 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-
-        {/* Map */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative h-96 lg:h-[600px] rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-green-100 border border-gray-200"
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-teal-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-white text-2xl">📍</span>
+          <span className={`hidden md:block lg:hidden text-sm ${isForPlanyourTrp ? 'px-0' : 'px-6'} md:px-0 ${isForPlanyourTrp ? 'text-start' : 'text-center'}md:text-start text-[#758886] ${isForPlanyourTrp ? 'self-start' : (fullWidth ? 'self-center' : 'lg:self-end')}`}>
+            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
+          </span>
+            {/* Filters */}
+            <div className="flex gap-3 overflow-x-scroll scrollbar-hide -mx-6 md:-mx-[10px] lg:mx-0">
+              <div className="pl-6 md:pl-0 flex gap-3">
+                {LOCATION_FILTERS.map((filter) => {
+                  const isActive = activeFilter === filter.name
+                  const IconComponent = filter.Icon
+                  return (
+                    <button
+                      key={filter.name}
+                      onClick={() => setActiveFilter(filter.name)}
+                      className={`pl-1.5 pr-6 py-2 rounded-[100px] font-medium transition-colors flex items-center gap-2 cursor-pointer shrink-0 ${
+                        isActive
+                          ? "bg-theme-secondary text-white"
+                          : "bg-[#f5f5f5] text-text-dark-80 text-sm font-medium"
+                      }`}
+                    >
+                      <div className="size-11 rounded-full bg-white flex items-center justify-center">
+                        <IconComponent fill={isActive ? '#1EAA9D' : '#000000'} />
+                      </div>
+                      {filter.name}
+                    </button>
+                  )
+                })}
               </div>
-              <p className="text-gray-600">Interactive Map</p>
-              <p className="text-sm text-gray-500 mt-2">
-                Addis Ababa Bole International Airport, Hilton Addis Ababa,
-                <br />
-                National Museum of Ethiopia, Sheraton Addis, Friendship Park
-              </p>
+              <div className="pr-6 md:pr-0 shrink-0"></div>
             </div>
           </div>
+          
+          <span className={`md:hidden lg:block text-sm ${isForPlanyourTrp ? 'px-0' : 'px-6'} md:px-0 ${isForPlanyourTrp ? 'text-start' : 'text-center'}md:text-start text-[#758886] ${isForPlanyourTrp ? 'self-start' : (fullWidth ? 'self-center' : 'lg:self-end')}`}>
+            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
+          </span>
+        </div>
+          
+        
+
+        
         </motion.div>
+      </div>
+
+      {/* Map Container with gradient when fullWidth */}
+          <div className={`py-4 md:py-6 lg:py-4 ${fullWidth ? 'relative' : 'px-6 md:px-[48px] lg:px-[120px]'}`}
+           style={fullWidth ? gradientStyle : {}}
+          >
+
+    
+<div
+
+  className="relative h-[244px] md:h-[345px] lg:h-[500px] rounded-2xl overflow-hidden"
+>
+  {/* Gradient overlay - only when fullWidth */}
+  {fullWidth && (
+    <div
+      className="absolute inset-0 pointer-events-none z-[5]"
+      style={{
+        background: `
+          radial-gradient(75.26% 109.29% at 50% 50%, rgba(255,255,255,0) 0%, #FFFFFF 100%),
+          linear-gradient(
+            180deg, 
+            #FFFFFF 0%, 
+            rgba(255,255,255,0.2) 16%, 
+            rgba(255,255,255,0) 50%, 
+            rgba(255,255,255,0.2) 84%, 
+            #FFFFFF 100%
+          )
+        `,
+      }}
+    />
+  )}
+
+  <MapContainer
+    center={ADDIS_ABABA_CENTER}
+    zoom={13}
+    style={{ height: '100%', width: '100%', zIndex: 1 }}
+    scrollWheelZoom={true}
+  >
+    <TileLayer
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
+    <MapBoundsUpdater locations={filteredLocations} />
+
+    {filteredLocations.map((location, index) => (
+      <Marker
+        key={index}
+        position={[location.lat, location.lng]}
+        icon={createCustomIcon(
+          location.type === "eatery" 
+            ? "#ef4444" 
+            : location.type === "hotel"
+            ? "#ec4899"
+            : "#6b7280",
+          location.type
+        )}
+      >
+        <Popup>
+          <div className="flex items-center gap-2">
+            {location.type === "eatery" && (
+              <UtensilsCrossed className="w-4 h-4 text-red-500" />
+            )}
+            {location.type === "hotel" && (
+              <Bed className="w-4 h-4 text-pink-500" />
+            )}
+            <span className="font-medium">{location.name}</span>
+          </div>
+        </Popup>
+      </Marker>
+    ))}
+  </MapContainer>
+</div>
+
       </div>
     </section>
   )

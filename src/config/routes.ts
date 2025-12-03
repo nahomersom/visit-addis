@@ -4,7 +4,9 @@ export const ROUTES = {
   // WHERE_TO_STAY: "/where-to-stay",
   EVENTS: "/events",
   PLAN_YOUR_TRIP: "/plan-your-trip",
+  GUIDE: "/guide/",
   ABOUT: "/about",
   BLOGS: "/blogs",
   BlogDetail: "/blogs/:id",
-} as const
+  DETAIL: "/detail",
+} as const;

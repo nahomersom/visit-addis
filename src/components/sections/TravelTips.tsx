@@ -1,86 +1,107 @@
-import { motion } from "framer-motion"
-import {
-  HeartPulse,
-  ShieldCheck,
-  Phone,
-  FileText,
-  DollarSign,
-  CloudSun,
-  Plus,
-  type LucideIcon,
-} from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { travelTips } from "@/data/travelTips"
+import healthIcon from "@/assets/images/health.png"
+import safetyIcon from "@/assets/images/safety.png"
+import emergencyNumberIcon from "@/assets/images/emergencyNumber.png"
+import travelDocumentsIcon from "@/assets/images/traveldocuments.png"
+import currencyIcon from "@/assets/images/currency.png"
+import weatherIcon from "@/assets/images/weather.png"
+import { Plus, X } from "lucide-react"
+import { ROUTES } from "@/config/routes"
+import { SectionHeader } from "@/components/common/SectionHeader"
 
-const iconMap: Record<string, LucideIcon> = {
-  "heart-pulse": HeartPulse,
-  "shield-check": ShieldCheck,
-  phone: Phone,
-  "file-text": FileText,
-  "dollar-sign": DollarSign,
-  "cloud-sun": CloudSun,
+const iconMap: Record<string, string> = {
+  "heart-pulse": healthIcon,
+  "shield-check": safetyIcon,
+  phone: emergencyNumberIcon,
+  "file-text": travelDocumentsIcon,
+  "dollar-sign": currencyIcon,
+  "cloud-sun": weatherIcon,
 }
 
-export function TravelTips() {
-  return (
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Travel Tips
-            </h2>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-2"
-          >
-            <p className="text-lg text-gray-600">
-              Essential information to help you plan your visit to Addis Ababa.
-            </p>
-          </motion.div>
-        </div>
+interface TravelTipsProps {
+  isColumn?: boolean
+}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {travelTips.map((tip, index) => {
-            const Icon = iconMap[tip.icon] || FileText
+
+export function TravelTips({ isColumn = false }: TravelTipsProps) {
+  const [flippedCards, setFlippedCards] = useState<Set<string>>(new Set())
+
+  const toggleFlip = (tipId: string) => {
+    setFlippedCards((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(tipId)) {
+        newSet.delete(tipId)
+      } else {
+        newSet.add(tipId)
+      }
+      return newSet
+    })
+  }
+
+  return (
+    <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px]">
+      <SectionHeader
+        title="Travel Tips"
+        description="Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget."
+      />
+
+        {/* Tips list - horizontal scroll on mobile, grid on larger screens */}
+        <div className={`${isColumn ? 'flex flex-col gap-[16px]' : 'flex overflow-x-auto'} scrollbar-hide md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 ${isColumn ? 'mx-0 px-0' : '-mx-6 px-6'} md:mx-0 md:px-0`}>
+          {travelTips.map((tip) => {
+            const iconSrc = iconMap[tip.icon] || travelDocumentsIcon
+            const isFlipped = flippedCards.has(tip.id)
             return (
-              <motion.div
+              <div
                 key={tip.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className={`flip-card-container ${isColumn ? 'w-full md:w-auto' : 'shrink-0 w-[310px] md:w-auto'}`}
               >
-                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-teal-400 to-yellow-400 flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <Plus className="w-5 h-5 text-gray-600" />
-                      </button>
+                <div className={`flip-card-inner ${isFlipped ? 'flipped' : ''}`}>
+                  {/* Front of card */}
+                  <div className="flip-card-front p-6 bg-accent-80 rounded-3xl flex flex-col items-center justify-center gap-4">
+                    <img src={iconSrc} alt={tip.title} className="size-[60px] object-contain" />
+                    <div className="flex flex-col items-center text-center gap-1">
+                      <h3 className="text-lg font-semibold text-text-dark-100">
+                        {tip.title}
+                      </h3>
+                      <p className="text-sm text-text-dark-80 text-center">{tip.description}</p>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      {tip.title}
-                    </h3>
-                    <p className="text-sm text-gray-600">{tip.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                    <div 
+                      className="size-12 rounded-full bg-accent-100 flex items-center justify-center cursor-pointer hover:bg-accent-120 transition-colors"
+                      onClick={() => toggleFlip(tip.id)}
+                    >
+                      <Plus className="size-4 text-theme-dark" />
+                    </div>
+                  </div>
+
+                  {/* Back of card */}
+                  <div className="flip-card-back p-6 bg-accent-80 rounded-3xl flex flex-col items-center justify-center gap-4">
+                    <div className="flex flex-col items-center text-center gap-3 w-full">
+                      <h3 className="text-lg font-semibold text-text-dark-100">
+                        {tip.title}
+                      </h3>
+                      <p className="text-sm text-text-dark-80 text-center leading-relaxed">{tip.detailedDescription}</p>
+                      <Link 
+                        to={ROUTES.DETAIL}
+                        state={{ from: ROUTES.GUIDE }}
+                        className="text-sm text-theme-primary underline font-medium"
+                      >
+                        Read more
+                      </Link>
+                    </div>
+                    <div 
+                      className="size-12 rounded-full bg-theme-dark flex items-center justify-center cursor-pointer hover:bg-accent-120 transition-colors"
+                      onClick={() => toggleFlip(tip.id)}
+                    >
+                      <X className="size-6 text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             )
           })}
         </div>
-      </div>
     </section>
   )
 }

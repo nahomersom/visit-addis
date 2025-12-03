@@ -6,12 +6,14 @@ export default {
       colors: {
         theme: {
           primary: '#DAA112',
-          dark: '#1D2C33',
+          secondary: '#1EAA9D',
+          dark: '#10383A',
           white: '#FFFFFF',
         },
         accent: {
-          60: '#F3F2F1',
-          100: '#C4BBB8',
+          60: '#F5F5F5',
+          80: '#F7F8F7',
+          100: '#F0F0EE',
           default: '#FF5B5B',
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
@@ -28,7 +30,8 @@ export default {
           light80: '#fbfbfb',
           dark: {
             60: '#646D85',
-            100: '#1D2C33',
+            80: '#758886',
+            100: '#10383A',
           },
         },
         icon: {

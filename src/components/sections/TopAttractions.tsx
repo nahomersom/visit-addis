@@ -1,75 +1,146 @@
-import { motion } from "framer-motion"
-import { Heart, Star } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Heart } from "lucide-react"
 import { attractions } from "@/data/attractions"
+import locationIcon from "@/assets/icons/location.svg"
+import starIcon from "@/assets/icons/star.svg"
+import { useRef, useState } from "react"
+
+
+interface TagProps {
+  label: string
+}
+
+function Tag({ label }: TagProps) {
+  return (
+    <div className="px-4 py-2 rounded-[100px] bg-[rgba(0,0,0,0.1)] backdrop-blur-[34px]  border border-white/10 ">
+      <span className="text-sm text-white font-medium whitespace-nowrap">
+        {label}
+      </span>
+    </div>
+  )
+}
 
 export function TopAttractions() {
+  const [showLeft, setShowLeft] = useState(false);
+const [showRight, setShowRight] = useState(true);
+
+const scrollRef = useRef(null);
+
+const handleScroll = () => {
+  const el = scrollRef.current;
+  if (!el) return;
+
+  const { scrollLeft, scrollWidth, clientWidth } = el;
+
+  setShowLeft(scrollLeft > 0); 
+  setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+};
+
   return (
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+    <section className="py-10 md:py-[60px]  bg-accent-60 relative">
+    {/* LEFT GRADIENT — show only while scrolling */}
+  {/* LEFT FIXED GRADIENT (reversed) */}
+{showLeft && (
+  <div
+    className="pointer-events-none absolute left-0 top-0 h-full w-[40px] md:w-[150px] z-30 transition-opacity duration-300"
+    style={{
+      background: `
+        linear-gradient(
+          90deg,
+          #F5F5F5 0%,
+          rgba(245, 245, 245, 0.6) 40%,
+          rgba(245, 245, 245, 0) 100%
+        )
+      `,
+    }}
+  />
+)}
+
+{/* RIGHT FIXED GRADIENT (reversed) */}
+{showRight && (
+  <div
+    className="pointer-events-none absolute right-0 top-0 h-full w-[40px] md:w-[150px] z-30 transition-opacity duration-300"
+    style={{
+      background: `
+        linear-gradient(
+          270deg,
+          #F5F5F5 0%,
+          rgba(245, 245, 245, 0.6) 40%,
+          rgba(245, 245, 245, 0) 100%
+        )
+      `,
+    }}
+  />
+)}
+
+
+        <div
+          className="flex flex-col lg:flex-row lg:justify-between px-6 md:px-12 lg:px-[120px] gap-2 "
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-semibold ">
             Top Attractions in Addis Ababa
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover the best places to visit and things to do in Addis Ababa.
+          <p className="text-sm text-[#758886] max-w-[400px] text-center md:text-left">
+            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {attractions.map((attraction, index) => (
-            <motion.div
-              key={attraction.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="relative h-48 lg:h-64">
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-yellow-300"></div>
-                  <button className="absolute top-4 right-4 p-2 bg-white/90 rounded-full hover:bg-white transition-colors">
-                    <Heart className="w-5 h-5 text-gray-700" />
-                  </button>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    {attraction.title}
-                  </h3>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium text-gray-700">
+      {/* Scrollable area - full width with padding matching header */}
+      <div className="overflow-x-auto pb-4 scrollbar-hide mt-10"
+          ref={scrollRef}
+          onScroll={handleScroll}
+      >
+        <div className="flex gap-6 pl-6 md:pl-[48px] lg:pl-[120px]">
+            {attractions.map((attraction) => (
+            <div key={attraction.id} className="flex flex-col gap-2.5 shrink-0 ">
+                  {/* Image Container */}
+                  <div className="relative h-[235px] w-[324px] md:h-[565px] md:w-[460px]  ">
+                    <img
+                      src={attraction.image}
+                      alt={attraction.title}
+                      className="w-full h-full object-cover rounded-3xl"
+                    />
+                    {/* Heart Icon */}
+                    <button className="absolute top-6 right-6 h-10 w-10 flex items-center justify-center  rounded-full z-10 bg-[rgba(0,0,0,0.1)] backdrop-blur-[34px]  border border-white/10">
+                      <Heart className="w-5 h-5 text-white" />
+                    </button>
+                    {/* Tags Overlay */}
+                    <div className="absolute bottom-6 left-6 right-6 flex gap-2 flex-wrap">
+                      {attraction.tags.map((tag) => (
+                        <Tag key={tag} label={tag} />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="mt-2">
+                    <h3 className="text-lg lg:text-xl font-medium text-text-dark-100 mb-2">
+                      {attraction.title}
+                    </h3>
+                    <div className="flex justify-between">
+
+                    <div className="flex items-center gap-2 text-sm text-[#758886] mb-3">
+                       <img 
+              src={locationIcon} 
+              alt={`location logo`}
+            />
+                      <span>{attraction.location}</span>
+                    </div>
+                    <div className="flex gap-1">
+                      <img 
+              src={starIcon} 
+              alt={`star logo`}
+              className="w-6 h-6"
+            />
+                      <span className="text-sm font-semibold text-text-dark-100">
                         {attraction.rating}
                       </span>
                     </div>
-                    <span className="text-sm text-gray-500">
-                      {attraction.reviews} reviews
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {attraction.images} images
-                    </span>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {attraction.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            </div>
           ))}
+          {/* Spacer for right padding */}
+          <div className="shrink-0 w-20"></div>
         </div>
       </div>
     </section>

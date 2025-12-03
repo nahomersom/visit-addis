@@ -1,118 +1,166 @@
-import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+
+import { useState } from "react"
+import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Link } from "react-router-dom"
+import experienceBackground from "@/assets/images/experienceBackground.jpg"
 import { experienceSlides } from "@/data/experienceCarousel"
+import { ROUTES } from "@/config/routes"
+import { Button } from "@/components/ui/button"
 
 export function ExperienceCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % experienceSlides.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [direction, setDirection] = useState(0) // 1 for next, -1 for prev
+  const [isAnimating, setIsAnimating] = useState(false)
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % experienceSlides.length)
+    if (isAnimating) return
+    setIsAnimating(true)
+    setDirection(1)
+    
+    // Wait for animation to complete, then update slide
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % experienceSlides.length)
+      setTimeout(() => {
+        setIsAnimating(false)
+        setDirection(0)
+      }, 50)
+    }, 500)
   }
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + experienceSlides.length) % experienceSlides.length)
+    if (isAnimating) return
+    setIsAnimating(true)
+    setDirection(-1)
+    
+    // Update slide first, then animate in
+    setCurrentSlide((prev) => (prev - 1 + experienceSlides.length) % experienceSlides.length)
+    setTimeout(() => {
+      setIsAnimating(false)
+      setDirection(0)
+    }, 550)
   }
 
-  const currentSlide = experienceSlides[currentIndex]
+  // Get visible slides (from currentSlide onwards)
+  const getVisibleSlides = () => {
+    const visible: Array<{ slide: typeof experienceSlides[0], index: number }> = []
+    for (let i = 0; i < experienceSlides.length; i++) {
+      const index = (currentSlide + i) % experienceSlides.length
+      visible.push({ slide: experienceSlides[index], index })
+    }
+    return visible
+  }
 
   return (
-    <section className="relative py-16 lg:py-24 bg-black text-white overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Content */}
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-              {currentSlide.title}
+    <section 
+      className="relative py-[60px] text-white overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(${experienceBackground})`,
+      }}
+    >
+      {/* Black overlay with 50% opacity */}
+      <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)]"></div>
+      
+      <div className="container py-[100px] min-h-[964px] z-10 relative flex items-center justify-center">
+        <div className="flex gap-8 px-[120px] w-full">
+          {/* Left Side - Content */}
+          <div className="flex flex-col gap-6 justify-center flex-1 z-50 min-w-[543px]  ">
+            {/* Date Badge */}
+            <div className="inline-flex items-center justify-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-[144px] w-fit">
+              <span className="text-sm text-white/90">January 12, 2025</span>
+            </div>
+            
+            {/* Headline */}
+            <h2 className="text-[40px] text-white font-semibold leading-tight">
+              EXPERIENCE ADDIS ABABA FROM A WHOLE NEW PERSPECTIVE
             </h2>
-            <p className="text-lg lg:text-xl text-gray-300 max-w-xl">
-              {currentSlide.description}
+            
+            {/* Description */}
+            <p className="text-sm text-white leading-relaxed">
+              A hot air balloon ride in Addis offers a breathtaking panoramic view of Ethiopia's capital, blending the charm of ancient history with the pulse of modern life below.
             </p>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-white text-gray-900 hover:bg-gray-100 border-white font-semibold text-lg px-8 py-6 rounded-lg"
-            >
-              Start Your Trip
-            </Button>
-          </motion.div>
-
-          {/* Right Images */}
-          <div className="relative">
-            {/* Main Image */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.6 }}
-                className="relative h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden mb-4"
+            
+            {/* Plan Your Trip Button */}
+            <Link to={ROUTES.PLAN_YOUR_TRIP}>
+              <Button 
+                variant="secondary" 
+                size="lg"
+                className="bg-accent-100 rounded-[105px] px-6 py-4 text-text-dark-100 w-fit"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-600 to-purple-800"></div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Thumbnails */}
-            <div className="flex gap-4">
-              {experienceSlides.map((slide, index) => (
-                <motion.button
-                  key={slide.id}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`relative h-24 sm:h-32 lg:h-40 flex-1 rounded-lg overflow-hidden ${
-                    index === currentIndex ? "ring-2 ring-white" : "opacity-60"
-                  }`}
-                  whileHover={{ opacity: 1 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-yellow-400"></div>
-                </motion.button>
-              ))}
+                Plan Your Trip
+              </Button>
+            </Link>
+          </div>
+          {/* Right Side - Carousel */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-6 z-50">
+            {/* Carousel Images */}
+            <div className="relative flex gap-4 items-center justify-center ">
+              {getVisibleSlides().map(({ slide, index }, displayIndex) => {
+                const isFirst = displayIndex === 0
+                const shouldAnimateOut = isFirst && direction === 1 && isAnimating
+                const shouldAnimateIn = isFirst && direction === -1
+                
+                return (
+                  <motion.div
+                    key={`${slide.id}-${index}-${currentSlide}`}
+                    initial={shouldAnimateIn
+                      ? { opacity: 0, x: -600, height: '600px' }
+                      : { opacity: 1, x: 0 }
+                    }
+                    animate={shouldAnimateOut
+                      ? { scale: 1.5, opacity: 0, x: 0 }
+                      : shouldAnimateIn
+                      ? { opacity: 1, x: 0, height: '320px' }
+                      : { opacity: 1, x: 0 }
+                    }
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="relative rounded-2xl overflow-hidden"
+                    style={{
+                      width: '292px',
+                      height: '290px',
+                    }}
+                  >
+                    <img
+                      src={slide.thumbnail}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Fallback if image doesn't exist
+                        e.currentTarget.src = slide.image
+                      }}
+                    />
+                  </motion.div>
+                )
+              })}
             </div>
 
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
+            {/* Navigation Controls */}
+            <div className="flex items-center gap-4 w-full pr-12 max-w-[747px]">
+              {/* Navigation Arrows */}
+              <div className="flex gap-2">
+                <button
+                  onClick={prevSlide}
+                  className="size-[74px] bg-white/5 backdrop-blur-sm rounded-full  flex items-center justify-center "
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="size-8 text-white" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="size-[74px] bg-white/5 backdrop-blur-sm rounded-full  flex items-center justify-center "
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="size-8 text-white" />
+                </button>
+              </div>
 
-        {/* Slider Indicator */}
-        <div className="flex justify-end mt-8">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">
-              {String(currentIndex + 1).padStart(2, "0")}
-            </span>
-            <div className="w-24 h-1 bg-gray-700 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-white"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 5, repeat: Infinity }}
-              />
+              {/* Page Indicator */}
+              <div className="flex items-center gap-6 flex-1 min-w-0">
+                <div className="flex-1 h-0.5 bg-white"></div>
+                <span className="text-[34px] font-bold text-white">
+                  {String(currentSlide + 1).padStart(2, '0')}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -120,4 +168,5 @@ export function ExperienceCarousel() {
     </section>
   )
 }
+
 
