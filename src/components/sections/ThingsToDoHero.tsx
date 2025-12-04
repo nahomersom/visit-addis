@@ -2,7 +2,7 @@ import ThingToDoHeroBgImage from "@/assets/images/ThingToDoHeroBgImage.png"
 const ThingToDoHero = () => {
 
     return (
-      <div className="relative w-full h-[400px] md:h-[584px] lg:h-[488px]
+      <div className="relative w-full h-[733px] md:h-[584px] lg:h-[488px]
       flex justify-center items-center flex-col
       lg:py-[200px] lg:px-[120px]
       bg-center bg-cover

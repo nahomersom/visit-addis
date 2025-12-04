@@ -38,9 +38,9 @@ export function GetAppModal() {
       }}
       className="max-w-[715px] p-0 overflow-hidden rounded-4xl"
     >
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col md:flex-row">
         {/* Left Side - Form */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 pl-6 py-6">
           <div className="flex flex-col gap-6">
             {/* Coming Soon Badge */}
             <div 
@@ -148,7 +148,7 @@ export function GetAppModal() {
         </div>
 
         {/* Right Side - Phone Mockups */}
-        <div className="flex-1 flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="flex-1 flex items-center justify-center  relative overflow-hidden">
           <img
             src={phoneImage}
             alt="Visit Addis App Preview"
