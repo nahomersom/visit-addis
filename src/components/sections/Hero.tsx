@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { Search } from "lucide-react"
 import { SITE_CONFIG, EXPLORE_CATEGORIES } from "@/config/constants"
 import heroVideo from "@/assets/videos/hero-video.mp4"

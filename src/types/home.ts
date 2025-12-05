@@ -1,4 +1,3 @@
-import type { StrapiImage } from "./blog";
 
 export interface StrapiMedia {
   id: number;

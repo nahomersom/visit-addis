@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 
 export function ExperienceCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [displaySlide, setDisplaySlide] = useState(0) // For visibleSlides calculation
+  const [displaySlide] = useState(0) // For visibleSlides calculation
   const [direction, setDirection] = useState(0) // 1 for next, -1 for prev
   const [isAnimating, setIsAnimating] = useState(false)
   const [renderKey, setRenderKey] = useState(0)
