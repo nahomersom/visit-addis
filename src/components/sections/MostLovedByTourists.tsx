@@ -20,32 +20,47 @@ function Tag({ label }: TagProps) {
 
 export function MostLovedByTourists() {
   const [hoveredMostLoved, setHoveredMostLoved] = useState<string | null>("1") // First card active by default
+  const [clickedMostLoved, setClickedMostLoved] = useState<string | null>(null) // For mobile click
+
+  const handleCardClick = (itemId: string) => {
+    if (clickedMostLoved === itemId) {
+      setClickedMostLoved(null) // Toggle off if clicking the same card
+    } else {
+      setClickedMostLoved(itemId) // Expand clicked card
+    }
+  }
 
   return (
-    <section className="py-10 md:py-[60px]  px-6 md:px-12 lg:px-[120px]">
+    <section className="py-0 md:py-[60px]   px-6 md:px-12 lg:px-[120px]">
       
       <SectionHeader
       title="Most Loved By Tourists"
       description=" Discover the city's favorite activities, showcasing a mix of historic treasures and lively cultural hubs."
+      alignLeft={true}
       />
 
-      <div className="overflow-x-auto lg:overflow-x-visible pb-4 scrollbar-hide">
-        <div className="flex gap-6 lg:justify-start">
+      <div className="md:overflow-x-auto lg:overflow-x-visible pb-4 scrollbar-hide">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-6 lg:justify-start">
           {mostLovedItems.map((item) => {
-            const isActive = hoveredMostLoved === item.id
+            const isActive = clickedMostLoved === item.id || (hoveredMostLoved === item.id && !clickedMostLoved)
             return (
               <div
                 key={item.id}
-                className={`flex flex-col shrink-0 rounded-3xl overflow-hidden transition-all duration-300 ${
+                className={`flex flex-col shrink-0 rounded-3xl overflow-hidden transition-all duration-300 cursor-pointer w-full ${
                   isActive 
                     ? 'md:w-[450px] lg:w-[600px]' 
-                    : 'w-52 sm:w-[150px] md:w-[180px] lg:w-52'
+                    : 'md:w-[180px] lg:w-52'
                 }`}
+                onClick={() => handleCardClick(item.id)}
                 onMouseEnter={() => setHoveredMostLoved(item.id)}
                 onMouseLeave={() => setHoveredMostLoved("1")} // Return to first card being active on leave
               >
                 {/* Image Container */}
-                <div className="relative w-full h-[400px]  md:h-[600px] rounded-3xl overflow-hidden">
+                <div className={`relative w-full rounded-3xl overflow-hidden transition-all duration-300 ${
+                  isActive 
+                    ? 'h-[411px] md:h-[600px]' 
+                    : 'h-[70px] md:h-[600px]'
+                }`}>
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
@@ -118,14 +133,14 @@ export function MostLovedByTourists() {
                       <div
                         className="absolute"
                         style={{
-                          top: '47.65px',
-                          left: 0,
-                          right: 0,
+                          top: '47.65%',
+                          left: '50.08%',
+                          right: '50%',
                           bottom: 0,
                           backdropFilter: 'blur(24px)',
                           WebkitBackdropFilter: 'blur(24px)',
-                          maskImage: 'linear-gradient(180deg, transparent 50.08%, rgba(255, 255, 255, 0) 50%, white 100%)',
-                          WebkitMaskImage: 'linear-gradient(180deg, transparent 50.08%, rgba(255, 255, 255, 0) 50%, white 100%)',
+                          maskImage: 'linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0.3) 15%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 85%, white 95%, white 100%)',
+                          WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0.3) 15%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.95) 85%, white 95%, white 100%)',
                         }}
                       />
                     )}
@@ -134,8 +149,6 @@ export function MostLovedByTourists() {
               </div>
             )
           })}
-          {/* Spacer for right padding */}
-          <div className="shrink-0 w-20"></div>
         </div>
 
       </div>

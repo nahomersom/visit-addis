@@ -43,10 +43,8 @@ export function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 md:px-[95px] lg:px-8 pb-6 md:pb-0 w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
+        
         >
           <h1 className="text-2xl md:text-[64px] font-bold mb-2">
             <span className="text-white">Visit </span>
@@ -91,7 +89,7 @@ export function Hero() {
             ))}
           </div>
          
-        </motion.div>
+        </div>
       </div>
     </section>
   )
