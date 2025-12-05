@@ -1,6 +1,6 @@
 import ThingToDoHeroBgImage from "@/assets/images/ThingToDoHeroBgImage.png"
 import SharedHero from "@/components/sections/SharedHero";
-import DiscoverVenues from "@/components/sections/venue/discoverVenues";
+import DiscoverVenues from "@/components/sections/venue/DiscoverVenues";
 import { SubscribeBanner } from "@/components/sections/venue/subscirbeBanner";
 
 export default function Venue() {

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 
 type ModalId = string
 
@@ -57,6 +57,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useModal() {
   const context = useContext(ModalContext)
   if (context === undefined) {

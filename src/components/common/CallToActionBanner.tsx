@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import logoIcon from "@/assets/icons/logo.svg"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 
 interface CallToActionBannerProps {
   title: {
