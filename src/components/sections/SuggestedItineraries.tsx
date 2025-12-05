@@ -12,16 +12,16 @@ export function SuggestedItineraries() {
   ]
 
   return (
-    <section className="py-0 px-6 lg:py-[60px] lg:px-[120px]">
+    <section className="py-0 px-6 lg:py-[60px] md:px-[48px] lg:px-[120px]">
 
-      <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-12">
+      <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 lg:gap-12">
         {/* Left Section - Text and Buttons */}
         <div className="flex flex-col items-center text-center md:items-start  md:text-left gap-2 flex-1 md:max-w-[1032px]">
-          <h2 className="text-2xl font-bold text-text-dark-100">
+          <h2 className="text-2xl font-semibold text-text-dark-100">
             Suggested Itineraries
           </h2>
           
-            <p className="text-sm text-text-dark-80">
+            <p className="text-sm md:text-xs lg:text-sm text-text-dark-80">
             Lorem ipsum dolor sit amet consectetur. Feugiat nisi amet mattis neque ultrices nibh tempor ipsum aliquam. In cum ultricies placerat eleifend.
 Diam cum blandit sed ipsum placerat commodo eget. Tristique faucibus leo malesuada ac facilisis arcu morbi suspendisse.
             </p>
@@ -53,7 +53,7 @@ Diam cum blandit sed ipsum placerat commodo eget. Tristique faucibus leo malesua
         <img
             src={airplaneImage}
             alt="Visit Addis App Preview"
-            className="size-[200px] object-contain"
+            className="size-[200px] md:size-[138px] lg:size-[200px] object-contain"
           />
       </div>
     </section>

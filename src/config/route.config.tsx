@@ -5,9 +5,9 @@ import {
 } from "react-router-dom"
 import { MainLayout } from "@/layouts/MainLayout"
 import { Home } from "@/pages/Home"
-import { WhatToDo } from "@/pages/WhatToDo"
-import { WhereToStay } from "@/pages/WhereToStay"
-import { Events } from "@/pages/Events"
+import WhatToDo from "@/pages/WhatToDo"
+// import WhereToStay from "@/pages/WhereToStay"
+import Events from "@/pages/Events"
 import { PlanYourTrip } from "@/pages/PlanYourTrip"
 import { About } from "@/pages/About"
 import { Guide } from "@/pages/Guide"
@@ -15,6 +15,8 @@ import { Detail } from "@/pages/Detail"
 
 import { NotFound } from "@/pages/NotFound"
 import { ROUTES } from "./routes"
+import Blogs from "@/pages/Blogs"
+import BlogDetail from "@/components/blog/[id]/BlogDetail"
 
 export interface RouteConfig {
   path: string
@@ -37,12 +39,12 @@ export const routeConfig: RouteConfig[] = [
     title: "What to Do",
     description: "Discover amazing activities and experiences in Addis Ababa",
   },
-  {
-    path: ROUTES.WHERE_TO_STAY,
-    element: WhereToStay,
-    title: "Where to Stay",
-    description: "Find the perfect accommodation for your stay in Addis Ababa",
-  },
+  // {
+  //   path: ROUTES.WHERE_TO_STAY,
+  //   element: WhereToStay,
+  //   title: "Where to Stay",
+  //   description: "Find the perfect accommodation for your stay in Addis Ababa",
+  // },
   {
     path: ROUTES.EVENTS,
     element: Events,
@@ -55,7 +57,7 @@ export const routeConfig: RouteConfig[] = [
     title: "Plan Your Trip",
     description: "Get all the information you need to plan your perfect trip to Addis Ababa",
   },
-   {
+  {
     path: ROUTES.GUIDE,
     element: Guide,
     title: "Guide",
@@ -67,6 +69,19 @@ export const routeConfig: RouteConfig[] = [
     title: "About Us",
     description: "Learn more about Visit Addis Ababa and our mission",
   },
+
+  {
+    path: ROUTES.BLOGS,
+    element: Blogs,
+    title: "Blogs",
+  },
+  {
+    path: ROUTES.BlogDetail,
+    element: BlogDetail,
+    title: "Blog Detail",
+    description: "Blog Detail",
+  },
+
   {
     path: ROUTES.DETAIL,
     element: Detail,
@@ -91,4 +106,3 @@ const ROUTER = createBrowserRouter(
 )
 
 export default ROUTER
-

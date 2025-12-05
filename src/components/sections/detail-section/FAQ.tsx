@@ -18,7 +18,7 @@ export function FAQ() {
   }
 
   return (
-    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] ">
+    <section className="py-10 px-6 md:px-[48px] lg:py-[60px] lg:px-[120px] ">
 
       <h2 className="text-2xl font-semibold text-text-dark-100 mb-6">
         FAQ

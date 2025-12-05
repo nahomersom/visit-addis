@@ -15,7 +15,7 @@ export function DetailDescription() {
   }
 
   return (
-    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] ">
+    <section className="py-10 px-6 md:px-[48px] lg:py-[60px] lg:px-[120px] ">
       {/* Back Button */}
       <Button
       onClick={handleBack}

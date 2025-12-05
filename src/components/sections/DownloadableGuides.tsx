@@ -31,7 +31,7 @@ export function DownloadableGuides() {
         </div>
 
         {/* Guide Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-7xl">
           {DOWNLOADABLE_GUIDES.map((guide, index) => (
             <div
               key={index}

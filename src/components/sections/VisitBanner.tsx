@@ -3,7 +3,7 @@ import { CallToActionBanner } from "../common/CallToActionBanner"
 import visitBackground from "@/assets/images/visitBackground.png"
 export function VisitBanner() {
   return (
-    <section className="py-10 px-6 md:px-[120px] rounded-4xl">
+    <section className="py-10 px-6 md:px-[48px] lg:px-[120px] rounded-4xl">
           <CallToActionBanner
             title={{
               coloredText: "Visit",

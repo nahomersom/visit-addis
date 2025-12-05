@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 
 export function ExperienceCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [displaySlide, setDisplaySlide] = useState(0) // For visibleSlides calculation
   const [direction, setDirection] = useState(0) // 1 for next, -1 for prev
   const [isAnimating, setIsAnimating] = useState(false)
   const [renderKey, setRenderKey] = useState(0)
@@ -69,7 +70,7 @@ export function ExperienceCarousel() {
   const visibleSlides = React.useMemo(() => {
     const visible: Array<{ slide: typeof experienceSlides[0], index: number }> = []
     for (let i = 0; i < experienceSlides.length; i++) {
-      const index = (currentSlide + i) % experienceSlides.length
+      const index = (displaySlide + i) % experienceSlides.length
       visible.push({ slide: experienceSlides[index], index })
     }
     return visible
