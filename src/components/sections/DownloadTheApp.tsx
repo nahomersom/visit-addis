@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import phoneImage from "@/assets/images/phone.png"
-import leadingImage from "@/assets/images/Leading.svg"
-import trailingImage from "@/assets/images/Traling.svg"
 import leadingMobileImage from "@/assets/images/leadingMobileVersion.svg"
 import trailingMobileImage from "@/assets/images/trailingMobileVersion.svg"
+import tabLeadingImage from "@/assets/images/tab-leading.png"
+import tabTrailingImage from "@/assets/images/tab-trailing.png"
 
 export function DownloadTheApp() {
   const [formData, setFormData] = useState({
@@ -33,14 +33,14 @@ export function DownloadTheApp() {
 
       {/* Desktop Leading image - left side */}
       <img 
-        src={leadingImage} 
+        src={tabLeadingImage} 
         alt="Leading"
-        className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 h-full max-h-full object-contain object-left pointer-events-none z-0"
+        className="hidden md:block absolute left-0 md:top-[46%] lg:top-1/2 -translate-y-1/2 h-full max-h-full object-contain object-left pointer-events-none z-0"
         style={{ width: 'auto', maxWidth: '366px' }}
       />
       {/* Desktop Trailing image - right side */}
       <img 
-        src={trailingImage} 
+        src={tabTrailingImage} 
         alt="Trailing"
         className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-full max-h-full object-contain object-right pointer-events-none z-0"
         style={{ width: 'auto', maxWidth: '366px' }}

@@ -3,7 +3,7 @@ import { TRAVEL_CHECKLIST_ITEMS } from "@/config/constants"
 
 export function TravelChecklist() {
   return (
-    <section className="py-6 px-6 lg:py-[60px] lg:px-[120px] ">
+    <section className="py-6 px-6 md:px-[48px] lg:py-[60px] lg:px-[120px] ">
       <div className="flex flex-col items-center">
         {/* Title */}
         <div className="text-center mb-4">

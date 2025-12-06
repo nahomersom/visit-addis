@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 import { Search, Calendar1, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { HotelSearchResultsModal } from "@/components/modals/HotelSearchResultsModal"
 
 export function CompareHotelPrices() {
-  const [destination] = useState("Addis Ababa, Ethiopia")
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false)
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -110,7 +111,7 @@ export function CompareHotelPrices() {
           </p>
         </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col  lg:flex-row gap-4">
             {/* Destination */}
             <div className="flex-1 relative">
               <div className="relative">
@@ -162,8 +163,7 @@ export function CompareHotelPrices() {
                     <Button
                       className="hidden sm:flex absolute right-4 top-1/2 transform -translate-y-1/2 bg-theme-primary text-white px-6 py-4 rounded-[105px] h-14 items-center justify-center gap-2 hover:bg-theme-primary/90 z-10"
                       onClick={() => {
-                        // Handle search
-                        console.log("Search clicked", { destination, checkIn, checkOut })
+                        setIsSearchModalOpen(true)
                       }}
                     >
                       <Search className="size-4" />
@@ -172,8 +172,7 @@ export function CompareHotelPrices() {
                     <Button
                       className="sm:hidden absolute bottom-4 left-4 right-4 bg-theme-primary text-white px-6 py-4 rounded-[105px] h-14 flex items-center justify-center gap-2 hover:bg-theme-primary/90 z-10"
                       onClick={() => {
-                        // Handle search
-                        console.log("Search clicked", { destination, checkIn, checkOut })
+                        setIsSearchModalOpen(true)
                       }}
                     >
                       <Search className="size-4" />
@@ -286,6 +285,13 @@ export function CompareHotelPrices() {
 
         
         </div>
+
+        {/* Hotel Search Results Modal */}
+        <HotelSearchResultsModal
+          open={isSearchModalOpen}
+          onOpenChange={setIsSearchModalOpen}
+          resultCount={24}
+        />
     </section>
   )
 }

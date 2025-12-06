@@ -4,7 +4,7 @@ import { GETTING_AROUND_CONFIG } from "@/config/constants"
 
 export function UsefulContacts() {
   return (
-    <section className="py-10 px-6 lg:py-[60px] lg:px-[120px]">
+    <section className="py-10 px-6 md:px-[48px] md:py-0 lg:py-[60px] lg:px-[120px]">
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start">
         {/* Left Side - Phone Icon and Title */}
         <div className="flex flex-col items-center text-center md:items-start gap-1 h-full md:pt-[14.5px]">

@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 
 
 export const BASE_URL = "https://api.visitaddisababa.et";
@@ -8,6 +9,9 @@ export const api = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+  },
+  paramsSerializer: (params) => {
+    return qs.stringify(params, { arrayFormat: "brackets", encode: false });
   },
 });
 

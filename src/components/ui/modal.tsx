@@ -20,9 +20,15 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
           <Dialog.Content
             ref={ref}
             className={cn(
+<<<<<<< HEAD
               "fixed left-[50%] top-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] bg-white shadow-2xl duration-200",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
               "rounded-4xl outline-none", 
+=======
+              "fixed left-[50%] top-[50%] z-50 grid w-auto! !md:!w-full md:max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 md:border bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg",
+              "h-full rounded-none top-0 left-0 right-0 bottom-0 translate-x-0 translate-y-0 bg-black/40 backdrop-blur-[32px]",
+              "md:h-auto rounded-none! md:rounded-4xl! md:left-[50%] md:top-[50%] md:right-auto md:bottom-auto md:translate-x-[-50%] md:translate-y-[-50%] md:bg-white md:backdrop-blur-none",
+>>>>>>> 3db19b48239c130d862892c2fad7661f24f2bfd6
               className
             )}
             {...props}

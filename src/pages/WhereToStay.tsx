@@ -8,7 +8,7 @@ export default function WhereToStay() {
   return (
     <main className="min-h-screen">
       <ThingToDoHero />
-      <FindThingsToDo description="Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean." />
+      <FindThingsToDo isForThingsTodo description="Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean." />
       <MostLovedByTourists />
       <IconicPlaces />
       <WhatsHotThisMonth />

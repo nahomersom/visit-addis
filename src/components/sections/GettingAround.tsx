@@ -2,7 +2,7 @@ import { GETTING_AROUND_ITEMS, GETTING_AROUND_CONFIG } from "@/config/constants"
 
 export function GettingAround() {
   return (
-    <section className="py-0 px-6 lg:py-[60px] lg:px-[120px] ">
+    <section className="py-0 px-6 md:py-10 lg:py-[60px] lg:px-[120px] ">
    
       <div className="flex flex-col gap-6 items-start mb-6">
         <h2 className="text-2xl font-semibold text-text-dark-100 mb-2">
@@ -12,10 +12,12 @@ export function GettingAround() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 justify-center md:justify-start">
-        {GETTING_AROUND_ITEMS.map((item, index) => (
+        {GETTING_AROUND_ITEMS.map((item, index) => {
+          const isLastItem = index === GETTING_AROUND_ITEMS.length - 1
+          return (
           <div
             key={index}
-            className="rounded-2xl p-4 bg-white relative overflow-hidden"
+            className={`rounded-2xl p-4 bg-white relative overflow-hidden ${isLastItem ? 'md:col-span-2 lg:col-span-1' : ''}`}
           >
             {/* Base color */}
             <div
@@ -55,7 +57,8 @@ export function GettingAround() {
               </p>
             </div>
           </div>
-        ))}
+          )
+        })}
       </div>
     </section>
   )

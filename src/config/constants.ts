@@ -33,9 +33,10 @@ export const SITE_CONFIG = {
 
 export const NAV_LINKS = [
   { label: "Culture And Lifestyle", href: ROUTES.WHAT_TO_DO },
-  // { label: "Things To Do", href: ROUTES.WHERE_TO_STAY },
+  { label: "Things To Do", href: ROUTES.WHERE_TO_STAY },
   { label: "Plan Your Trip", href: ROUTES.PLAN_YOUR_TRIP },
   { label: "Festivals And Events", href: ROUTES.EVENTS },
+  { label: "Venue", href: ROUTES.VENUE },
   { label: "Guide", href: ROUTES.GUIDE },
   { label: "Blogs", href: ROUTES.BLOGS },
 ] as const

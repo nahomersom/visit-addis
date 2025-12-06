@@ -3,7 +3,7 @@ import PlanTripHeroBgImage from "@/assets/images/planTripImage.png"
 const PlanYourTripHero = () => {
   return (
     <div
-      className="relative w-full h-[733px]  lg:h-[500px]
+      className="relative w-full h-[733px] md:h-[488px]  lg:h-[500px]
       flex justify-center items-center flex-col
       lg:py-[200px] lg:px-[120px]
       bg-center bg-cover
@@ -16,10 +16,10 @@ const PlanYourTripHero = () => {
 
       {/* content */}
       <div className="relative flex flex-col items-center text-center w-full gap-3 px-4">
-        <h1 className="font-bold text-white text-2xl lg:text-[64px] leading-tight">
+        <h1 className="font-bold text-white text-2xl md:text-[64px] leading-tight">
           Your Adventure Starts Here
         </h1>
-        <p className="text-white/80 text-[12px] sm:text-[16px] w-full sm:max-w-[600px] md:max-w-[700px] lg:max-w-[840px] mx-auto">
+        <p className="text-white/80 text-[12px] md:text-[16px] w-full  md:max-w-[738px] lg:max-w-[840px] mx-auto">
           From the moment you land at Bole International Airport to your first sip of Ethiopian coffee — everything you need to plan your trip to Addis Ababa starts right here.
         </p>
       </div>

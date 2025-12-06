@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOME: "/",
   WHAT_TO_DO: "/what-to-do",
-  // WHERE_TO_STAY: "/where-to-stay",
+  WHERE_TO_STAY: "/where-to-stay",
   EVENTS: "/events",
   PLAN_YOUR_TRIP: "/plan-your-trip",
   GUIDE: "/guide/",
@@ -9,4 +9,7 @@ export const ROUTES = {
   BLOGS: "/blogs",
   BlogDetail: "/blogs/:id",
   DETAIL: "/detail",
+  DETAIL_WITH_ID: "/detail/:id",
+  VENUE: "/venue",
+  VENUE_DETAIL: "/venue/:id",
 } as const;
