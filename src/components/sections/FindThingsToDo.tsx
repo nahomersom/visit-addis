@@ -89,7 +89,7 @@ export function FindThingsToDo({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <div className={`flex flex-col ${isForThingsTodo ? 'mb-6 md:mb-10' : 'mb-10'} gap-2 ${isForThingsTodo ? 'items-start' : 'items-center justify-center'}`}>
+            <div className={`flex flex-col ${isForThingsTodo ? 'mb-6 md:mb-10' : 'mb-10'} gap-2 ${isForThingsTodo ? 'items-start md:items-center' : 'items-center justify-center'}`}>
               <h2 className={`font-semibold text-text-dark-100 ${isForThingsTodo ? 'text-2xl md:text-2xl' : 'md:text-2xl'}`}>{title}</h2>
               {description && (
                 <p className={`text-[#758886] ${isForThingsTodo ? 'text-sm md:text-sm' : 'text-xs md:text-sm'}`}>

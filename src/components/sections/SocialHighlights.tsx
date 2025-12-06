@@ -1,40 +1,79 @@
 import { Star } from "lucide-react"
-import { socialHighlights } from "@/data/socialHighlights"
-import stadiumImage from "@/assets/images/stadium.jpg"
-import womensquareImage from "@/assets/images/womensquare.jpg"
-import keberoImage from "@/assets/images/kebero.jpg"
-import oldHouseImage from "@/assets/images/oldHouse.jpg"
-import catholicChurchImage from "@/assets/images/catholicChurch.jpg"
-import buildingsImage from "@/assets/images/buildings.jpg"
 import instagramIcon from "@/assets/icons/instagram.png"
 import { SectionHeader } from "../common/SectionHeader"
+import { useSocialHighlights } from "@/hooks/useSocialHighlights"
+import type { StrapiMedia } from "@/types/home"
+import { SocialHighlightsSkeleton } from "@/layouts/skeleton/SocialHighlightsSkeleton"
 
-const backgroundImages = [
-  stadiumImage,
-  womensquareImage,
-  keberoImage,
-  oldHouseImage,
-  catholicChurchImage,
-  buildingsImage,
-]
+// Helper function to get full image URL
+const getImageUrl = (image: StrapiMedia | null | undefined): string => {
+  if (!image) return ""
+  
+  const baseUrl = import.meta.env.VITE_BASE_URL || "https://api.visitaddisababa.et"
+  
+  // Handle formats if available (when formats is an object, not a string)
+  const formats = image.formats as any
+  if (formats && typeof formats === 'object') {
+    // Try medium format first, then thumbnail, then small
+    if (formats.medium?.url) {
+      const mediumUrl = formats.medium.url
+      // If it's already a full URL (e.g., Cloudinary), return as is
+      if (mediumUrl.startsWith("http")) return mediumUrl
+      // Otherwise, construct the URL
+      return `${baseUrl}${mediumUrl}`
+    }
+    if (formats.thumbnail?.url) {
+      const thumbnailUrl = formats.thumbnail.url
+      if (thumbnailUrl.startsWith("http")) return thumbnailUrl
+      return `${baseUrl}${thumbnailUrl}`
+    }
+    if (formats.small?.url) {
+      const smallUrl = formats.small.url
+      if (smallUrl.startsWith("http")) return smallUrl
+      return `${baseUrl}${smallUrl}`
+    }
+  }
+  
+  // Use the main URL
+  const url = image.url || ""
+  // If it's already a full URL (e.g., Cloudinary), return as is
+  if (url.startsWith("http")) return url
+  // Otherwise, construct the URL
+  return `${baseUrl}${url}`
+}
 
 // Width pattern: 75%, 25%, 25%, 75%, 75%, 25%
 const cardWidths = ["w-[60%]", "w-[40%]", "w-[40%]", "w-[60%]", "w-[60%]", "w-[40%]"]
 
 export function SocialHighlights() {
+  const { data, isLoading, error } = useSocialHighlights()
+
+  if (isLoading) {
+    return <SocialHighlightsSkeleton />
+  }
+
+  if (error || !data?.data || data.data.length === 0) {
+    return (
+      <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px] bg-accent-80">
+        <div className="text-center py-20">
+          <p className="text-gray-600">Failed to load social highlights</p>
+        </div>
+      </section>
+    )
+  }
+
+  const socialHighlights = data.data
+
   return (
      <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px] bg-accent-80">
-
-      
-
                  <SectionHeader
-                title=" Social Highlights"
-                description="Lorem ipsum dolor sit amet consectetur. Nulla facilisis vel id morbi. Lectus id odio quam ut tincidunt commodo ut. Nisi eget elit pretium id adipiscing nunc ac volutpat amet. Et sed quam commodo tortor eget."
+                title="Social Highlights"
+                description="Discover what visitors are sharing about Addis Ababa"
               />
 
         {/* Mobile: Horizontal scroll with all cards */}
         <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-6 px-6 md:hidden">
-          {socialHighlights.map((highlight, index) => (
+          {socialHighlights.map((highlight) => (
             <div
               key={highlight.id}
               className="shrink-0 w-[342px] h-[345px]"
@@ -43,7 +82,7 @@ export function SocialHighlights() {
                 <div 
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
-                    backgroundImage: `url(${backgroundImages[index]})`,
+                    backgroundImage: `url(${getImageUrl(highlight.image)})`,
                   }}
                 />
                 {/* Progressive blur overlay */}
@@ -76,11 +115,11 @@ export function SocialHighlights() {
                       <div className="relative size-[49px]">
                         <div className="size-[49px] rounded-[8px] border border-white/60 overflow-hidden bg-gray-200">
                           <img 
-                            src={`https://i.pravatar.cc/150?img=${highlight.id}`}
-                            alt={highlight.user.name}
+                            src={getImageUrl(highlight.author_avatar) || `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`}
+                            alt={highlight.author_name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
-                              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.user.name)}&background=random&size=49`
+                              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`
                             }}
                           />
                         </div>
@@ -95,7 +134,7 @@ export function SocialHighlights() {
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold text-white text-lg">
-                          {highlight.user.name}
+                          {highlight.author_name}
                         </p>
                         <p className="text-sm text-white/80">
                           {highlight.location}
@@ -128,7 +167,7 @@ export function SocialHighlights() {
                   <div 
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: `url(${backgroundImages[index]})`,
+                      backgroundImage: `url(${getImageUrl(highlight.image)})`,
                     }}
                   />
                   {/* Progressive blur overlay */}
@@ -161,11 +200,11 @@ export function SocialHighlights() {
                         <div className="relative size-[49px]">
                           <div className="size-[49px] rounded-[8px] border border-white/60 overflow-hidden bg-gray-200">
                             <img 
-                              src={`https://i.pravatar.cc/150?img=${highlight.id}`}
-                              alt={highlight.user.name}
+                              src={getImageUrl(highlight.author_avatar) || `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`}
+                              alt={highlight.author_name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.user.name)}&background=random&size=49`
+                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`
                               }}
                             />
                           </div>
@@ -180,7 +219,7 @@ export function SocialHighlights() {
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-white text-lg">
-                            {highlight.user.name}
+                            {highlight.author_name}
                           </p>
                           <p className="text-sm text-white/80">
                             {highlight.location}
@@ -212,7 +251,7 @@ export function SocialHighlights() {
                   <div 
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: `url(${backgroundImages[index + 2]})`,
+                      backgroundImage: `url(${getImageUrl(highlight.image)})`,
                     }}
                   />
                   {/* Progressive blur overlay */}
@@ -245,11 +284,11 @@ export function SocialHighlights() {
                         <div className="relative size-[49px]">
                           <div className="size-[49px] rounded-[8px] border border-white/60 overflow-hidden bg-gray-200">
                             <img 
-                              src={`https://i.pravatar.cc/150?img=${highlight.id}`}
-                              alt={highlight.user.name}
+                              src={getImageUrl(highlight.author_avatar) || `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`}
+                              alt={highlight.author_name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.user.name)}&background=random&size=49`
+                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`
                               }}
                             />
                           </div>
@@ -264,7 +303,7 @@ export function SocialHighlights() {
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-white text-lg">
-                            {highlight.user.name}
+                            {highlight.author_name}
                           </p>
                           <p className="text-sm text-white/80">
                             {highlight.location}
@@ -296,7 +335,7 @@ export function SocialHighlights() {
                   <div 
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                      backgroundImage: `url(${backgroundImages[index + 4]})`,
+                      backgroundImage: `url(${getImageUrl(highlight.image)})`,
                     }}
                   />
                   {/* Progressive blur overlay */}
@@ -329,11 +368,11 @@ export function SocialHighlights() {
                         <div className="relative size-[49px]">
                           <div className="size-[49px] rounded-[8px] border border-white/60 overflow-hidden bg-gray-200">
                             <img 
-                              src={`https://i.pravatar.cc/150?img=${highlight.id}`}
-                              alt={highlight.user.name}
+                              src={getImageUrl(highlight.author_avatar) || `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`}
+                              alt={highlight.author_name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.user.name)}&background=random&size=49`
+                                e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(highlight.author_name)}&background=random&size=49`
                               }}
                             />
                           </div>
@@ -348,7 +387,7 @@ export function SocialHighlights() {
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-white text-lg">
-                            {highlight.user.name}
+                            {highlight.author_name}
                           </p>
                           <p className="text-sm text-white/80">
                             {highlight.location}

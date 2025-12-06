@@ -160,7 +160,7 @@ export function MostLovedByTourists() {
               regularText: "Your Day",
             }}
             description="Explore the vibrant city of Addis Ababa! Discover its rich culture, delicious cuisine, and stunning landscapes. Don't miss out on the chance to immerse yourself in this unique experience plan your visit today!"
-            buttonText="Plan Your Trip"
+            buttonText="Get Itinerary"
             backgroundImage={visitBackground}
             overlayColor="#F7F8F7"
             showLogo

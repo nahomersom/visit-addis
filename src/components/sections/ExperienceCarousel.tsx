@@ -16,10 +16,13 @@ export function ExperienceCarousel() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [renderKey, setRenderKey] = useState(0)
   const [slideDistance, setSlideDistance] = useState(316) // Default desktop value
+  const [isMobile, setIsMobile] = useState(false)
 
   // Calculate slide distance based on screen size
   useEffect(() => {
     const updateSlideDistance = () => {
+      const isMobileView = window.innerWidth < 768
+      setIsMobile(isMobileView)
       if (window.innerWidth >= 768) {
         // Desktop: 292px width + 16px gap (gap-4) ≈ 308px, but using 316px as original
         setSlideDistance(316)
@@ -68,13 +71,22 @@ export function ExperienceCarousel() {
 
   // Get visible slides (from currentSlide onwards)
   const visibleSlides = React.useMemo(() => {
-    const visible: Array<{ slide: typeof experienceSlides[0], index: number }> = []
+    const ordered: Array<{ slide: typeof experienceSlides[0], index: number }> = []
+  
     for (let i = 0; i < experienceSlides.length; i++) {
-      const index = (displaySlide + i) % experienceSlides.length
-      visible.push({ slide: experienceSlides[index], index })
+      const index = (currentSlide + i) % experienceSlides.length
+      ordered.push({ slide: experienceSlides[index], index })
     }
-    return visible
-  }, [currentSlide])
+  
+    // If direction is next (1), reverse the queue so it becomes c b a
+    // If direction is prev (-1), also reverse to maintain symmetry
+    if (direction !== 0) {
+      return ordered.reverse()
+    }
+  
+    return ordered
+  }, [currentSlide, direction])
+  
 
   return (
     <section 
@@ -150,24 +162,25 @@ export function ExperienceCarousel() {
     shouldEnterFromRight
       ? {
           opacity: 0,
-          x: slideDistance, // Start from right - slides in from right
+          x: slideDistance, // Mobile: from bottom, Desktop: from left
+          // Mobile: from top, Desktop: from right
           scale: 0.9,
         }
       : shouldEnterFromLeft
       ? {
           opacity: 0,
-          x: -slideDistance, // Start from left - slides in from left
+           x: -slideDistance, // Mobile: from bottom, Desktop: from left
           scale: 0.9,
         }
       : shouldSlideLeft
       ? {
-          x: slideDistance, // Start from one position to the right
+          x: slideDistance, // Queue images always slide horizontally (same on mobile and desktop)
           opacity: 1,
           scale: 1,
         }
       : shouldSlideRight
       ? {
-          x: -slideDistance, // Start from one position to the left
+          x: -slideDistance, // Queue images always slide horizontally (same on mobile and desktop)
           opacity: 1,
           scale: 1,
         }
@@ -180,27 +193,28 @@ export function ExperienceCarousel() {
   animate={
     shouldAnimateOut
       ? {
-          // NEXT: first image zooms in slightly + moves left + fades
-          x: -500,
+          // NEXT: first image zooms in slightly + moves + fades
+          ...(isMobile ? { y: -500 } : { x: -500 }), // Mobile: moves down, Desktop: moves left
           scale: 5,
           opacity: 0,
           transition:{
             duration: 1
           }
         }
-      : shouldAnimateOutPrev
-      ? {
-          // PREV: first image zooms in slightly + moves left + fades
-          x: -500,
-          scale: 5,
-          opacity: 0,
-          transition:{
-            duration: 1
+        : shouldAnimateOutPrev
+        ? {
+            // PREV: first image zooms out and leaves
+            ...(isMobile ? { y: -500 } : { x: -500 }), // Mobile: moves up, Desktop: moves right
+            scale: 5,
+            opacity: 0,
+            transition:{
+              duration: 1
+            }
           }
-        }
+  
       : shouldSlideLeft
       ? {
-          // NEXT: images slide left to make space (b, c, d all use this)
+          // NEXT: images slide to make space (queue images always slide horizontally)
           x: 0,
           opacity: 1,
           scale: 1,
@@ -211,7 +225,7 @@ export function ExperienceCarousel() {
         }
       : shouldSlideRight
       ? {
-          // PREV: images slide right to make space (b, c, d all use this)
+          // PREV: images slide to make space (queue images always slide horizontally)
           x: 0,
           opacity: 1,
           scale: 1,
@@ -222,15 +236,15 @@ export function ExperienceCarousel() {
         }
       : shouldEnterFromRight
       ? {
-          // NEXT: last image (was first) slides in from right to last position
-          x: 0,
+          // NEXT: last image (was first) slides in to last position
+          ...(isMobile ? { y: 0 } : { x: 0 }),
           scale: 1,
           opacity: 1,
         }
       : shouldEnterFromLeft
       ? {
-          // PREV: last image (was first) slides in from left to last position
-          x: 0,
+          // PREV: last image (was first) slides in to last position
+          ...(isMobile ? { y: 0 } : { x: 0 }),
           scale: 1,
           opacity: 1,
         }

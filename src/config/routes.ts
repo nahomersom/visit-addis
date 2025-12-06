@@ -9,5 +9,7 @@ export const ROUTES = {
   BLOGS: "/blogs",
   BlogDetail: "/blogs/:id",
   DETAIL: "/detail",
+  DETAIL_WITH_ID: "/detail/:id",
   VENUE: "/venue",
+  VENUE_DETAIL: "/venue/:id",
 } as const;

@@ -1,8 +1,11 @@
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { venues } from "@/data/venues";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/config/routes";
 
 const DiscoverVenues: React.FC = () => {
+    const navigate = useNavigate();
     return(
      <section className="py-10 md:py-[60px] px-6 md:px-12 lg:px-[120px]">
           <SectionHeader
@@ -57,6 +60,7 @@ const DiscoverVenues: React.FC = () => {
                         {venue.description}
                       </p>
                       <Button
+                        onClick={() => navigate(`/venue/${venue.id}`)}
                         className="bg-white text-text-dark-100 text-sm px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       >
                         View Detail
@@ -114,6 +118,7 @@ const DiscoverVenues: React.FC = () => {
                       {venue.description}
                     </p>
                     <Button
+                      onClick={() => navigate(`/venue/${venue.id}`)}
                       className="bg-theme-primary text-white text-sm px-4 py-3 rounded-[105px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     >
                       View Detail

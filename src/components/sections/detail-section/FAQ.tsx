@@ -1,39 +1,57 @@
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
-import { FAQ_ITEMS } from "@/config/constants"
+import { useFAQ } from "@/hooks/useFAQ"
+import { FAQSkeleton } from "@/layouts/skeleton/FAQSkeleton"
 
 export function FAQ() {
   const [openItems, setOpenItems] = useState<Set<number>>(new Set())
+  const { data, isLoading, error } = useFAQ()
 
-  const toggleItem = (index: number) => {
+  const toggleItem = (id: number) => {
     setOpenItems((prev) => {
       const newSet = new Set(prev)
-      if (newSet.has(index)) {
-        newSet.delete(index)
+      if (newSet.has(id)) {
+        newSet.delete(id)
       } else {
-        newSet.add(index)
+        newSet.add(id)
       }
       return newSet
     })
   }
 
+  if (isLoading) {
+    return <FAQSkeleton />
+  }
+
+  if (error || !data?.data) {
+    return (
+      <section className="py-10 px-6 md:px-[48px] lg:py-[60px] lg:px-[120px]">
+        <div className="text-center py-20">
+          <p className="text-gray-600">Failed to load FAQ</p>
+        </div>
+      </section>
+    )
+  }
+
+  const { title, items } = data.data
+
   return (
     <section className="py-10 px-6 md:px-[48px] lg:py-[60px] lg:px-[120px] ">
 
       <h2 className="text-2xl font-semibold text-text-dark-100 mb-6">
-        FAQ
+        {title}
       </h2>
 
       <div className="flex flex-col gap-4">
-        {FAQ_ITEMS.map((item, index) => {
-          const isOpen = openItems.has(index)
+        {items.map((item) => {
+          const isOpen = openItems.has(item.id)
           return (
             <div
-              key={index}
+              key={item.id}
               className="rounded-lg bg-white transition-all duration-300"
             >
               <button
-                onClick={() => toggleItem(index)}
+                onClick={() => toggleItem(item.id)}
                 className="w-full flex items-center justify-between gap-4"
               >
                 <p
