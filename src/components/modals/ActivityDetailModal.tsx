@@ -1,80 +1,62 @@
 import { Modal } from "@/components/ui/modal"
-import type { ActivityCategory } from "@/data/whereToStay"
 import { X } from "lucide-react"
-import attractionImageOne from "@/assets/images/attractionImageOne.jpg"
-import attractionImageTwo from "@/assets/images/attractionImageTwo.jpg"
+import type { ActivityItem, ActivityImage } from "@/types/activityType"
 
 interface ActivityDetailModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  category: ActivityCategory | null
-  activityName?: string // Original activity name with emoji
+  activity: ActivityItem | null
 }
 
-// Mock locations data - in a real app, this would come from the category data
-const getLocationsForCategory = (categoryName: string): string[] => {
-  const locationMap: Record<string, string[]> = {
-    "Outdoor": [
-      "Entoto Mountains",
-      "Bale Mountain",
-      "Simien Mountains",
-      "Ras Dashen",
-      "Mount Kenya",
-      "Mount Kilimanjaro",
-      "Atlas Mountains",
-      "Drakensberg Mountains",
-      "Zagros Mountains",
-    ],
-    "Cultural": [
-      "National Museum",
-      "Ethnological Museum",
-      "Holy Trinity Cathedral",
-      "Unity Park",
-      "Red Terror Martyrs Memorial",
-    ],
-    "Food & Drinks": [
-      "Bole Road",
-      "Piazza",
-      "Bishoftu",
-      "Mercato",
-      "Kazanchis",
-    ],
-    "Night Life": [
-      "Bole Road",
-      "Kazanchis",
-      "Cazanchis",
-      "Piazza",
-      "Bishoftu",
-    ],
-    "Entertainment": [
-      "Unity Park",
-      "Addis Ababa Stadium",
-      "National Theatre",
-      "Cinema",
-    ],
-    "Shopping": [
-      "Mercato",
-      "Bole Road",
-      "Piazza",
-      "Shiro Meda",
-    ],
-  }
-  return locationMap[categoryName] || []
+// Static locations data
+const locations = [
+  "Entoto Mountains",
+  "Bale Mountain",
+  "Simien Mountains",
+  "Ras Dashen",
+  "Mount Kenya",
+  "Mount Kilimanjaro",
+  "Atlas Mountains",
+  "Drakensberg Mountains",
+  "Zagros Mountains",
+  "National Museum",
+  "Ethnological Museum",
+  "Holy Trinity Cathedral",
+  "Unity Park",
+  "Red Terror Martyrs Memorial",
+  "Bole Road",
+  "Piazza",
+  "Bishoftu",
+  "Mercato",
+  "Kazanchis",
+]
+
+// Helper function to get image URL from ActivityImage
+const getImageUrl = (image: ActivityImage | null): string => {
+  if (!image) return ""
+  return image.url || image.formats?.large?.url || image.formats?.medium?.url || image.formats?.small?.url || ""
 }
 
 export function ActivityDetailModal({
   open,
   onOpenChange,
-  category,
-  activityName,
+  activity,
 }: ActivityDetailModalProps) {
-  if (!category) return null
+  if (!activity) return null
 
-  const locations = getLocationsForCategory(category.name)
-  const description = "Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean et vitae et. Tristique urna leo nisl quisque. Sem massa elementum lacus ut volutpat interdum lectus purus quis. Eget magna at donec urna sit viverra porta tellus pellentesque."
+  // Extract emoji from activity title (e.g., "⛺️ Hiking" -> "⛺️")
+  const emoji = activity.title ? activity.title.match(/[\p{Emoji_Presentation}\p{Emoji}\u{1F300}-\u{1F9FF}]/u)?.[0] || null : null
   
-  // Extract emoji from activity name (e.g., "⛺️ Hiking" -> "⛺️")
-  const emoji = activityName ? activityName.match(/[\p{Emoji_Presentation}\p{Emoji}\u{1F300}-\u{1F9FF}]/u)?.[0] || null : null
+  // Get banner image URL
+  const bannerImageUrl = getImageUrl(activity.bannerImage)
+  
+  // Get bottom images (first 2 from images array)
+  const bottomImages = activity.images && activity.images.length > 0 
+    ? activity.images.slice(0, 2) 
+    : []
+  
+  const image1Url = bottomImages[0] ? getImageUrl(bottomImages[0]) : ""
+  const image2Url = bottomImages[1] ? getImageUrl(bottomImages[1]) : ""
 
   return (
     <Modal
@@ -97,11 +79,17 @@ export function ActivityDetailModal({
 
         {/* Main Image */}
         <div className="w-full h-[200px] md:h-[300px]  relative overflow-hidden pt-8 md:pt-0 px-4 shrink-0">
-          <img
-            src={category.image}
-            alt={category.name}
-            className="w-full h-full object-cover rounded-xl"
-          />
+          {bannerImageUrl ? (
+            <img
+              src={bannerImageUrl}
+              alt={activity.title}
+              className="w-full h-full object-cover rounded-xl"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 rounded-xl flex items-center justify-center">
+              <span className="text-gray-400">No image available</span>
+            </div>
+          )}
           {/* Mobile close button */}
           <button
             onClick={() => onOpenChange(false)}
@@ -116,24 +104,18 @@ export function ActivityDetailModal({
           {/* Heading with Icon */}
           <div className="flex-col gap-1">
           <div className="flex items-center gap-1">
-            {emoji ? (
+            {emoji && (
               <span className="text-3xl md:text-4xl">{emoji}</span>
-            ) : (
-              <img
-                src={category.icon}
-                alt={category.name}
-                className="w-6 h-6 md:w-8 md:h-8"
-              />
             )}
             <h2 className="text-2xl md:text-[40px] font-semibold text-white md:text-text-dark-100">
-              {category.name}
+              {activity.title}
             </h2>
            
           </div>
               {/* Description Paragraphs */}
          
             <p className="text-xs md:text-base text-white/80 md:text-text-dark-80 leading-relaxed">
-              {description}
+              {activity.description}
             </p>
            
       
@@ -163,26 +145,32 @@ export function ActivityDetailModal({
           </div>
 
           <p className="text-xs md:text-base text-white/80 md:text-text-dark-80 leading-relaxed">
-              {description}
+              {activity.short_description}
             </p>
 
           {/* Bottom Images */}
-          <div className="grid grid-cols-2 gap-4 pt-4">
-            <div className="w-full h-[120px] md:h-[250px] rounded-xl overflow-hidden">
-              <img
-                src={attractionImageOne}
-                alt="Activity image 1"
-                className="w-full h-full object-cover"
-              />
+          {bottomImages.length > 0 && (
+            <div className={`grid gap-4 pt-4 ${bottomImages.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+              {image1Url && (
+                <div className="w-full h-[120px] md:h-[250px] rounded-xl overflow-hidden">
+                  <img
+                    src={image1Url}
+                    alt={`${activity.title} image 1`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              {image2Url && (
+                <div className="w-full h-[120px] md:h-[250px] rounded-xl overflow-hidden">
+                  <img
+                    src={image2Url}
+                    alt={`${activity.title} image 2`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
             </div>
-            <div className="w-full h-[120px] md:h-[250px] rounded-xl overflow-hidden">
-              <img
-                src={attractionImageTwo}
-                alt="Activity image 2"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </Modal>
