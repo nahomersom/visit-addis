@@ -18,6 +18,7 @@ import { ROUTES } from "./routes"
 import Blogs from "@/pages/Blogs"
 import BlogDetail from "@/components/blog/[id]/BlogDetail"
 import Venue from "@/pages/Venue"
+import VenueDetail from "@/pages/VenueDetail"
 
 export interface RouteConfig {
   path: string
@@ -84,6 +85,12 @@ export const routeConfig: RouteConfig[] = [
   },
 
   {
+    path: ROUTES.DETAIL_WITH_ID,
+    element: Detail,
+    title: "Travel Tip Detail",
+    description: "Travel Tips Detail",
+  },
+  {
     path: ROUTES.DETAIL,
     element: Detail,
     title: "Detail",
@@ -94,6 +101,12 @@ export const routeConfig: RouteConfig[] = [
     element: Venue,
     title: "Venue",
     description: "Discover amazing venues in Addis Ababa for your events and gatherings",
+  },
+  {
+    path: ROUTES.VENUE_DETAIL,
+    element: VenueDetail,
+    title: "Venue Detail",
+    description: "Detailed information about the venue",
   },
 ]
 

@@ -1,8 +1,10 @@
 import { Heart } from "lucide-react"
-import { attractions } from "@/data/attractions"
 import locationIcon from "@/assets/icons/location.svg"
 import starIcon from "@/assets/icons/star.svg"
 import { useRef, useState } from "react"
+import { useHome } from "@/hooks/useHome"
+import type { FeaturedCard } from "@/types/home"
+import { TopAttractionsSkeleton } from "@/layouts/skeleton/TopAttractionsSkeleton"
 
 
 interface TagProps {
@@ -20,6 +22,7 @@ function Tag({ label }: TagProps) {
 }
 
 export function TopAttractions() {
+  const { data: homeData, isLoading } = useHome();
   const [showLeft, setShowLeft] = useState(false);
 const [showRight, setShowRight] = useState(true);
 
@@ -33,6 +36,52 @@ const handleScroll = () => {
 
   setShowLeft(scrollLeft > 0); 
   setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+};
+
+if (isLoading) {
+  return <TopAttractionsSkeleton />
+}
+
+const topAttractionsHeader = homeData?.data?.top_attractions?.header;
+const title = topAttractionsHeader?.title || "Top Attractions in Addis Ababa";
+const titleHighlight = topAttractionsHeader?.title_highlight || "Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.";
+const featuredCards: FeaturedCard[] = homeData?.data?.top_attractions?.featured_cards || [];
+
+// Helper function to get image URL
+const getImageUrl = (image: any) => {
+  if (!image) return '';
+  
+  const baseUrl = import.meta.env.VITE_BASE_URL || 'https://api.visitaddisababa.et';
+  
+  // Handle formats if available (when formats is an object, not a string)
+  const formats = image.formats;
+  if (formats && typeof formats === 'object') {
+    // Try medium format first, then thumbnail, then small
+    if (formats.medium?.url) {
+      const mediumUrl = formats.medium.url;
+      // If it's already a full URL (e.g., Cloudinary), return as is
+      if (mediumUrl.startsWith("http")) return mediumUrl;
+      // Otherwise, construct the URL
+      return `${baseUrl}${mediumUrl}`;
+    }
+    if (formats.thumbnail?.url) {
+      const thumbnailUrl = formats.thumbnail.url;
+      if (thumbnailUrl.startsWith("http")) return thumbnailUrl;
+      return `${baseUrl}${thumbnailUrl}`;
+    }
+    if (formats.small?.url) {
+      const smallUrl = formats.small.url;
+      if (smallUrl.startsWith("http")) return smallUrl;
+      return `${baseUrl}${smallUrl}`;
+    }
+  }
+  
+  // Use the main URL
+  const url = image.url || "";
+  // If it's already a full URL (e.g., Cloudinary), return as is
+  if (url.startsWith("http")) return url;
+  // Otherwise, construct the URL
+  return `${baseUrl}${url}`;
 };
 
   return (
@@ -77,10 +126,10 @@ const handleScroll = () => {
           className="flex flex-col lg:flex-row lg:justify-between px-6 md:px-12 lg:px-[120px] gap-2 "
         >
           <h2 className="text-2xl font-semibold ">
-            Top Attractions in Addis Ababa
+            {title}
           </h2>
           <p className="text-sm text-[#758886] max-w-[400px] text-center md:text-left">
-            Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs.
+            {titleHighlight}
           </p>
         </div>
 
@@ -90,13 +139,13 @@ const handleScroll = () => {
           onScroll={handleScroll}
       >
         <div className="flex gap-6 pl-6 md:pl-[48px] lg:pl-[120px]">
-            {attractions.map((attraction) => (
-            <div key={attraction.id} className="flex flex-col gap-2.5 shrink-0 ">
+            {featuredCards.map((featuredCard) => (
+            <div key={featuredCard.id} className="flex flex-col gap-2.5 shrink-0 ">
                   {/* Image Container */}
                   <div className="relative h-[235px] w-[324px] md:h-[565px] md:w-[460px]  ">
                     <img
-                      src={attraction.image}
-                      alt={attraction.title}
+                      src={getImageUrl(featuredCard.image)}
+                      alt={featuredCard.title}
                       className="w-full h-full object-cover rounded-3xl"
                     />
                     {/* Heart Icon */}
@@ -105,8 +154,8 @@ const handleScroll = () => {
                     </button>
                     {/* Tags Overlay */}
                     <div className="absolute bottom-6 left-6 right-6 flex gap-2 flex-wrap">
-                      {attraction.tags.map((tag) => (
-                        <Tag key={tag} label={tag} />
+                      {featuredCard.tags?.map((tag) => (
+                        <Tag key={tag.id} label={tag.label} />
                       ))}
                     </div>
                   </div>
@@ -114,7 +163,7 @@ const handleScroll = () => {
                   {/* Content */}
                   <div className="mt-2">
                     <h3 className="text-lg lg:text-xl font-medium text-text-dark-100 mb-2">
-                      {attraction.title}
+                      {featuredCard.title}
                     </h3>
                     <div className="flex justify-between">
 
@@ -123,7 +172,7 @@ const handleScroll = () => {
               src={locationIcon} 
               alt={`location logo`}
             />
-                      <span>{attraction.location}</span>
+                      <span>{featuredCard.location}</span>
                     </div>
                     <div className="flex gap-1">
                       <img 
@@ -132,7 +181,7 @@ const handleScroll = () => {
               className="w-6 h-6"
             />
                       <span className="text-sm font-semibold text-text-dark-100">
-                        {attraction.rating}
+                        {featuredCard.rating}
                       </span>
                     </div>
                     </div>

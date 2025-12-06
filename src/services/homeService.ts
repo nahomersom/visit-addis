@@ -4,7 +4,30 @@ import type { HomeResponse } from "@/types/home";
 export const fetchHome = async (): Promise<HomeResponse> => {
   const res = await api.get("/home", {
     params: {
-      populate: "*",
+      populate: {
+        top_attractions: {
+          populate: {
+            header: {
+              populate: "*",
+            },
+            featured_cards: {
+              populate: "*",
+            },
+          },
+        },
+        downloadable_guides: {
+          populate: "*",
+        },
+        promotional_banner: {
+          populate: "*",
+        },
+        hero: {
+          populate: "*",
+        },
+        seo: {
+          populate: "*",
+        },
+      },
     },
   });
 

@@ -83,7 +83,7 @@ export function CallToActionBanner({
       )}
       
       {/* Overlay layer - show if overlayColor is provided or overlayOpacity is set and > 0 */}
-      {backgroundImage && (overlayColor || (overlayOpacity !== undefined && overlayOpacity > 0)) && (
+      {(overlayColor || (overlayOpacity !== undefined && overlayOpacity > 0)) && (
         <div
           className="absolute inset-0 rounded-3xl md:rounded-4xl z-10"
           style={{
