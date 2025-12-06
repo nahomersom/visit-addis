@@ -4,7 +4,7 @@ import { MapPin, Star, Loader2 } from "lucide-react"
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import { ADDIS_ABABA_CENTER } from "@/config/constants"
 import { LOCATION_FILTERS } from "./ExploreLocationsIcons"
-import { fetchPlacesByFilter, convertGooglePlaceToLocation } from "@/services/googlePlacesService"
+import { fetchPlacesByFilter, convertGooglePlaceToLocation, GOOGLE_PLACES_API_KEY } from "@/services/googlePlacesService"
 import type { GooglePlace } from "@/services/googlePlacesService"
 
 interface ExploreLocationsProps {
@@ -36,25 +36,26 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
   const [loading, setLoading] = useState(false)
   const [selectedPlace, setSelectedPlace] = useState<GooglePlace | null>(null)
   const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [mapError, setMapError] = useState<string | null>(null)
+  const [placesError, setPlacesError] = useState<string | null>(null)
 
-  // Get Google Maps API key from environment variable
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""
+  // Get Google Maps API key from environment variable or use default
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || GOOGLE_PLACES_API_KEY
 
   // Fetch places when filter changes
   useEffect(() => {
-    if (!apiKey) {
-      console.warn("Google Maps API key not found. Please set VITE_GOOGLE_MAPS_API_KEY in your .env file")
-      return
-    }
-
     const loadPlaces = async () => {
       setLoading(true)
+      setPlacesError(null)
       try {
         const fetchedPlaces = await fetchPlacesByFilter(activeFilter, apiKey)
+        console.log(`Loaded ${fetchedPlaces.length} places for filter: ${activeFilter}`, fetchedPlaces)
         setPlaces(fetchedPlaces)
         setSelectedPlace(null)
       } catch (error) {
         console.error("Error loading places:", error)
+        const errorMessage = error instanceof Error ? error.message : 'Failed to load places'
+        setPlacesError(errorMessage)
         setPlaces([])
       } finally {
         setLoading(false)
@@ -67,20 +68,31 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
   // Fit bounds when places change
   const onMapLoad = useCallback((map: google.maps.Map) => {
     setMap(map)
+    setMapError(null) // Clear error on successful load
   }, [])
 
   useEffect(() => {
     if (map && places.length > 0) {
       const bounds = new google.maps.LatLngBounds()
       places.forEach(place => {
-        bounds.extend({
-          lat: place.geometry.location.lat,
-          lng: place.geometry.location.lng
-        })
+        if (place.geometry?.location) {
+          bounds.extend({
+            lat: place.geometry.location.lat,
+            lng: place.geometry.location.lng
+          })
+        }
       })
-      map.fitBounds(bounds)
+      if (!bounds.isEmpty()) {
+        map.fitBounds(bounds)
+        // Add padding to bounds
+        map.fitBounds(bounds, { padding: 50 })
+      }
+    } else if (map && places.length === 0 && !loading) {
+      // If no places, center on Addis Ababa
+      map.setCenter({ lat: ADDIS_ABABA_CENTER[0], lng: ADDIS_ABABA_CENTER[1] })
+      map.setZoom(13)
     }
-  }, [map, places])
+  }, [map, places, loading])
 
   const locations = useMemo(() => {
     return places.map(place => convertGooglePlaceToLocation(place, activeFilter))
@@ -181,8 +193,13 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
     />
   )}
 
-  {apiKey ? (
-    <LoadScript googleMapsApiKey={apiKey}>
+  <LoadScript 
+    googleMapsApiKey={apiKey}
+    onError={(error) => {
+      console.error('Google Maps API Error:', error)
+      setMapError('Unable to load Google Maps. Please check API key configuration.')
+    }}
+  >
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={{ lat: ADDIS_ABABA_CENTER[0], lng: ADDIS_ABABA_CENTER[1] }}
@@ -195,6 +212,28 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
           fullscreenControl: true,
         }}
       >
+        {mapError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/90 z-20">
+            <div className="text-center p-6 max-w-md">
+              <p className="text-red-600 font-semibold mb-2">Google Maps Error</p>
+              <p className="text-sm text-gray-600 mb-4">{mapError}</p>
+              <p className="text-xs text-gray-500">
+                Please ensure the API key has Maps JavaScript API enabled and proper domain restrictions configured in Google Cloud Console.
+              </p>
+            </div>
+          </div>
+        )}
+        {placesError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/90 z-20">
+            <div className="text-center p-6 max-w-md">
+              <p className="text-red-600 font-semibold mb-2">Places API Error</p>
+              <p className="text-sm text-gray-600 mb-4">{placesError}</p>
+              <p className="text-xs text-gray-500 mt-4">
+                After enabling the API, wait a few minutes for changes to propagate, then refresh the page.
+              </p>
+            </div>
+          </div>
+        )}
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
             <div className="flex flex-col items-center gap-2">
@@ -204,7 +243,12 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
           </div>
         )}
 
-        {locations.map((location, index) => {
+        {locations.length > 0 && locations.map((location, index) => {
+          if (!location || !location.lat || !location.lng) {
+            console.warn('Invalid location data:', location)
+            return null
+          }
+
           const markerColor = getMarkerColor(activeFilter)
           const svgIcon = `
             <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -215,22 +259,23 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
           
           const iconConfig: google.maps.Icon = {
             url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgIcon)}`,
-          }
-          
-          if (typeof google !== 'undefined' && google.maps) {
-            iconConfig.scaledSize = new google.maps.Size(32, 32)
-            iconConfig.anchor = new google.maps.Point(16, 32)
+            scaledSize: new google.maps.Size(32, 32),
+            anchor: new google.maps.Point(16, 32),
           }
           
           return (
             <Marker
-              key={location.placeId || index}
+              key={location.placeId || `marker-${index}`}
               position={{ lat: location.lat, lng: location.lng }}
               onClick={() => {
                 const place = places[index]
-                if (place) setSelectedPlace(place)
+                if (place) {
+                  console.log('Marker clicked:', place)
+                  setSelectedPlace(place)
+                }
               }}
               icon={iconConfig}
+              title={location.name}
             />
           )
         })}
@@ -265,14 +310,6 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
         )}
       </GoogleMap>
     </LoadScript>
-  ) : (
-    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-      <div className="text-center p-4">
-        <p className="text-gray-600 mb-2">Google Maps API key not configured</p>
-        <p className="text-sm text-gray-500">Please set VITE_GOOGLE_MAPS_API_KEY in your .env file</p>
-      </div>
-    </div>
-  )}
 </div>
 
       </div>

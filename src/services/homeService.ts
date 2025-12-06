@@ -16,7 +16,21 @@ export const fetchHome = async (): Promise<HomeResponse> => {
           },
         },
         downloadable_guides: {
-          populate: "*",
+          populate: {
+            header: {
+              populate: "*",
+            },
+            background_image: {
+              populate: "*",
+            },
+            guides: {
+              populate: {
+                file: {
+                  populate: "*",
+                },
+              },
+            },
+          },
         },
         promotional_banner: {
           populate: "*",
