@@ -2,7 +2,6 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { venues } from "@/data/venues";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/config/routes";
 
 const DiscoverVenues: React.FC = () => {
     const navigate = useNavigate();

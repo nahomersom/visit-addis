@@ -20,14 +20,7 @@ export interface GooglePlacesResponse {
   status: string
 }
 
-// Map filter types to Google Places API types
-const FILTER_TO_PLACE_TYPES: Record<string, string[]> = {
-  "Eatery": ["restaurant", "food", "cafe", "meal_takeaway", "bakery"],
-  "Museums": ["museum", "art_gallery"],
-  "Hiking": ["park", "tourist_attraction", "natural_feature"],
-  "Shopping": ["shopping_mall", "store", "supermarket", "clothing_store"],
-  "Entertainment": ["night_club", "bar", "movie_theater", "amusement_park", "stadium"]
-}
+
 
 // Addis Ababa coordinates
 const ADDIS_ABABA_LAT = 9.1450
@@ -37,7 +30,6 @@ export const fetchPlacesByFilter = async (
   filterName: string,
   apiKey: string
 ): Promise<GooglePlace[]> => {
-  const placeTypes = FILTER_TO_PLACE_TYPES[filterName] || ["establishment"]
   
   try {
     // Use Text Search API with location bias for Addis Ababa

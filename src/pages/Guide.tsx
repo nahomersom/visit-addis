@@ -4,7 +4,7 @@ import { DownloadableGuides } from "@/components/sections/DownloadableGuides"
 import { GettingAround } from "@/components/sections/GettingAround"
 import { TravelTips } from "@/components/sections/TravelTips"
 import { ExploreLocations } from "@/components/sections/ExploreLocations"
-import { GuideSubscribeBanner } from "@/components/sections/guide-section/guideSubscribeBanner"
+import { GuideSubscribeBanner } from "@/components/sections/guide-section/GuideSubscribeBanner"
 
 export function Guide() {
   return (
