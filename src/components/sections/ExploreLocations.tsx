@@ -83,9 +83,9 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
         }
       })
       if (!bounds.isEmpty()) {
-        map.fitBounds(bounds)
-        // Add padding to bounds
-        map.fitBounds(bounds, { padding: 50 })
+        // Properly add padding to fitBounds depending on the Maps JS API version
+        // @ts-ignore: padding is supported in Maps JavaScript API v3.22+
+        map.fitBounds(bounds, { padding: { top: 50, right: 50, bottom: 50, left: 50 } })
       }
     } else if (map && places.length === 0 && !loading) {
       // If no places, center on Addis Ababa

@@ -1,4 +1,4 @@
-import type { WeatherData, OpenWeatherResponse } from "@/types/weather"
+import type { WeatherData } from "@/types/weather"
 
 // Addis Ababa coordinates
 const ADDIS_ABABA_LAT = 9.1450
@@ -6,8 +6,8 @@ const ADDIS_ABABA_LNG = 38.7617
 
 // OpenWeatherMap API - Free tier (no API key required for basic usage, but better with key)
 // Using openweathermap.org free API
-const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || ""
-const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5"
+// const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || ""
+// const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5"
 
 // Fallback: Using a free weather API that doesn't require key
 // We'll use open-meteo.com which is completely free and doesn't require API key
