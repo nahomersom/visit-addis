@@ -1,9 +1,6 @@
 import stadiumImage from "@/assets/images/stadium.jpg"
 import womensquareImage from "@/assets/images/womensquare.jpg"
 import keberoImage from "@/assets/images/kebero.jpg"
-import buildingsImage from "@/assets/images/buildings.jpg"
-import catholicChurchImage from "@/assets/images/catholicChurch.jpg"
-import oldHouseImage from "@/assets/images/oldHouse.jpg"
 
 export interface ExperienceSlide {
   id: string

@@ -1,54 +1,41 @@
 export interface ImageFormat {
-  ext: string;
   url: string;
-  hash: string;
-  mime: string;
-  name: string;
-  path: string | null;
-  size: number;
   width: number;
   height: number;
-  sizeInBytes: number;
-}
-
-export interface ImageFormats {
-  large?: ImageFormat;
-  small?: ImageFormat;
-  medium?: ImageFormat;
-  thumbnail?: ImageFormat;
 }
 
 export interface StrapiImage {
-  id: number;
   documentId: string;
   url: string;
-  formats: ImageFormats | null;
-  alternativeText: string | null;
+  formats?: {
+    small?: ImageFormat;
+    medium?: ImageFormat;
+    thumbnail?: ImageFormat;
+  };
 }
 
-export interface Blog {
+export interface BlogAttribute {
   id: number;
   documentId: string;
   title: string;
   slug: string;
   excerpt: string;
   content: string;
-  category: string | null;
-  author: string | null;
   published_date: string;
-  createdAt: string;
-  featured?: StrapiImage; 
-  images?: StrapiImage[];
+  is_featured: boolean | null;
+  featured?: StrapiImage; // The main image object
+}
+
+export interface Pagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
 }
 
 export interface BlogResponse {
-  data: Blog[];
+  data: BlogAttribute[];
   meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
+    pagination: Pagination;
   };
 }

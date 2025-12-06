@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Modal, ModalTitle, ModalDescription } from "@/components/ui/modal"
 import { useModal } from "@/contexts/ModalContext"
+import { Modal } from "@/components/ui/modal"
 import { Button } from "@/components/ui/button"
 import phoneImage from "@/assets/images/phone.png"
 
@@ -51,14 +51,14 @@ export function GetAppModal() {
             </div>
 
             {/* Title */}
-            <ModalTitle className="text-2xl font-semibold text-text-dark-100">
+            <h2 className="text-2xl font-semibold text-text-dark-100">
               The Visit Addis App
-            </ModalTitle>
+            </h2>
 
             {/* Description */}
-            <ModalDescription className="text-text-dark-60 text-xs">
-            Be the first to explore Addis Ababa! Get notified when the Visit Addis app launches.
-            </ModalDescription>
+            <p className="text-text-dark-60 text-xs">
+              Be the first to explore Addis Ababa! Get notified when the Visit Addis app launches.
+            </p>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
@@ -162,4 +162,3 @@ export function GetAppModal() {
 
 // Export the modal ID for use in other components
 export { MODAL_ID as GET_APP_MODAL_ID }
-

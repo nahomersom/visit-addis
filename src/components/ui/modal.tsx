@@ -16,30 +16,30 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
     return (
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <Dialog.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
           <Dialog.Content
             ref={ref}
             className={cn(
-              "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-lg",
+              "fixed left-[50%] top-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] bg-white shadow-2xl duration-200",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "rounded-4xl outline-none", 
               className
             )}
             {...props}
           >
             {showCloseButton && (
               <Dialog.Close 
-                className="absolute right-6 top-6 w-12 h-12 flex items-center justify-center rounded-[8px] backdrop-blur transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none z-10 cursor-pointer"
+                className="absolute right-6 top-6 z-50 flex h-10 w-10 items-center justify-center rounded-[8px] transition-colors hover:opacity-100 focus:outline-none"
                 style={{
-                  border: '0.5px solid rgba(255, 255, 255, 0.8)',
-                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '0.5px solid rgba(0, 0, 0, 0.1)',
+                  backgroundColor: 'rgba(249, 250, 251, 1)',
                 }}
                 onClick={(e) => {
                   e.stopPropagation()
-                  if (onOpenChange) {
-                    onOpenChange(false)
-                  }
+                  if (onOpenChange) onOpenChange(false)
                 }}
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4 text-gray-500" />
               </Dialog.Close>
             )}
             {children}
@@ -51,10 +51,4 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
 )
 Modal.displayName = "Modal"
 
-const ModalTrigger = Dialog.Trigger
-const ModalClose = Dialog.Close
-const ModalTitle = Dialog.Title
-const ModalDescription = Dialog.Description
-
-export { Modal, ModalTrigger, ModalClose, ModalTitle, ModalDescription }
-
+export { Modal }
