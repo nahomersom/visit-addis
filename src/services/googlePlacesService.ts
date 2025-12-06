@@ -1,5 +1,8 @@
 // Google Places API service to fetch real locations in Addis Ababa
 
+// Google Places API Key
+export const GOOGLE_PLACES_API_KEY = "AIzaSyBZEystX9mqDYPCkLCJ46AqouQdzPWhmqk"
+
 export interface GooglePlace {
   place_id: string
   name: string
@@ -15,9 +18,22 @@ export interface GooglePlace {
   formatted_address?: string
 }
 
-export interface GooglePlacesResponse {
-  results: GooglePlace[]
-  status: string
+// New Places API (New) response structure
+interface NewPlacesResponse {
+  places: Array<{
+    id: string
+    displayName: {
+      text: string
+    }
+    location: {
+      latitude: number
+      longitude: number
+    }
+    types: string[]
+    rating?: number
+    userRatingCount?: number
+    formattedAddress?: string
+  }>
 }
 
 
@@ -28,33 +44,90 @@ const ADDIS_ABABA_LNG = 38.7617
 
 export const fetchPlacesByFilter = async (
   filterName: string,
-  apiKey: string
+  apiKey?: string
 ): Promise<GooglePlace[]> => {
   
   try {
-    // Use Text Search API with location bias for Addis Ababa
+    // Use Places API (New) - Text Search
     const query = getSearchQuery(filterName)
-    const url = `https://maps.googleapis.com/maps/api/place/textsearch/json`
+    const url = `https://places.googleapis.com/v1/places:searchText`
     
     // Build query with type-specific search terms
     const searchQuery = `${query} in Addis Ababa, Ethiopia`
     
-    const params = new URLSearchParams({
-      query: searchQuery,
-      location: `${ADDIS_ABABA_LAT},${ADDIS_ABABA_LNG}`,
-      radius: '15000', // 15km radius
-      key: apiKey
+    // Use provided API key or fall back to default
+    const key = apiKey || GOOGLE_PLACES_API_KEY
+
+    const requestBody = {
+      textQuery: searchQuery,
+      maxResultCount: 20,
+      locationBias: {
+        circle: {
+          center: {
+            latitude: ADDIS_ABABA_LAT,
+            longitude: ADDIS_ABABA_LNG
+          },
+          radius: 15000.0 // 15km in meters
+        }
+      }
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': key,
+        'X-Goog-FieldMask': 'places.id,places.displayName,places.location,places.types,places.rating,places.userRatingCount,places.formattedAddress'
+      },
+      body: JSON.stringify(requestBody)
     })
 
-    const response = await fetch(`${url}?${params.toString()}`)
-    const data: GooglePlacesResponse = await response.json()
-
-    if (data.status === 'OK' && data.results) {
-      return data.results.slice(0, 20) // Limit to 20 results
-    } else if (data.status === 'ZERO_RESULTS') {
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Google Places API (New) error:', response.status, errorData)
+      
+      if (response.status === 403 || response.status === 400) {
+        const errorMessage = errorData?.error?.message || 'API access denied'
+        const activationUrl = errorData?.error?.details?.[0]?.metadata?.activationUrl
+        
+        console.error('Places API (New) Error:', errorMessage)
+        
+        if (activationUrl) {
+          console.error(`Enable Places API (New) here: ${activationUrl}`)
+          // Throw error with helpful message for UI display
+          throw new Error(`Places API (New) is not enabled. Please enable it in Google Cloud Console: ${activationUrl}`)
+        } else {
+          throw new Error(`Places API (New) Error: ${errorMessage}. Please enable Places API (New) in Google Cloud Console.`)
+        }
+      }
       return []
+    }
+
+    const data: NewPlacesResponse = await response.json()
+
+    console.log('Google Places API (New) response:', { placesCount: data.places?.length || 0 })
+
+    if (data.places && data.places.length > 0) {
+      // Convert new API format to our GooglePlace format
+      const results: GooglePlace[] = data.places.map(place => ({
+        place_id: place.id,
+        name: place.displayName.text,
+        geometry: {
+          location: {
+            lat: place.location.latitude,
+            lng: place.location.longitude
+          }
+        },
+        types: place.types || [],
+        rating: place.rating,
+        user_ratings_total: place.userRatingCount,
+        formatted_address: place.formattedAddress
+      }))
+
+      console.log(`Successfully fetched ${results.length} places using Places API (New)`)
+      return results
     } else {
-      console.error('Google Places API error:', data.status)
+      console.warn('No results found for query:', searchQuery)
       return []
     }
   } catch (error) {
