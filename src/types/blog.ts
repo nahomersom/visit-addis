@@ -8,6 +8,7 @@ export interface StrapiImage {
   documentId: string;
   url: string;
   formats?: {
+     large?: ImageFormat;
     small?: ImageFormat;
     medium?: ImageFormat;
     thumbnail?: ImageFormat;
@@ -23,7 +24,7 @@ export interface BlogAttribute {
   content: string;
   published_date: string;
   is_featured: boolean | null;
-  featured?: StrapiImage; // The main image object
+  featured?: StrapiImage;
 }
 
 export interface Pagination {

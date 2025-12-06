@@ -53,7 +53,7 @@ const UpcomingEvents = () => {
         {/* HEADER SECTION */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-row justify-between items-center">
-            <h1 className="text-[#0D2B28] text-2xl md:text-[32px] font-bold tracking-tight">Upcoming Events</h1>
+            <h1 className="text-[#152C2C] text-2xl md:text-[32px] font-bold tracking-tight">Upcoming Events</h1>
             <div className="block md:hidden">
               <TimeRangeDropdown timeRange={timeRange} onSelect={setTimeRange} />
             </div>
@@ -119,7 +119,7 @@ const UpcomingEvents = () => {
                 title={event.title}
                 description={event.description}
                 category={event.category}
-                onReadMore={() => handleReadMore(event)} // Pass handler
+                onReadMore={() => handleReadMore(event)}
               />
             ))
           ) : (
@@ -180,38 +180,46 @@ interface EventCardProps {
   title: string;
   description: string;
   category: string;
-  onReadMore: () => void; // Added prop
+  onReadMore: () => void; 
 }
 
-const EventCard: React.FC<EventCardProps> = ({ image, title, description, category, onReadMore }) => {
+const EventCard: React.FC<EventCardProps> = ({ image, title, description, onReadMore }) => {
   return (
     <div 
-      onClick={onReadMore} // Allow clicking the whole card too if desired
+      onClick={onReadMore}
       className="relative w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden group cursor-pointer animate-in fade-in duration-500 shadow-sm hover:shadow-xl transition-all"
     >
-      <div className="absolute top-4 left-4 z-10">
+      {/* Category Tag */}
+      {/* <div className="absolute top-4 left-4 z-30">
         <span className="backdrop-blur-md bg-white/20 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full border border-white/30">
           {category}
         </span>
-      </div>
+      </div> */}
+
+      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
         style={{ backgroundImage: `url(${image})` }}
       />
-      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90" />
-      <div className="absolute inset-0 flex flex-col justify-end p-6 gap-3">
-        <h3 className="text-white text-xl md:text-2xl font-bold leading-tight group-hover:text-[#DAA520] transition-colors line-clamp-2">
+
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90 z-10" />
+
+      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-linear-to-t from-[#1EAA9D] to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-500 ease-out z-20" />
+
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6 gap-3 z-30">
+        <h3 className="text-white text-xl md:text-2xl font-bold leading-tight group-hover:text-white transition-colors line-clamp-2 drop-shadow-md">
           {title}
         </h3>
-        <p className="text-gray-300 text-xs md:text-sm leading-relaxed line-clamp-2 md:line-clamp-3 font-light">
+        <p className="text-gray-200 text-xs md:text-sm leading-relaxed line-clamp-2 md:line-clamp-3 font-light drop-shadow-sm">
           {description}
         </p>
         <button 
           onClick={(e) => {
-            e.stopPropagation(); // Prevent double firing if card has onClick
+            e.stopPropagation(); 
             onReadMore();
           }}
-          className="mt-2 bg-[#DAA520] text-white text-sm font-semibold py-2.5 px-6 rounded-full w-max hover:bg-[#c2921a] hover:shadow-lg active:scale-95 transition-all"
+          className="mt-2 bg-[#DAA520] text-white text-sm font-semibold py-2.5 px-6 rounded-full w-max hover:bg-[#c2921a] hover:shadow-lg active:scale-95 transition-all shadow-black/20 shadow-md cursor-pointer"
         >
           Read More
         </button>
@@ -220,7 +228,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, description, catego
   );
 };
 
-// FilterButton and TimeRangeDropdown remain the same as your original code
+// FilterButton
 const FilterButton: React.FC<{ icon: React.ReactNode; label: string; isActive: boolean; onClick: () => void; }> = ({ icon, label, isActive, onClick }) => {
   return (
     <button
@@ -243,6 +251,7 @@ const FilterButton: React.FC<{ icon: React.ReactNode; label: string; isActive: b
   );
 };
 
+// TimeRangeDropdown
 const TimeRangeDropdown: React.FC<{ timeRange: string; onSelect: (val: string) => void }> = ({ timeRange, onSelect }) => {
   return (
     <DropdownMenu.Root>

@@ -7,7 +7,7 @@ export function LatestStories() {
   
   if (isLoading) {
     return (
-      <section className="py-[60px] px-6 md:px-[48px] lg:px-[120px]">
+      <section className="py-[60px] px-6 md:px-12 lg:px-[120px]">
         <h2 className="text-2xl font-semibold mb-8 md:mb-6 lg:mb-10 text-text-dark-100 text-center md:text-start">
           Latest Stories
         </h2>
@@ -18,7 +18,7 @@ export function LatestStories() {
 
   if (isError || !blogsData?.data || blogsData.data.length === 0) {
     return (
-      <section className="py-[60px] px-6 md:px-[48px] lg:px-[120px]">
+      <section className="py-[60px] px-6 md:px-12 lg:px-[120px]">
         <h2 className="text-2xl font-semibold mb-8 md:mb-6 lg:mb-10 text-text-dark-100 text-center md:text-start">
           Latest Stories
         </h2>
@@ -67,7 +67,7 @@ export function LatestStories() {
   }
 
   return (
-     <section className="py-[60px] px-6  md:px-[48px] lg:px-[120px]">
+     <section className="py-[60px] px-6  md:px-12 lg:px-[120px]">
 
       
           <h2 className="text-2xl font-semibold mb-8 md:mb-6 lg:mb-10 text-text-dark-100 text-center md:text-start ">
@@ -104,7 +104,7 @@ export function LatestStories() {
           </div>
 
           {/* Side Stories - Horizontal Scroll */}
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-6 px-6 md:-mx-[48px] md:px-[48px]">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-6 px-6 md:-mx-12 md:px-12">
             {sideStories.map((story, index) => (
               <div key={story.id} className="bg-accent-80 p-2 flex flex-col md:flex-row md:gap-4 rounded-2xl w-[280px] md:w-[500px] shrink-0">
                 <div className="relative h-[120px] md:h-[164px]  md:w-[200px] rounded-2xl overflow-hidden shrink-0">

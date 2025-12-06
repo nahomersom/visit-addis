@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useBlogs } from '@/hooks/useBlogs';
-import { getImageUrl, formatDate } from '@/utils/imageUtils'; // Ensure path is correct
+import { getImageUrl, formatDate } from '@/utils/imageUtils';
 import { Skeleton } from '../ui/skeleton';
 
 // Helper for truncation
@@ -24,10 +24,8 @@ const Button = ({ id }: ButtonProps) => (
 );
 
 const LatestBlogStories: React.FC = () => {
-  // CONFIGURATION: Fetch Page 1, Size 4 (1 Big + 3 Small)
   const { data: blogData, isLoading, isError } = useBlogs(1, 4);
 
-  // Styles
   const CONTAINER_CLASSES = "w-full max-w-[1512px] mx-auto flex flex-col border-t border-gray-200 py-10 px-6 gap-6 md:px-12 xl:px-[120px]";
   const CONTENT_WRAPPER_CLASSES = "flex flex-col gap-4 w-full xl:flex-row xl:h-[614px]";
   const BIG_CARD_CONTAINER = "bg-[#F7F8F7] rounded-2xl flex flex-col shrink-0 overflow-hidden w-full h-[436px] p-2 gap-6 md:h-[552px] md:p-3 xl:w-[756px] xl:h-full xl:p-2";
@@ -67,7 +65,7 @@ const LatestBlogStories: React.FC = () => {
   // If no blogs at all
   if (blogs.length === 0) return null;
 
-  // Split logic: The first one (index 0) is the "Most Recent"
+  // The first one (index 0) is the "Most Recent"
   const featuredStory = blogs[0];
   // The next three (index 1, 2, 3) are the side stories
   const sideStories = blogs.slice(1, 4);
@@ -83,7 +81,7 @@ const LatestBlogStories: React.FC = () => {
         {/* BIG CARD (Most Recent) */}
         <div className={BIG_CARD_CONTAINER}>
           <div className="w-full grow relative rounded-xl overflow-hidden group">
-            <Link to={`/blog/${featuredStory.documentId}`}>
+            <Link to={`/blogs/${featuredStory.documentId}`}>
               <img
                 src={getImageUrl(featuredStory.featured)}
                 alt={featuredStory.title}
@@ -94,10 +92,10 @@ const LatestBlogStories: React.FC = () => {
 
           <div className="flex flex-col gap-3 shrink-0 w-full">
             <div className="flex flex-col gap-2 w-full">
-               <h3 className="text-[20px] font-bold text-[#152C2C] w-full whitespace-nowrap overflow-hidden text-ellipsis">
+               <h3 className="text-[20px] font-bold text-[#10383A] w-full whitespace-nowrap overflow-hidden text-ellipsis">
                 {truncateText(featuredStory.title, 60)}
               </h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed w-full whitespace-nowrap overflow-hidden text-ellipsis">
+              <p className="text-[14px] text-[#758886] leading-relaxed w-full whitespace-nowrap overflow-hidden text-ellipsis">
                 {truncateText(featuredStory.excerpt || featuredStory.content, 100)}
               </p>
             </div>
@@ -122,7 +120,7 @@ const LatestBlogStories: React.FC = () => {
                 md:h-[220px]
                 xl:w-[180px] xl:h-full
               ">
-                <Link to={`/blog/${story.documentId}`}>
+                <Link to={`/blogs/${story.documentId}`}>
                   <img
                     src={getImageUrl(story.featured)}
                     alt={story.title}

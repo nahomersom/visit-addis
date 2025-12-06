@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useBlogs } from '@/hooks/useBlogs';
 import { getImageUrl, formatDate } from '@/utils/imageUtils';
+import { Skeleton } from '../ui/skeleton';
 
 interface VoiceProps {
   title?: string;
@@ -11,7 +12,7 @@ const VoiceOfAddis: React.FC<VoiceProps> = ({ title = "Voice Of Addis" }) => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
-  // FIX: Fetch Page X, Size 6, isFeatured = TRUE
+  // Fetch Size 6, isFeatured = TRUE
   const { data, isLoading, isError } = useBlogs(page, 6, true);
 
   const blogs = data?.data || [];
@@ -34,7 +35,66 @@ const VoiceOfAddis: React.FC<VoiceProps> = ({ title = "Voice Of Addis" }) => {
     navigate(`/blogs/${documentId}`);
   };
 
-  if (isLoading) return <div className="text-center py-10">Loading featured stories...</div>;
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-[1512px] mx-auto flex flex-col bg-white py-10 px-6 gap-6 md:py-10 md:px-12 md:gap-6 xl:px-[120px] xl:gap-6">
+        
+        {/* Title Skeleton */}
+        <div className="flex justify-center md:justify-start">
+          <Skeleton className="h-8 w-48 rounded-lg" />
+        </div>
+
+        {/* Cards Grid Skeleton */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-4 xl:gap-6">
+          {/* Render 6 skeleton cards to match page size */}
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col justify-between w-full bg-[#F7F8F7] min-h-[272px] h-fit rounded-2xl p-2 gap-4 md:h-[445px] md:rounded-3xl md:p-4 md:gap-4 xl:rounded-3xl xl:p-4"
+            >
+              {/* Image Skeleton */}
+              <Skeleton className="w-full shrink-0 h-[180px] rounded-xl md:h-[220px] md:rounded-xl" />
+
+              {/* Content Skeleton */}
+              <div className="flex flex-col grow gap-2 md:gap-3 px-1 md:px-0">
+                {/* Title lines */}
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-6 w-1/2" />
+                
+                {/* Excerpt lines */}
+                <div className="mt-2 space-y-2">
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-2/3" />
+                </div>
+              </div>
+
+              {/* Footer Skeleton */}
+              <div className="flex items-center justify-between mt-auto pt-2 px-1 md:px-0">
+                <Skeleton className="h-9 w-24 rounded-full" /> {/* Button */}
+                <Skeleton className="h-3 w-20" /> {/* Date */}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination Skeleton */}
+        <div className="w-full flex items-center justify-between mt-4 md:mt-8">
+          <Skeleton className="h-4 w-8" /> {/* Page count */}
+          
+          <div className="grow mx-4 h-px bg-gray-100 relative">
+             <Skeleton className="absolute inset-0 w-full h-full" />
+          </div>
+
+          <div className="flex items-center gap-3">
+             <Skeleton className="w-10 h-10 md:w-12 md:h-12 rounded-full" />
+             <Skeleton className="w-10 h-10 md:w-12 md:h-12 rounded-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isError) return <div className="text-center py-10 text-red-500">Failed to load stories.</div>;
   
   // If no featured blogs exist, hide the section
@@ -44,7 +104,7 @@ const VoiceOfAddis: React.FC<VoiceProps> = ({ title = "Voice Of Addis" }) => {
     <div className="w-full max-w-[1512px] mx-auto flex flex-col bg-white py-10 px-6 gap-6 md:py-10 md:px-12 md:gap-6 xl:px-[120px] xl:gap-6">
       
       {/* Heading */}
-      <h2 className="text-[24px] font-bold text-[#10383A] text-center md:text-left">
+      <h2 className="text-[24px] font-bold text-[#152C2C] text-center md:text-left">
         {title}
       </h2>
 
@@ -70,10 +130,10 @@ const VoiceOfAddis: React.FC<VoiceProps> = ({ title = "Voice Of Addis" }) => {
 
             {/* Content Wrapper */}
             <div className="flex flex-col grow gap-2 md:gap-3 px-1 md:px-0">
-              <h3 className="text-[#10383A] font-bold text-base md:text-lg leading-tight line-clamp-2">
+              <h3 className="text-[#152C2C] font-bold text-base md:text-lg leading-tight line-clamp-2">
                 {item.title}
               </h3>
-              <p className="text-gray-500 text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-2">
+              <p className="text-[#758886] text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-2">
                 {item.excerpt || item.content}
               </p>
             </div>
