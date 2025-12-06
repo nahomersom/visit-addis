@@ -9,13 +9,14 @@ export function WhatsHotThisMonth() {
 
         <SectionHeader
             title="What's hot this month"
+            alignLeft
             description="  Visiting Ethiopia is easier than you think! From knowing the best time to visit and visa requirements to discovering must-see attractions and cultural experiences, we've made planning simple."
             />
 
       <div className="grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] gap-4">
         {/* Main Story */}
         <div className="w-full overflow-hidden">
-          <div className="relative h-[600px] rounded-2xl overflow-hidden">
+          <div className="relative h-[333px] md:h-[600px] rounded-2xl overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{

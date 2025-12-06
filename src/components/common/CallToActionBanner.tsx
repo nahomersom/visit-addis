@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import logoIcon from "@/assets/icons/logo.svg"
+import type { ReactNode } from "react"
 
 interface CallToActionBannerProps {
   title: {
@@ -7,8 +8,9 @@ interface CallToActionBannerProps {
     regularText: string
   }
   description: string
-  buttonText: string
+  buttonText?: string
   onButtonClick?: () => void
+  customContent?: ReactNode // Custom component/field to show when buttonText is not provided
   showLogo?: boolean
   logoImage?: string // Custom logo image path
   backgroundImage?: string
@@ -24,6 +26,7 @@ export function CallToActionBanner({
   description,
   buttonText,
   onButtonClick,
+  customContent,
   showLogo = false,
   logoImage,
   backgroundImage,
@@ -80,7 +83,7 @@ export function CallToActionBanner({
       )}
       
       {/* Overlay layer - show if overlayColor is provided or overlayOpacity is set and > 0 */}
-      {backgroundImage && (overlayColor || (overlayOpacity !== undefined && overlayOpacity > 0)) && (
+      {(overlayColor || (overlayOpacity !== undefined && overlayOpacity > 0)) && (
         <div
           className="absolute inset-0 rounded-3xl md:rounded-4xl z-10"
           style={{
@@ -103,12 +106,16 @@ export function CallToActionBanner({
         
         <p className="text-text-dark-80 text-sm max-w-[838px] text-center">{description}</p>
         
-        <Button
-          className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[47px] md:min-h-[50px]"
-          onClick={onButtonClick}
-        >
-          <span>{buttonText}</span>
-        </Button>
+        {buttonText ? (
+          <Button
+            className="bg-theme-primary text-sm px-6 py-4 text-white rounded-[105px] min-h-[47px] md:min-h-[50px]"
+            onClick={onButtonClick}
+          >
+            <span>{buttonText}</span>
+          </Button>
+        ) : (
+          customContent
+        )}
       </div>
     </div>
   )

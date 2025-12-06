@@ -36,12 +36,12 @@ export function GetAppModal() {
       onOpenChange={(open) => {
         if (!open) closeModal(MODAL_ID)
       }}
-      className="max-w-[715px] p-0 overflow-hidden rounded-4xl"
+      className="md:min-w-[715px] p-0 overflow-hidden rounded-4xl"
     >
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col-reverse md:flex-row">
         {/* Left Side - Form */}
-        <div className="flex-1 pl-6 py-6">
-          <div className="flex flex-col gap-6">
+        <div className="flex-1 p-6 md:p-10">
+          <div className="flex flex-col gap-4 md:gap-6">
             {/* Coming Soon Badge */}
             <div 
               className="inline-flex items-center justify-center w-fit px-3 py-2 rounded-[48px] border-[0.5px] border-theme-secondary"
@@ -49,22 +49,24 @@ export function GetAppModal() {
             >
               <span className="text-xs  text-theme-secondary">Coming Soon</span>
             </div>
+            <div className="gap-2 md:gap-6">
 
             {/* Title */}
-            <ModalTitle className="text-2xl font-semibold text-text-dark-100">
+            <ModalTitle className="md:text-2xl font-semibold text-white md:text-text-dark-100">
               The Visit Addis App
             </ModalTitle>
 
             {/* Description */}
-            <ModalDescription className="text-text-dark-60 text-xs">
+            <ModalDescription className="text-white/80 md:text-text-dark-60 text-xs">
             Be the first to explore Addis Ababa! Get notified when the Visit Addis app launches.
             </ModalDescription>
+            </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
               {/* Full Name */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="fullName" className="text-xs text-text-dark-100 ">
+                <label htmlFor="fullName" className="text-xs text-white md:text-text-dark-100 ">
                   Full Name
                 </label>
                 <input
@@ -74,13 +76,13 @@ export function GetAppModal() {
                   value={formData.fullName}
                   onChange={handleInputChange}
                   placeholder="e.g. Dave Ha."
-                  className="w-full px-4 py-3 rounded-[8px] bg-accent-80 placeholder:text-text-dark-80 placeholder:text-xs"
+                  className="w-full px-4 py-3 rounded-[8px] bg-white/20 md:bg-accent-80 md:placeholder:text-text-dark-80 placeholder:text-white/80 placeholder:text-xs"
                 />
               </div>
 
               {/* Email */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="text-xs text-text-dark-100 ">
+                <label htmlFor="email" className="text-xs text-white md:text-text-dark-100 ">
                   Email
                 </label>
                 <input
@@ -90,14 +92,14 @@ export function GetAppModal() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="e.g. dev@example.com"
-                  className="w-full px-4 py-3 rounded-[8px] bg-accent-80 placeholder:text-text-dark-80 placeholder:text-xs"
+                  className="w-full px-4 py-3 rounded-[8px] bg-white/20 md:bg-accent-80 md:placeholder:text-text-dark-80 placeholder:text-white/80 placeholder:text-xs"
 
               />
               </div>
 
               {/* Phone Number */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="phoneNumber" className="text-xs text-text-dark-100 ">
+                <label htmlFor="phoneNumber" className="text-xs text-white md:text-text-dark-100 ">
                   Phone Number
                 </label>
                 <input
@@ -107,7 +109,7 @@ export function GetAppModal() {
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
                   placeholder="e.g. 0987654321"
-                  className="w-full px-4 py-3 rounded-[8px] bg-accent-80 placeholder:text-text-dark-80 placeholder:text-xs"
+                  className="w-full px-4 py-3 rounded-[8px] bg-white/20 md:bg-accent-80 md:placeholder:text-text-dark-80 placeholder:text-white/80 placeholder:text-xs"
               
               />
               </div>
@@ -139,7 +141,7 @@ export function GetAppModal() {
 
               {/* Submit Button */}
               <Button
-          className="bg-theme-primary text-sm px-4 py-4 text-white rounded-[105px] min-h-[50px] max-w-[115px]"
+          className="bg-theme-primary text-sm px-4 py-4 text-white rounded-[105px] min-h-[50px] md:max-w-[115px]"
         >
           <span>Notify Me!</span>
         </Button>
@@ -147,8 +149,15 @@ export function GetAppModal() {
           </div>
         </div>
 
+    <div className="block md:hidden bg-white min-h-[234px] rounded-bl-2xl rounded-br-2xl w-full ">
+    <img
+            src={phoneImage}
+            alt="Visit Addis App Preview"
+            className="w-full h-[234px] max-w-full object-contain"
+          />
+    </div>
         {/* Right Side - Phone Mockups */}
-        <div className="flex-1 flex items-center justify-center  relative overflow-hidden">
+        <div className="flex-1  items-center justify-center p-6 relative overflow-hidden hidden md:flex">
           <img
             src={phoneImage}
             alt="Visit Addis App Preview"
