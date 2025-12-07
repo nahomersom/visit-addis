@@ -3,7 +3,7 @@ import type { ActivityTypeResponse } from "@/types/activityType"
 import type { ActivityResponse } from "@/types/activityType"
 
 export const fetchActivityTypes = async (): Promise<ActivityTypeResponse> => {
-  const res = await api.get("/activity-typess", {
+  const res = await api.get("/activity-types", {
     params: {
       populate: {
         activities: {
