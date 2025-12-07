@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { Loader2 } from "lucide-react"
 import { useActivityTypes } from "@/hooks/useActivityTypes"
 import exploreBackground from "@/assets/images/exploreBackground.png"
 import { CallToActionBanner } from "../common/CallToActionBanner"
 import { SectionHeader } from "../common/SectionHeader"
 import { ActivityDetailModal } from "../modals/ActivityDetailModal"
+import { ThingsToDoSkeleton } from "@/layouts/skeleton/ThingsToDoSkeleton"
 
 export function ThingsToDo() {
   const { data: activitiesData, isLoading } = useActivityTypes()
@@ -21,24 +21,22 @@ export function ThingsToDo() {
   const currentActivity = selectedActivity 
     ? activities.find(activity => activity.id === selectedActivity) || null
     : null
+
+  if (isLoading) {
+    return <ThingsToDoSkeleton />
+  }
+
   return (
     <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px]">
       <div className="w-full">
         {/* Header Section */}
-       
-          
-    
-          <SectionHeader
-        title="  Things To Do In Addis Ababa"
-        description="Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs."
-      />
+        <SectionHeader
+          title="  Things To Do In Addis Ababa"
+          description="Discover the city's must-see landmarks, from ancient treasures to modern cultural hubs."
+        />
 
         <div className="flex flex-wrap gap-2 justify-center ">
-          {isLoading ? (
-            <div className="flex items-center justify-center w-full py-8">
-              <Loader2 className="w-8 h-8 animate-spin text-theme-secondary" />
-            </div>
-          ) : activities.length > 0 ? (
+          {activities.length > 0 ? (
             activities.map((activity) => {
             return (
               <div
