@@ -8,7 +8,7 @@ import type { BlogAttribute } from '@/types/blog';
 
 // Local Assets
 import exploreImage from '@/assets/images/list.png';
-import vectorImage from '@/assets/images/vector.png';
+import vectorImage from '@/assets/images/Vector.png';
 
 interface BlogData {
   documentId: string;
