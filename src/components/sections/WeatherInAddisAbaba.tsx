@@ -1,3 +1,5 @@
+import { useWeather } from "@/hooks/useWeather"
+import { Loader2 } from "lucide-react"
 import springImage from "../../assets/images/spring.png"
 import summerImage from "../../assets/images/summer.png"
 import fallImage from "../../assets/images/fall.png"
@@ -32,17 +34,29 @@ const seasons = [
   },
 ]
 
-const weatherData = {
-  condition: "Sunny",
-  temperature: "33.1",
-  sunrise: "06:30",
-  sunset: "07:00",
-  low: "26.3",
-  high: "31.7",
-  humidity: "56",
+// Get weather icon based on condition
+const getWeatherIcon = (condition: string): string => {
+  const lowerCondition = condition.toLowerCase()
+  if (lowerCondition.includes("clear") || lowerCondition.includes("sunny")) {
+    return sunnyImage
+  }
+  // You can add more conditions here for different weather icons
+  return sunnyImage // Default to sunny
 }
 
 export function WeatherInAddisAbaba() {
+  const { data: weatherData, isLoading, isError } = useWeather()
+  
+  // Fallback data if loading or error
+  const displayData = weatherData || {
+    condition: "Loading...",
+    temperature: "--",
+    sunrise: "--:--",
+    sunset: "--:--",
+    low: "--",
+    high: "--",
+    humidity: "--",
+  }
   return (
     <section className="py-10 px-6 lg:py-[60px] lg:px-[120px] bg-white">
    
@@ -98,30 +112,43 @@ export function WeatherInAddisAbaba() {
             style={{ opacity: 0.8 }}
           />
           <div className="relative z-10 flex flex-col md:flex-row md:flex-wrap items-center gap-2">
+            {isLoading ? (
+              <div className="flex items-center justify-center w-full py-8">
+                <Loader2 className="w-8 h-8 animate-spin text-theme-secondary" />
+              </div>
+            ) : isError ? (
+              <div className="flex items-center justify-center w-full py-8">
+                <p className="text-sm text-red-600">Failed to load weather data</p>
+              </div>
+            ) : (
+              <>
             {/* Condition */}
             <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full lg:min-w-[500px] lg:w-auto  p-6 md:h-full h-auto">
                 <div className="flex flex-col items-center justify-center gap-1 ">
-
                <span className=" md:text-2xl font-bold text-text-dark-100">
-                {weatherData.condition}
+                      {displayData.condition}
               </span>
               <span className="text-xs md:text-base text-text-dark-80">Now</span>
                 </div>
               <img 
-                src={sunnyImage} 
-                alt="Sunny"
+                    src={getWeatherIcon(displayData.condition)} 
+                    alt={displayData.condition}
                 className="md:w-[131px] md:h-32 w-20 h-20 object-contain"
               />
              
               {/* Temperature */}
               <div className="flex flex-col items-center gap-1 w-fit">
                 <span className="text-2xl font-bold text-text-dark-100">
-                  {weatherData.temperature}
+                      {displayData.temperature}
                 </span>
                 <span className="md:text-base text-xs text-text-dark-80">Celsius</span>
               </div>
             </div>
+              </>
+            )}
 
+            {!isLoading && !isError && (
+              <>
             {/* Sunrise and Sunset Row (Mobile) */}
             <div className="flex sm:hidden gap-2 w-full">
               {/* Sunrise */}
@@ -132,7 +159,7 @@ export function WeatherInAddisAbaba() {
                   className="size-[24px] md:size-10 object-contain"
                 />
                 <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
-                  {weatherData.sunrise}
+                      {displayData.sunrise}
                 </span>
                 <span className="text-xs md:text-sm text-text-dark-80">Sunrise</span>
               </div>
@@ -145,7 +172,7 @@ export function WeatherInAddisAbaba() {
                   className="size-[24px] md:size-10 object-contain"
                 />
                 <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
-                  {weatherData.sunset}
+                      {displayData.sunset}
                 </span>
                 <span className="text-xs md:text-sm text-text-dark-80">Sunset</span>
               </div>
@@ -161,7 +188,7 @@ export function WeatherInAddisAbaba() {
                   className="size-[24px] md:size-10 object-contain"
                 />
                 <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
-                  {weatherData.low}
+                      {displayData.low}
                 </span>
                 <span className="text-xs md:text-sm text-text-dark-80">Low</span>
               </div>
@@ -174,7 +201,7 @@ export function WeatherInAddisAbaba() {
                   className="size-[24px] md:size-10 object-contain"
                 />
                 <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
-                  {weatherData.high}
+                      {displayData.high}
                 </span>
                 <span className="text-xs md:text-sm text-text-dark-80">High</span>
               </div>
@@ -187,7 +214,7 @@ export function WeatherInAddisAbaba() {
                   className="size-[24px] md:size-10 object-contain"
                 />
                 <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
-                  {weatherData.humidity}%
+                      {displayData.humidity}%
                 </span>
                 <span className="text-xs md:text-sm text-text-dark-80">Humidity</span>
               </div>
@@ -201,7 +228,7 @@ export function WeatherInAddisAbaba() {
                 className="size-10 object-contain"
               />
               <span className="text-lg font-semibold text-theme-secondary">
-                {weatherData.sunrise}
+                    {displayData.sunrise}
               </span>
               <span className="text-sm text-text-dark-80">Sunrise</span>
             </div>
@@ -214,7 +241,7 @@ export function WeatherInAddisAbaba() {
                 className="size-10 object-contain"
               />
               <span className="text-lg font-semibold text-theme-secondary">
-                {weatherData.sunset}
+                    {displayData.sunset}
               </span>
               <span className="text-sm text-text-dark-80">Sunset</span>
             </div>
@@ -227,7 +254,7 @@ export function WeatherInAddisAbaba() {
                 className="size-10 object-contain"
               />
               <span className="text-lg font-semibold text-theme-secondary">
-                {weatherData.low}
+                    {displayData.low}
               </span>
               <span className="text-sm text-text-dark-80">Low</span>
             </div>
@@ -240,7 +267,7 @@ export function WeatherInAddisAbaba() {
                 className="size-10 object-contain"
               />
               <span className="text-lg font-semibold text-theme-secondary">
-                {weatherData.high}
+                    {displayData.high}
               </span>
               <span className="text-sm text-text-dark-80">High</span>
             </div>
@@ -253,10 +280,12 @@ export function WeatherInAddisAbaba() {
                 className="size-10 object-contain"
               />
               <span className="text-lg font-semibold text-theme-secondary">
-                {weatherData.humidity}%
+                    {displayData.humidity}%
               </span>
               <span className="text-sm text-text-dark-80">Humidity</span>
             </div>
+              </>
+            )}
           </div>
         </div>
     </section>

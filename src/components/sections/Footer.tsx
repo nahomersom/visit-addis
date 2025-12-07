@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react"
 export function Footer() {
   return (
     <footer className="bg-accent-80 md:bg-[#F0F0EE] text-text-dark-100">
-      <div className="px-6 py-10 md:px-[48px] lg:px-[120px] md:py-10">
+      <div className="px-6 py-10 md:px-12 lg:px-[120px] md:py-10">
         <div className="grid grid-cols-2 md:grid-cols-[260px_224px_224px_224px_224px] gap-x-4 md:gap-x-[45px] gap-y-6 md:gap-y-10 lg:gap-y-8 mb-12">
           {/* Logo and Description - Full width on mobile */}
           <div className="col-span-2 md:col-span-1">
