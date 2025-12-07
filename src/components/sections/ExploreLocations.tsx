@@ -76,17 +76,17 @@ export function ExploreLocations({ fullWidth = false, isForPlanyourTrp = false }
       const bounds = new google.maps.LatLngBounds()
       places.forEach(place => {
         if (place.geometry?.location) {
-          bounds.extend({
-            lat: place.geometry.location.lat,
-            lng: place.geometry.location.lng
-          })
+        bounds.extend({
+          lat: place.geometry.location.lat,
+          lng: place.geometry.location.lng
+        })
         }
       })
       if (!bounds.isEmpty()) {
         // Properly add padding to fitBounds depending on the Maps JS API version
         // @ts-ignore: padding is supported in Maps JavaScript API v3.22+
         map.fitBounds(bounds, { padding: { top: 50, right: 50, bottom: 50, left: 50 } })
-      }
+    }
     } else if (map && places.length === 0 && !loading) {
       // If no places, center on Addis Ababa
       map.setCenter({ lat: ADDIS_ABABA_CENTER[0], lng: ADDIS_ABABA_CENTER[1] })

@@ -122,168 +122,168 @@ export function WeatherInAddisAbaba() {
               </div>
             ) : (
               <>
-                {/* Condition */}
-                <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full lg:min-w-[500px] lg:w-auto  p-6 md:h-full h-auto">
-                  <div className="flex flex-col items-center justify-center gap-1 ">
-                    <span className=" md:text-2xl font-bold text-text-dark-100">
+            {/* Condition */}
+            <div className="flex justify-center gap-8 items-center bg-theme-white/40 rounded-2xl w-full lg:min-w-[500px] lg:w-auto  p-6 md:h-full h-auto">
+                <div className="flex flex-col items-center justify-center gap-1 ">
+               <span className=" md:text-2xl font-bold text-text-dark-100">
                       {displayData.condition}
-                    </span>
-                    <span className="text-xs md:text-base text-text-dark-80">Now</span>
-                  </div>
-                  <img 
+              </span>
+              <span className="text-xs md:text-base text-text-dark-80">Now</span>
+                </div>
+              <img 
                     src={getWeatherIcon(displayData.condition)} 
                     alt={displayData.condition}
-                    className="md:w-[131px] md:h-32 w-20 h-20 object-contain"
-                  />
-                 
-                  {/* Temperature */}
-                  <div className="flex flex-col items-center gap-1 w-fit">
-                    <span className="text-2xl font-bold text-text-dark-100">
+                className="md:w-[131px] md:h-32 w-20 h-20 object-contain"
+              />
+             
+              {/* Temperature */}
+              <div className="flex flex-col items-center gap-1 w-fit">
+                <span className="text-2xl font-bold text-text-dark-100">
                       {displayData.temperature}
-                    </span>
-                    <span className="md:text-base text-xs text-text-dark-80">Celsius</span>
-                  </div>
-                </div>
+                </span>
+                <span className="md:text-base text-xs text-text-dark-80">Celsius</span>
+              </div>
+            </div>
               </>
             )}
 
             {!isLoading && !isError && (
               <>
-                {/* Sunrise and Sunset Row (Mobile) */}
-                <div className="flex sm:hidden gap-2 w-full">
-                  {/* Sunrise */}
-                  <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
-                    <img 
-                      src={sunriseIcon} 
-                      alt="Sunrise"
-                      className="size-[24px] md:size-10 object-contain"
-                    />
-                    <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+            {/* Sunrise and Sunset Row (Mobile) */}
+            <div className="flex sm:hidden gap-2 w-full">
+              {/* Sunrise */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={sunriseIcon} 
+                  alt="Sunrise"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
                       {displayData.sunrise}
-                    </span>
-                    <span className="text-xs md:text-sm text-text-dark-80">Sunrise</span>
-                  </div>
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Sunrise</span>
+              </div>
 
-                  {/* Sunset */}
-                  <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
-                    <img 
-                      src={sunsetIcon} 
-                      alt="Sunset"
-                      className="size-[24px] md:size-10 object-contain"
-                    />
-                    <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+              {/* Sunset */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={sunsetIcon} 
+                  alt="Sunset"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
                       {displayData.sunset}
-                    </span>
-                    <span className="text-xs md:text-sm text-text-dark-80">Sunset</span>
-                  </div>
-                </div>
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Sunset</span>
+              </div>
+            </div>
 
-                {/* Low, High, Humidity Row (Mobile) */}
-                <div className="flex sm:hidden gap-2 w-full">
-                  {/* Low */}
-                  <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
-                    <img 
-                      src={thermometerIcon} 
-                      alt="Thermometer"
-                      className="size-[24px] md:size-10 object-contain"
-                    />
-                    <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+            {/* Low, High, Humidity Row (Mobile) */}
+            <div className="flex sm:hidden gap-2 w-full">
+              {/* Low */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={thermometerIcon} 
+                  alt="Thermometer"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
                       {displayData.low}
-                    </span>
-                    <span className="text-xs md:text-sm text-text-dark-80">Low</span>
-                  </div>
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Low</span>
+              </div>
 
-                  {/* High */}
-                  <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
-                    <img 
-                      src={thermometerIcon} 
-                      alt="Thermometer"
-                      className="size-[24px] md:size-10 object-contain"
-                    />
-                    <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+              {/* High */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={thermometerIcon} 
+                  alt="Thermometer"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
                       {displayData.high}
-                    </span>
-                    <span className="text-xs md:text-sm text-text-dark-80">High</span>
-                  </div>
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">High</span>
+              </div>
 
-                  {/* Humidity */}
-                  <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
-                    <img 
-                      src={humidityIcon} 
-                      alt="Humidity"
-                      className="size-[24px] md:size-10 object-contain"
-                    />
-                    <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
+              {/* Humidity */}
+              <div className="flex flex-col items-center gap-2 flex-1 bg-white rounded-2xl p-6 justify-center">
+                <img 
+                  src={humidityIcon} 
+                  alt="Humidity"
+                  className="size-[24px] md:size-10 object-contain"
+                />
+                <span className="text-sm font-medium md:text-lg md:font-semibold text-theme-secondary">
                       {displayData.humidity}%
-                    </span>
-                    <span className="text-xs md:text-sm text-text-dark-80">Humidity</span>
-                  </div>
-                </div>
+                </span>
+                <span className="text-xs md:text-sm text-text-dark-80">Humidity</span>
+              </div>
+            </div>
 
-                {/* Desktop: Sunrise */}
-                <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
-                  <img 
-                    src={sunriseIcon} 
-                    alt="Sunrise"
-                    className="size-10 object-contain"
-                  />
-                  <span className="text-lg font-semibold text-theme-secondary">
+            {/* Desktop: Sunrise */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={sunriseIcon} 
+                alt="Sunrise"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                     {displayData.sunrise}
-                  </span>
-                  <span className="text-sm text-text-dark-80">Sunrise</span>
-                </div>
+              </span>
+              <span className="text-sm text-text-dark-80">Sunrise</span>
+            </div>
 
-                {/* Desktop: Sunset */}
-                <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
-                  <img 
-                    src={sunsetIcon} 
-                    alt="Sunset"
-                    className="size-10 object-contain"
-                  />
-                  <span className="text-lg font-semibold text-theme-secondary">
+            {/* Desktop: Sunset */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={sunsetIcon} 
+                alt="Sunset"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                     {displayData.sunset}
-                  </span>
-                  <span className="text-sm text-text-dark-80">Sunset</span>
-                </div>
+              </span>
+              <span className="text-sm text-text-dark-80">Sunset</span>
+            </div>
 
-                {/* Desktop: Low */}
-                <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
-                  <img 
-                    src={thermometerIcon} 
-                    alt="Thermometer"
-                    className="size-10 object-contain"
-                  />
-                  <span className="text-lg font-semibold text-theme-secondary">
+            {/* Desktop: Low */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={thermometerIcon} 
+                alt="Thermometer"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                     {displayData.low}
-                  </span>
-                  <span className="text-sm text-text-dark-80">Low</span>
-                </div>
+              </span>
+              <span className="text-sm text-text-dark-80">Low</span>
+            </div>
 
-                {/* Desktop: High */}
-                <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
-                  <img 
-                    src={thermometerIcon} 
-                    alt="Thermometer"
-                    className="size-10 object-contain"
-                  />
-                  <span className="text-lg font-semibold text-theme-secondary">
+            {/* Desktop: High */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={thermometerIcon} 
+                alt="Thermometer"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                     {displayData.high}
-                  </span>
-                  <span className="text-sm text-text-dark-80">High</span>
-                </div>
+              </span>
+              <span className="text-sm text-text-dark-80">High</span>
+            </div>
 
-                {/* Desktop: Humidity */}
-                <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
-                  <img 
-                    src={humidityIcon} 
-                    alt="Humidity"
-                    className="size-10 object-contain"
-                  />
-                  <span className="text-lg font-semibold text-theme-secondary">
+            {/* Desktop: Humidity */}
+            <div className="hidden sm:flex flex-col items-center gap-2 flex-1 max-w-[140px] bg-white rounded-2xl p-6 h-full justify-center">
+              <img 
+                src={humidityIcon} 
+                alt="Humidity"
+                className="size-10 object-contain"
+              />
+              <span className="text-lg font-semibold text-theme-secondary">
                     {displayData.humidity}%
-                  </span>
-                  <span className="text-sm text-text-dark-80">Humidity</span>
-                </div>
+              </span>
+              <span className="text-sm text-text-dark-80">Humidity</span>
+            </div>
               </>
             )}
           </div>

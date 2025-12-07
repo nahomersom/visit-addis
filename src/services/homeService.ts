@@ -26,7 +26,7 @@ export const fetchHome = async (): Promise<HomeResponse> => {
             guides: {
               populate: {
                 file: {
-                  populate: "*",
+          populate: "*",
                 },
               },
             },
