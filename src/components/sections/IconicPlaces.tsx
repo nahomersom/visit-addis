@@ -1,10 +1,61 @@
 import { useState } from "react"
-import { iconicPlaces } from "@/data/whereToStay"
 import exploreBackground from "@/assets/images/exploreBackground.png"
 import { SectionHeader } from "../common/SectionHeader"
+import { useThingsToDo } from "@/hooks/useThingsToDo"
+import type { Image } from "@/types/thingsToDo"
+
+// Helper function to get image URL from Image object
+const getImageUrl = (image: Image | null | undefined): string => {
+  if (!image) return '';
+  
+  const baseUrl = import.meta.env.VITE_BASE_URL || 'https://api.visitaddisababa.et';
+  
+  // Handle formats if available
+  const formats = image.formats;
+  if (formats && typeof formats === 'object') {
+    // Try medium format first, then thumbnail, then small, then large
+    if (formats.medium?.url) {
+      const mediumUrl = formats.medium.url;
+      if (mediumUrl.startsWith("http")) return mediumUrl;
+      return `${baseUrl}${mediumUrl}`;
+    }
+    if (formats.thumbnail?.url) {
+      const thumbnailUrl = formats.thumbnail.url;
+      if (thumbnailUrl.startsWith("http")) return thumbnailUrl;
+      return `${baseUrl}${thumbnailUrl}`;
+    }
+    if (formats.small?.url) {
+      const smallUrl = formats.small.url;
+      if (smallUrl.startsWith("http")) return smallUrl;
+      return `${baseUrl}${smallUrl}`;
+    }
+    if (formats.large?.url) {
+      const largeUrl = formats.large.url;
+      if (largeUrl.startsWith("http")) return largeUrl;
+      return `${baseUrl}${largeUrl}`;
+    }
+  }
+  
+  // Use the main URL
+  const url = image.url || "";
+  if (url.startsWith("http")) return url;
+  return `${baseUrl}${url}`;
+};
 
 export function IconicPlaces() {
+  const { data, isLoading } = useThingsToDo();
   const [hoveredIconic, setHoveredIconic] = useState<string | null>(null)
+
+  const iconicPlacesData = data?.data?.iconic_places;
+  const iconicPlacesItems = iconicPlacesData?.items || [];
+
+  // Map iconic_places items to the format expected by the component
+  const iconicPlaces = iconicPlacesItems.map((item) => ({
+    id: String(item.id),
+    title: item.title,
+    description: item.description,
+    image: getImageUrl(item.image),
+  }));
 
   // Determine the overlay background color - same logic as CallToActionBanner
   const getOverlayColor = (overlayColor?: string, overlayOpacity?: number) => {
@@ -31,6 +82,22 @@ export function IconicPlaces() {
     }
     // Default overlay if none provided
     return 'rgba(0, 0, 0, 0.5)'
+  }
+
+  if (isLoading) {
+    return (
+      <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-96 mb-8"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="h-[350px] bg-gray-200 rounded-2xl"></div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

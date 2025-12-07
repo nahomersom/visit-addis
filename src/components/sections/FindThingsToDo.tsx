@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft } from "lucide-react"
-import { activityCategories } from "@/data/whereToStay"
-import type { ActivityCategory } from "@/data/whereToStay"
-import { activities } from "@/data/activities"
+import { useActivityTypeList, useActivityTypes } from "@/hooks/useActivityTypes"
+import type { ActivityType, Activity, ActivityItem } from "@/types/activityType"
+import { ThingsToDoSkeleton } from "@/layouts/skeleton/ThingsToDoSkeleton"
+import { ActivityDetailModal } from "../modals/ActivityDetailModal"
 
 interface FindThingsToDoProps {
   title?: string
@@ -11,54 +12,41 @@ interface FindThingsToDoProps {
   isForThingsTodo?: boolean
 }
 
-// Map category names to activity filters
-const getActivitiesForCategory = (categoryName: string) => {
-  const categoryLower = categoryName.toLowerCase()
+// Helper function to get icon URL from activity type
+const getIconUrl = (icon: any | null | undefined): string => {
+  if (!icon) return ""
   
-  if (categoryLower.includes("outdoor")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("hiking") || name.includes("camping") || name.includes("cycling") || 
-             name.includes("rock climbing") || name.includes("exploring") || name.includes("travel") ||
-             name.includes("photography") || name.includes("gardening") || name.includes("science") ||
-             name.includes("nature")
-    })
-  }
-  if (categoryLower.includes("cultural")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("books") || name.includes("literature") || name.includes("museum") || 
-             name.includes("photography") || name.includes("arts") || name.includes("crafts")
-    })
-  }
-  if (categoryLower.includes("food")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("food") || name.includes("drink") || name.includes("cooking")
-    })
-  }
-  if (categoryLower.includes("night")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("music") || name.includes("musical") || name.includes("gaming") || 
-             name.includes("movies")
-    })
-  }
-  if (categoryLower.includes("entertainment")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("sports") || name.includes("fitness") || name.includes("yoga") || 
-             name.includes("swimming") || name.includes("competitions")
-    })
-  }
-  if (categoryLower.includes("shopping")) {
-    return activities.filter(a => {
-      const name = a.name.toLowerCase()
-      return name.includes("shopping") || name.includes("pets") || name.includes("animals")
-    })
+  const baseUrl = import.meta.env.VITE_BASE_URL || "https://api.visitaddisababa.et"
+  
+  // Handle formats if available (when formats is an object, not a string)
+  const formats = icon.formats as any
+  if (formats && typeof formats === 'object') {
+    // Try medium format first, then thumbnail, then small
+    if (formats.medium?.url) {
+      const mediumUrl = formats.medium.url
+      // If it's already a full URL (e.g., Cloudinary), return as is
+      if (mediumUrl.startsWith("http")) return mediumUrl
+      // Otherwise, construct the URL
+      return `${baseUrl}${mediumUrl}`
+    }
+    if (formats.thumbnail?.url) {
+      const thumbnailUrl = formats.thumbnail.url
+      if (thumbnailUrl.startsWith("http")) return thumbnailUrl
+      return `${baseUrl}${thumbnailUrl}`
+    }
+    if (formats.small?.url) {
+      const smallUrl = formats.small.url
+      if (smallUrl.startsWith("http")) return smallUrl
+      return `${baseUrl}${smallUrl}`
+    }
   }
   
-  return activities
+  // Use the main URL
+  const url = icon.url || ""
+  // If it's already a full URL (e.g., Cloudinary), return as is
+  if (url.startsWith("http")) return url
+  // Otherwise, construct the URL
+  return `${baseUrl}${url}`
 }
 
 export function FindThingsToDo({ 
@@ -66,22 +54,42 @@ export function FindThingsToDo({
   description,
   isForThingsTodo = false
 }: FindThingsToDoProps = {}) {
-  const [selectedCategory, setSelectedCategory] = useState<ActivityCategory | null>(null)
+  const { data: activityTypesData, isLoading: isLoadingTypes } = useActivityTypeList()
+  const { data: activitiesData, isLoading: isLoadingActivities } = useActivityTypes()
+  const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | null>(null)
+  const [selectedActivity, setSelectedActivity] = useState<ActivityItem | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleCategoryClick = (category: ActivityCategory) => {
-    setSelectedCategory(category)
+  const activityTypes = activityTypesData?.data || []
+  const allActivities = activitiesData?.data || []
+
+  const handleActivityTypeClick = (activityType: ActivityType) => {
+    setSelectedActivityType(activityType)
   }
 
   const handleBackClick = () => {
-    setSelectedCategory(null)
+    setSelectedActivityType(null)
   }
 
-  const categoryActivities = selectedCategory ? getActivitiesForCategory(selectedCategory.name) : []
+  const handleActivityClick = (activityId: number) => {
+    // Find the full activity details from all activities
+    const fullActivity = allActivities.find(activity => activity.id === activityId) || null
+    setSelectedActivity(fullActivity)
+    setIsModalOpen(true)
+  }
+
+  const categoryActivities: Activity[] = selectedActivityType?.activities || []
+
+  const isLoading = isLoadingTypes || isLoadingActivities
+
+  if (isLoading) {
+    return <ThingsToDoSkeleton />
+  }
 
   return (
     <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
       <AnimatePresence mode="wait">
-        {!selectedCategory ? (
+        {!selectedActivityType ? (
           <motion.div
             key="categories"
             initial={{ opacity: 0, y: 20 }}
@@ -99,16 +107,16 @@ export function FindThingsToDo({
             </div>
 
             <div className="flex flex-wrap gap-4 ">
-              {activityCategories.map((category) => (
+              {activityTypes.map((activityType) => (
                 <div
-                  key={category.id}
-                  onClick={() => handleCategoryClick(category)}
+                  key={activityType.id}
+                  onClick={() => handleActivityTypeClick(activityType)}
                   className={`relative ${isForThingsTodo ? 'w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.67rem)]' : 'w-[calc(33.333%-0.67rem)]'} lg:w-[198.67px] ${isForThingsTodo ? 'h-[180px] md:h-[180px]' : 'h-[100px] md:h-[180px]'} rounded-2xl overflow-hidden cursor-pointer group`}
                 >
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `url(${category.image})`,
+                backgroundImage: `url(${getIconUrl(activityType.icon)})`,
               }}
             />
             {/* Progressive blur overlay - same as SocialHighlights */}
@@ -154,7 +162,7 @@ export function FindThingsToDo({
               <div className="relative z-10 flex  items-center gap-3">
               
                 <span className="text-white font-semibold text-xs md:text-lg">
-                  {category.name}
+                  {activityType.name}
                 </span>
               </div>
             </div>
@@ -182,11 +190,11 @@ export function FindThingsToDo({
               </button>
               <div className="flex flex-col justify-between">
               <h2 className="text-2xl font-semibold text-text-dark-100 mb-2">
-                {selectedCategory.name} Activities
+                {selectedActivityType.name} Activities
               </h2>
               
               <p className="text-sm  text-text-dark-80">
-                Lorem ipsum dolor sit amet consectetur. Leo adipiscing nibh risus aenean et vitae et.
+                {selectedActivityType.description || "Explore activities in this category"}
               </p>
               </div>
 
@@ -195,20 +203,34 @@ export function FindThingsToDo({
 
             {/* Activity Tags */}
             <div className="flex flex-wrap gap-2">
-              {categoryActivities.map((activity) => (
-                <div
-                  key={activity.id}
-                  className="px-4 min-w-[90px] min-h-[50px] bg-white text-text-dark-100 rounded-4xl cursor-pointer border border-accent-100 flex items-center justify-center"
-                >
-                  <span className="text-sm">
-                    {activity.name}
-                  </span>
+              {categoryActivities.length > 0 ? (
+                categoryActivities.map((activity) => (
+                  <div
+                    key={activity.id}
+                    onClick={() => handleActivityClick(activity.id)}
+                    className="px-4 min-w-[90px] min-h-[50px] bg-white text-text-dark-100 rounded-4xl cursor-pointer border border-accent-100 flex items-center justify-center hover:bg-accent-100 transition-colors"
+                  >
+                    <span className="text-sm">
+                      {activity.title}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-text-dark-80 py-4 w-full">
+                  No activities available for this category
                 </div>
-              ))}
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Activity Detail Modal */}
+      <ActivityDetailModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        activity={selectedActivity}
+      />
     </section>
   )
 }

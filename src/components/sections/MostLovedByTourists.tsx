@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { mostLovedItems } from "@/data/whereToStay"
+import { useState, useEffect } from "react"
 import { SectionHeader } from "../common/SectionHeader"
 import { CallToActionBanner } from "../common/CallToActionBanner"
 import visitBackground from "@/assets/images/visitBackground.png"
 import planImage from "@/assets/images/plan.png"
+import { useThingsToDo } from "@/hooks/useThingsToDo"
+import type { Image } from "@/types/thingsToDo"
 interface TagProps {
   label: string
 }
@@ -18,9 +19,81 @@ function Tag({ label }: TagProps) {
   )
 }
 
+// Helper function to get image URL from Image object
+const getImageUrl = (image: Image | null | undefined): string => {
+  if (!image) return '';
+  
+  const baseUrl = import.meta.env.VITE_BASE_URL || 'https://api.visitaddisababa.et';
+  
+  // Handle formats if available
+  const formats = image.formats;
+  if (formats && typeof formats === 'object') {
+    // Try medium format first, then thumbnail, then small, then large
+    if (formats.medium?.url) {
+      const mediumUrl = formats.medium.url;
+      if (mediumUrl.startsWith("http")) return mediumUrl;
+      return `${baseUrl}${mediumUrl}`;
+    }
+    if (formats.thumbnail?.url) {
+      const thumbnailUrl = formats.thumbnail.url;
+      if (thumbnailUrl.startsWith("http")) return thumbnailUrl;
+      return `${baseUrl}${thumbnailUrl}`;
+    }
+    if (formats.small?.url) {
+      const smallUrl = formats.small.url;
+      if (smallUrl.startsWith("http")) return smallUrl;
+      return `${baseUrl}${smallUrl}`;
+    }
+    if (formats.large?.url) {
+      const largeUrl = formats.large.url;
+      if (largeUrl.startsWith("http")) return largeUrl;
+      return `${baseUrl}${largeUrl}`;
+    }
+  }
+  
+  // Use the main URL
+  const url = image.url || "";
+  if (url.startsWith("http")) return url;
+  return `${baseUrl}${url}`;
+};
+
 export function MostLovedByTourists() {
-  const [hoveredMostLoved, setHoveredMostLoved] = useState<string | null>("1") // First card active by default
+  const { data, isLoading } = useThingsToDo();
+  const [hoveredMostLoved, setHoveredMostLoved] = useState<string | null>(null) // First card active by default
   const [clickedMostLoved, setClickedMostLoved] = useState<string | null>(null) // For mobile click
+
+  const mostLovedData = data?.data?.most_loved;
+  const headerTitle = mostLovedData?.header?.title || "Most Loved By Tourists";
+  const headerDescription = mostLovedData?.header?.description || "Discover the city's favorite activities, showcasing a mix of historic treasures and lively cultural hubs.";
+  const featuredCards = mostLovedData?.featured_cards || [];
+
+  const planYourDayData = data?.data?.plan_your_day;
+  // Split title into coloredText and regularText (split on first space)
+  const planTitle = planYourDayData?.title || "Plan Your Day";
+  const titleParts = planTitle.split(" ");
+  const planColoredText = titleParts[0] || "Plan";
+  const planRegularText = titleParts.slice(1).join(" ") || "Your Day";
+  const planDescription = planYourDayData?.description || "Explore the vibrant city of Addis Ababa! Discover its rich culture, delicious cuisine, and stunning landscapes. Don't miss out on the chance to immerse yourself in this unique experience plan your visit today!";
+  const planButtonText = planYourDayData?.buttons?.[0]?.label || "Get Itinerary";
+  const planBackgroundImage = planYourDayData?.background_image ? getImageUrl(planYourDayData.background_image) : visitBackground;
+
+  // Map featured_cards to the format expected by the component
+  const mostLovedItems = featuredCards.map((card) => ({
+    id: String(card.id),
+    title: card.title,
+    description: card.description,
+    location: card.location || "",
+    rating: card.rating,
+    tags: card.tags.map((tag) => tag.label),
+    image: getImageUrl(card.image),
+  }));
+
+  // Set first card as active by default when data loads
+  useEffect(() => {
+    if (mostLovedItems.length > 0 && hoveredMostLoved === null) {
+      setHoveredMostLoved(mostLovedItems[0].id);
+    }
+  }, [mostLovedItems.length, hoveredMostLoved]);
 
   const handleCardClick = (itemId: string) => {
     if (clickedMostLoved === itemId) {
@@ -30,12 +103,28 @@ export function MostLovedByTourists() {
     }
   }
 
+  if (isLoading) {
+    return (
+      <section className="py-0 md:py-[60px] px-6 md:px-12 lg:px-[120px]">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-96 mb-8"></div>
+          <div className="flex gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[600px] w-52 bg-gray-200 rounded-3xl"></div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-0 md:py-[60px]   px-6 md:px-12 lg:px-[120px]">
       
       <SectionHeader
-      title="Most Loved By Tourists"
-      description=" Discover the city's favorite activities, showcasing a mix of historic treasures and lively cultural hubs."
+      title={headerTitle}
+      description={headerDescription}
       alignLeft={true}
       />
 
@@ -53,7 +142,7 @@ export function MostLovedByTourists() {
                 }`}
                 onClick={() => handleCardClick(item.id)}
                 onMouseEnter={() => setHoveredMostLoved(item.id)}
-                onMouseLeave={() => setHoveredMostLoved("1")} // Return to first card being active on leave
+                onMouseLeave={() => setHoveredMostLoved(mostLovedItems.length > 0 ? mostLovedItems[0].id : null)} // Return to first card being active on leave
               >
                 {/* Image Container */}
                 <div className={`relative w-full rounded-3xl overflow-hidden transition-all duration-300 ${
@@ -156,12 +245,12 @@ export function MostLovedByTourists() {
 
         <CallToActionBanner
             title={{
-              coloredText: "Plan",
-              regularText: "Your Day",
+              coloredText: planColoredText,
+              regularText: planRegularText,
             }}
-            description="Explore the vibrant city of Addis Ababa! Discover its rich culture, delicious cuisine, and stunning landscapes. Don't miss out on the chance to immerse yourself in this unique experience plan your visit today!"
-            buttonText="Get Itinerary"
-            backgroundImage={visitBackground}
+            description={planDescription}
+            buttonText={planButtonText}
+            backgroundImage={planBackgroundImage}
             overlayColor="#F7F8F7"
             showLogo
             logoImage={planImage}
