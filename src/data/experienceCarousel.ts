@@ -2,7 +2,6 @@ import stadiumImage from "@/assets/images/stadium.jpg"
 import womensquareImage from "@/assets/images/womensquare.jpg"
 import keberoImage from "@/assets/images/kebero.jpg"
 
-
 export interface ExperienceSlide {
   id: string
   title: string
@@ -37,4 +36,3 @@ export const experienceSlides: ExperienceSlide[] = [
     thumbnail: keberoImage,
   },
 ]
-

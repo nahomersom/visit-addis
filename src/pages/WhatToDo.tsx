@@ -3,13 +3,13 @@ import CulturalEtiquette from "@/components/culture/CulturalEtiquette"
 import CultureCta from "@/components/culture/CultureCta"
 import CultureHero from "@/components/culture/CultureHero"
 import ModernLife from "@/components/culture/ModernLife"
-import TraditionAspires from "@/components/culture/TraditionAspires"
+// import TraditionAspires from "@/components/culture/TraditionAspires"
 
 const WhatToDo = () => {
   return (
     <main>
       <CultureHero />
-      <TraditionAspires />
+      {/* <TraditionAspires /> */}
       <ModernLife />
       <CoffeCulture />
       <CulturalEtiquette />

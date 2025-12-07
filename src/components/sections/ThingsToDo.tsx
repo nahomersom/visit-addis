@@ -27,7 +27,7 @@ export function ThingsToDo() {
   }
 
   return (
-    <section className="py-10 md:py-[60px] px-6 md:px-[48px] lg:px-[120px]">
+    <section className="py-10 md:py-[60px] px-6 md:px-12 lg:px-[120px]">
       <div className="w-full">
         {/* Header Section */}
         <SectionHeader
@@ -57,7 +57,6 @@ export function ThingsToDo() {
           )}
         </div>
 
-        {/* Activity Detail Modal */}
         <ActivityDetailModal
           open={isModalOpen}
           onOpenChange={setIsModalOpen}
@@ -80,4 +79,3 @@ export function ThingsToDo() {
     </section>
   )
 }
-
