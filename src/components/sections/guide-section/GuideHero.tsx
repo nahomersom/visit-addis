@@ -1,40 +1,91 @@
-import GuideHeroImage from "@/assets/images/GuideHeroImage.png"
+import { getImageUrl } from "@/lib/axios";
+import { useGuide } from "@/hooks/useGuide";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const GuideHero = () => {
+  const { data, isLoading } = useGuide();
+
+  if (isLoading) {
+    return (
+      <div className="relative w-full h-[733px] md:h-[488px] lg:h-[500px] flex justify-center items-center flex-col lg:py-[200px] lg:px-[120px] bg-center bg-cover gap-10">
+        <Skeleton className="absolute inset-0 w-full h-full bg-slate-200" />
+        <div className="relative flex flex-col items-center gap-4 w-full px-4 z-10">
+          <Skeleton className="h-10 sm:h-12 md:h-16 w-3/4 max-w-[600px] bg-slate-300" />
+          <Skeleton className="h-4 sm:h-6 w-full max-w-[800px] bg-slate-300" />
+        </div>
+      </div>
+    );
+  }
+
+  const heroData = data?.data?.hero;
+
+  const fullTitle = heroData?.title || "Your Guide to Addis Ababa";
+  const titleHighlight = heroData?.title_highlight || "Addis Ababa";
+  const subtitle = heroData?.subtitle || "Plan your visit with confidence. From travel tips and transportation to local customs and must-know essentials, this guide helps you explore Addis Ababa smoothly and experience the city like a local.";
+
+  // Split title around the highlight word
+  const highlightIndex = fullTitle.toLowerCase().indexOf(titleHighlight.toLowerCase());
+  let titleBefore = "";
+  let titleAfter = "";
+  let actualHighlight = titleHighlight;
+  
+  if (highlightIndex !== -1) {
+    // Get the actual highlight word from the title (with original casing)
+    const actualHighlightLength = titleHighlight.length;
+    actualHighlight = fullTitle.substring(highlightIndex, highlightIndex + actualHighlightLength);
+    
+    titleBefore = fullTitle.substring(0, highlightIndex);
+    titleAfter = fullTitle.substring(highlightIndex + actualHighlightLength).trim();
+  } else {
+    // If highlight not found in title, use title as before and highlight separately
+    titleBefore = fullTitle;
+    titleAfter = "";
+  }
+
+  const bgImageUrl = heroData?.background_image?.url
+    ? getImageUrl(heroData.background_image.url)
+    : "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=1770&auto=format&fit=crop";
+
   return (
     <div
-    className="relative w-full h-[733px]  md:h-[488px] lg:h-[500px]
-    flex justify-center items-center flex-col
-    lg:py-[200px] lg:px-[120px]
-    bg-center bg-cover
-    gap-10
-    "
-      style={{ backgroundImage: `url(${GuideHeroImage})` }}
+      className="relative w-full h-[733px] md:h-[488px] lg:h-[500px]
+      flex justify-center items-center flex-col
+      lg:py-[200px] lg:px-[120px]
+      bg-center bg-cover
+      gap-10
+      "
+      style={{ backgroundImage: `url(${bgImageUrl})` }}
     >
       {/* overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
       {/* content */}
       <div className="relative flex flex-col items-center text-center w-full gap-3 px-4">
-
-      
- <h1 className="text-2xl md:text-[64px] font-bold mb-2 hidden md:block lg:hidden">
-            <span className="text-white">  Your Guide to  <span className="text-theme-primary">Addis</span> </span>
-            <div className="text-theme-primary">Ababa</div>
-          </h1>
-      <h1 className="font-bold text-white text-2xl md:text-[64px] leading-tight md:hidden lg:block">
-       
-          Your Guide to <span className="text-theme-primary">Addis Ababa</span>
+        <h1 className="text-2xl md:text-[64px] font-bold mb-2 hidden md:block lg:hidden">
+          <span className="text-white">
+            {titleBefore}
+            <span className="text-theme-primary">{actualHighlight}</span>
+          </span>
+          {titleAfter && titleAfter.length > 0 && (
+            <div className="text-theme-primary">{titleAfter}</div>
+          )}
         </h1>
-        <p className="text-white/80 text-[12px] md:text-[16px] w-full  md:max-w-[738px] lg:max-w-[840px] mx-auto">
-
-        
-         Plan your visit with confidence. From travel tips and transportation to local customs and must-know essentials, this guide helps you explore Addis Ababa smoothly and experience the city like a local.
+        <h1 className="font-bold text-white text-2xl md:text-[64px] leading-tight md:hidden lg:block">
+          <span className="text-white">
+            {titleBefore}
+            <span className="text-theme-primary">{actualHighlight}</span>
+          </span>
+          {titleAfter && titleAfter.length > 0 && (
+            <span className="text-theme-primary"> {titleAfter}</span>
+          )}
+        </h1>
+        <p className="text-white/80 text-[12px] md:text-[16px] w-full md:max-w-[738px] lg:max-w-[840px] mx-auto">
+          {subtitle}
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default GuideHero
+export default GuideHero;
 
