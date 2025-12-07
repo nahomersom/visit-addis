@@ -1,8 +1,53 @@
 import { Button } from "@/components/ui/button"
-import { whatsHotItems } from "@/data/whereToStay"
 import { SectionHeader } from "../common/SectionHeader"
+import { useBlogs } from "@/hooks/useBlogs"
+import { getImageUrl, formatDate } from "@/utils/imageUtils"
+import { Link } from "react-router-dom"
+import { Skeleton } from "../ui/skeleton"
+
+// Helper for truncation
+const truncateText = (text: string, maxLength: number) => {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+};
 
 export function WhatsHotThisMonth() {
+  const { data: blogData, isLoading } = useBlogs(1, 4); // Fetch first 4 blogs
+
+  const blogs = blogData?.data || [];
+  
+  // Map blogs to the format expected by the component
+  const whatsHotItems = blogs.map((blog) => ({
+    id: blog.documentId || String(blog.id),
+    title: blog.title,
+    date: formatDate(blog.published_date),
+    category: "Blog", // Default category since blogs don't have categories
+    description: truncateText(blog.excerpt || blog.content, 150),
+    image: getImageUrl(blog.featured),
+  }));
+
+  if (isLoading) {
+    return (
+      <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
+        <Skeleton className="h-8 w-64 mb-4" />
+        <Skeleton className="h-4 w-96 mb-8" />
+        <div className="grid grid-cols-1 md:grid-cols-[65%_35%] lg:grid-cols-[70%_30%] gap-4">
+          <Skeleton className="h-[333px] md:h-[600px] rounded-2xl" />
+          <div className="space-y-6">
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-[190px] rounded-2xl" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (whatsHotItems.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-10 px-6 md:px-12 lg:py-[60px] lg:px-[120px]">
     
@@ -51,12 +96,14 @@ export function WhatsHotThisMonth() {
                 <p className="text-sm text-white max-w-[500px]">
                   {whatsHotItems[0].description}
                 </p>
-                <Button
-                  size="sm"
-                  className="bg-theme-primary w-auto py-4 px-6 rounded-[100px] min-h-[52px] text-white text-sm"
-                >
-                  Read More
-                </Button>
+                <Link to={`/blogs/${whatsHotItems[0].id}`}>
+                  <Button
+                    size="sm"
+                    className="bg-theme-primary w-auto py-4 px-6 rounded-[100px] min-h-[52px] text-white text-sm"
+                  >
+                    Read More
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -65,29 +112,31 @@ export function WhatsHotThisMonth() {
         {/* Side Stories */}
         <div className="space-y-6">
           {whatsHotItems.slice(1).map((item) => (
-            <div key={item.id} className="bg-accent-80 p-2 flex flex-col rounded-2xl w-full">
-              {/* Image - no blur */}
-              <div className="relative w-full h-40 lg:h-[190px] rounded-2xl overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Content below image */}
-              <div className="flex-1 mt-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-text-dark-100">
-                    {item.title}
-                  </h3>
-                  <span className="text-xs text-text-dark-80">{item.date}</span>
+            <Link key={item.id} to={`/blogs/${item.id}`} className="block">
+              <div className="bg-accent-80 p-2 flex flex-col rounded-2xl w-full">
+                {/* Image - no blur */}
+                <div className="relative w-full h-40 lg:h-[190px] rounded-2xl overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <p className="text-sm text-text-dark-80">
-                  {item.description}
-                </p>
-                
+                {/* Content below image */}
+                <div className="flex-1 mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-text-dark-100">
+                      {item.title}
+                    </h3>
+                    <span className="text-xs text-text-dark-80">{item.date}</span>
+                  </div>
+                  <p className="text-sm text-text-dark-80">
+                    {item.description}
+                  </p>
+                  
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
